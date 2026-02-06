@@ -125,31 +125,98 @@
       font-size: 0.9rem;
       opacity: 0.7;
     }
-    /* CALENDARIO */
+    
+/* CARRUSEL DE MESES */
+.months-carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 24px;
+  padding: 20px;
+  scroll-snap-type: x mandatory;
+}
+
+.months-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.month {
+  min-width: 280px;
+  background: #f6f3ef;
+  border-radius: 16px;
+  padding: 20px;
+  scroll-snap-align: center;
+}
+
+.month h3 {
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 12px;
-  max-width: 420px;
-  margin: auto;
+  gap: 10px;
 }
 
 .day {
-  background: #f6f3ef;
-  border-radius: 10px;
-  padding: 14px 0;
+  background: white;
+  border-radius: 8px;
+  padding: 10px 0;
   cursor: pointer;
-  font-size: 0.95rem;
-  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  transition: 0.2s;
 }
 
 .day:hover {
   background: #9aa79b;
-  color: #ffffff;
+  color: white;
 }
+
 
   </style>
 </head>
+<script>
+  const year = new Date().getFullYear();
+
+  const monthNames = [
+    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+  ];
+
+  const carousel = document.getElementById("monthsCarousel");
+
+  monthNames.forEach((month, monthIndex) => {
+    const monthDiv = document.createElement("div");
+    monthDiv.className = "month";
+
+    const title = document.createElement("h3");
+    title.innerText = `${month} ${year}`;
+    monthDiv.appendChild(title);
+
+    const grid = document.createElement("div");
+    grid.className = "calendar-grid";
+
+    const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dayDiv = document.createElement("div");
+      dayDiv.className = "day";
+      dayDiv.innerText = day;
+      dayDiv.onclick = () => selectDay(day, month);
+      grid.appendChild(dayDiv);
+    }
+
+    monthDiv.appendChild(grid);
+    carousel.appendChild(monthDiv);
+  });
+
+  function selectDay(day, month) {
+    document.getElementById("devotional-preview").innerHTML =
+      `<strong>${day} de ${month} de ${year}</strong><br><br>
+       Devocional del día.<br>
+       Un momento para detenerte, orar y escuchar.`;
+  }
+</script>
 
 <body>
 
@@ -241,56 +308,24 @@
       <a href="#">Leer una reflexión para este momento →</a>
     </div>
   </section>
-
- <!-- BLOQUE 06 – ALMANAQUE DEVOCIONAL -->
+<!-- BLOQUE 06 – DEVOCIONAL CON CARRUSEL DE MESES -->
 <section class="soft text-center">
 
-  <h2 style="margin-bottom: 20px;">Devocionales por día</h2>
-  <p style="margin-bottom: 40px;">
-    Podés detenerte cada día y encontrar una palabra pensada para ese momento.
-  </p>
+  <h2>Devocional diario</h2>
+  <p>Cada mes tiene su tiempo. Deslizá y elegí el día.</p>
 
-  <div class="calendar">
-    <div class="calendar-grid">
-      <!-- Días del mes (mock visual) -->
-      <div class="day" onclick="selectDay(1)">1</div>
-      <div class="day" onclick="selectDay(2)">2</div>
-      <div class="day" onclick="selectDay(3)">3</div>
-      <div class="day" onclick="selectDay(4)">4</div>
-      <div class="day" onclick="selectDay(5)">5</div>
-      <div class="day" onclick="selectDay(6)">6</div>
-      <div class="day" onclick="selectDay(7)">7</div>
-      <div class="day" onclick="selectDay(8)">8</div>
-      <div class="day" onclick="selectDay(9)">9</div>
-      <div class="day" onclick="selectDay(10)">10</div>
-      <div class="day" onclick="selectDay(11)">11</div>
-      <div class="day" onclick="selectDay(12)">12</div>
-      <div class="day" onclick="selectDay(13)">13</div>
-      <div class="day" onclick="selectDay(14)">14</div>
-      <div class="day" onclick="selectDay(15)">15</div>
-      <div class="day" onclick="selectDay(16)">16</div>
-      <div class="day" onclick="selectDay(17)">17</div>
-      <div class="day" onclick="selectDay(18)">18</div>
-      <div class="day" onclick="selectDay(19)">19</div>
-      <div class="day" onclick="selectDay(20)">20</div>
-      <div class="day" onclick="selectDay(21)">21</div>
-      <div class="day" onclick="selectDay(22)">22</div>
-      <div class="day" onclick="selectDay(23)">23</div>
-      <div class="day" onclick="selectDay(24)">24</div>
-      <div class="day" onclick="selectDay(25)">25</div>
-      <div class="day" onclick="selectDay(26)">26</div>
-      <div class="day" onclick="selectDay(27)">27</div>
-      <div class="day" onclick="selectDay(28)">28</div>
-      <div class="day" onclick="selectDay(29)">29</div>
-      <div class="day" onclick="selectDay(30)">30</div>
-    </div>
+  <!-- CARRUSEL -->
+  <div class="months-carousel" id="monthsCarousel"></div>
 
-    <div id="devotional-preview" style="margin-top: 30px; font-size: 1rem; opacity: 0.9;">
-      Seleccioná un día para ver el devocional.
-    </div>
+  <!-- PREVIEW -->
+  <div id="devotional-preview" style="margin-top: 30px;">
+    Seleccioná un día para ver el devocional.
   </div>
 
 </section>
+
+ 
+
 
 <!-- SCRIPT AL FINAL DEL BODY -->
 <script>
@@ -323,5 +358,6 @@
 
 </body>
 </html>
+
 
 
