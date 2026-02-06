@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mujeres de Acción</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Tipografía Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #f6f3ef;
+      --bg-soft: #ffffff;
+      --text-main: #3b3b3b;
+      --accent: #9aa79b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-main);
+      background: var(--bg-main);
+      line-height: 1.7;
+    }
+
+    section {
+      padding: 80px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1, h2 {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* HERO */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .hero h2 {
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
+
+    .scroll-indicator {
+      margin-top: 60px;
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
+
+    /* TEXTO GENERAL */
+    .text-center {
+      text-align: center;
+    }
+
+    .soft {
+      background: var(--bg-soft);
+      border-radius: 12px;
+      padding: 60px 30px;
+    }
+
+    /* PILARES */
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .pillar h3 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    /* ESTADOS */
+    .state {
+      margin-bottom: 50px;
+    }
+
+    .state a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    /* BOTÓN */
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 14px 28px;
+      border-radius: 30px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .small {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- BLOQUE 01 -->
+  <section class="hero">
+    <h1>Mujeres de Acción</h1>
+    <h2>Un espacio para detenerte, sanar y volver a levantarte con propósito.</h2>
+    <div class="scroll-indicator">? Desplazate</div>
+  </section>
+
+  <!-- BLOQUE 02 -->
+  <section>
+    <p>
+      Tal vez llegaste hasta acá cansada.<br>
+      Tal vez con preguntas que no te animaste a decir en voz alta.<br>
+      O tal vez solo necesitabas un lugar donde no tengas que explicar nada.
+    </p>
+    <br>
+    <p>
+      Este es un espacio pensado para mujeres reales,<br>
+      con historias reales,<br>
+      que siguen caminando aun cuando el corazón pesa.
+    </p>
+  </section>
+
+  <!-- BLOQUE 03 -->
+  <section class="soft text-center">
+    <p>No tenés que ser fuerte todo el tiempo.</p>
+    <p>No tenés que tener todas las respuestas.</p>
+    <p>No tenés que demostrar nada acá.</p>
+    <br>
+    <p>Podés descansar. Podés respirar. Podés permitirte ser acompañada.</p>
+  </section>
+
+  <!-- BLOQUE 04 -->
+  <section>
+    <p>
+      <strong>Mujeres de Acción</strong> nace como un espacio de acompañamiento espiritual
+      para mujeres en distintas etapas de la vida.
+    </p>
+    <br>
+    <p>
+      Creemos en una fe que sana, que restaura y que camina al ritmo del proceso de cada una.
+    </p>
+
+    <div class="pillars">
+      <div class="pillar">
+        <h3>Acompañar</h3>
+        <p>Caminar juntas, sin juicios ni exigencias.</p>
+      </div>
+      <div class="pillar">
+        <h3>Orar</h3>
+        <p>Presentar cada proceso delante de Dios.</p>
+      </div>
+      <div class="pillar">
+        <h3>Restaurar</h3>
+        <p>Creer que siempre hay esperanza.</p>
+      </div>
+      <div class="pillar">
+        <h3>Caminar juntas</h3>
+        <p>No desde arriba, sino al lado.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOQUE 05 -->
+  <section class="soft">
+    <div class="state">
+      <h3>Cuando te sentís cansada</h3>
+      <p>Hay momentos en que seguir ya es un esfuerzo enorme.</p>
+      <a href="#">Leer una reflexión para este momento ?</a>
+    </div>
+
+    <div class="state">
+      <h3>Cuando te sentís quebrada</h3>
+      <p>Las heridas no te definen, aunque hoy duelan.</p>
+      <a href="#">Leer una reflexión para este momento ?</a>
+    </div>
+
+    <div class="state">
+      <h3>Cuando querés volver a empezar</h3>
+      <p>El pasado no cancela el propósito.</p>
+      <a href="#">Leer una reflexión para este momento ?</a>
+    </div>
+
+    <div class="state">
+      <h3>Cuando estás buscando crecer</h3>
+      <p>El crecimiento no es correr, es avanzar con sentido.</p>
+      <a href="#">Leer una reflexión para este momento ?</a>
+    </div>
+  </section>
+
+  <!-- BLOQUE 06 -->
+  <section>
+    <p>
+      Te compartimos algunos espacios de ministración pensados para acompañarte
+      con calma y profundidad.
+    </p>
+    <br>
+    <p><strong>Devocional</strong> · Reflexión breve</p>
+    <p><strong>Oración guiada</strong> · Palabras para cuando no sabés qué decir</p>
+    <p><strong>Reflexión</strong> · Fe aplicada a la vida diaria</p>
+  </section>
+
+  <!-- BLOQUE 07 -->
+  <section class="soft text-center">
+    <p>
+      Si sentís la necesidad de que oremos con vos,<br>
+      podés escribirnos.
+    </p>
+
+    <a class="btn" href="#">Pedir oración</a>
+
+    <div class="small">
+      Este espacio brinda acompañamiento espiritual y no reemplaza atención profesional.
+    </div>
+  </section>
+
+  <!-- BLOQUE 08 -->
+  <footer>
+    No estás sola.<br>
+    Dios sigue obrando, aun en los procesos silenciosos.
+  </footer>
+
+</body>
+</html>
