@@ -125,6 +125,29 @@
       font-size: 0.9rem;
       opacity: 0.7;
     }
+    /* CALENDARIO */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+  max-width: 420px;
+  margin: auto;
+}
+
+.day {
+  background: #f6f3ef;
+  border-radius: 10px;
+  padding: 14px 0;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.day:hover {
+  background: #9aa79b;
+  color: #ffffff;
+}
+
   </style>
 </head>
 
@@ -300,4 +323,5 @@
 
 </body>
 </html>
+
 
