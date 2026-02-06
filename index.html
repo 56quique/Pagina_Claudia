@@ -219,17 +219,64 @@
     </div>
   </section>
 
-  <!-- BLOQUE 06 -->
-  <section>
-    <p>
-      Te compartimos algunos espacios de ministración pensados para acompañarte
-      con calma y profundidad.
-    </p>
-    <br>
-    <p><strong>Devocional</strong> · Reflexión breve</p>
-    <p><strong>Oración guiada</strong> · Palabras para cuando no sabés qué decir</p>
-    <p><strong>Reflexión</strong> · Fe aplicada a la vida diaria</p>
-  </section>
+ <!-- BLOQUE 06 – ALMANAQUE DEVOCIONAL -->
+<section class="soft text-center">
+
+  <h2 style="margin-bottom: 20px;">Devocionales por día</h2>
+  <p style="margin-bottom: 40px;">
+    Podés detenerte cada día y encontrar una palabra pensada para ese momento.
+  </p>
+
+  <div class="calendar">
+    <div class="calendar-grid">
+      <!-- Días del mes (mock visual) -->
+      <div class="day" onclick="selectDay(1)">1</div>
+      <div class="day" onclick="selectDay(2)">2</div>
+      <div class="day" onclick="selectDay(3)">3</div>
+      <div class="day" onclick="selectDay(4)">4</div>
+      <div class="day" onclick="selectDay(5)">5</div>
+      <div class="day" onclick="selectDay(6)">6</div>
+      <div class="day" onclick="selectDay(7)">7</div>
+      <div class="day" onclick="selectDay(8)">8</div>
+      <div class="day" onclick="selectDay(9)">9</div>
+      <div class="day" onclick="selectDay(10)">10</div>
+      <div class="day" onclick="selectDay(11)">11</div>
+      <div class="day" onclick="selectDay(12)">12</div>
+      <div class="day" onclick="selectDay(13)">13</div>
+      <div class="day" onclick="selectDay(14)">14</div>
+      <div class="day" onclick="selectDay(15)">15</div>
+      <div class="day" onclick="selectDay(16)">16</div>
+      <div class="day" onclick="selectDay(17)">17</div>
+      <div class="day" onclick="selectDay(18)">18</div>
+      <div class="day" onclick="selectDay(19)">19</div>
+      <div class="day" onclick="selectDay(20)">20</div>
+      <div class="day" onclick="selectDay(21)">21</div>
+      <div class="day" onclick="selectDay(22)">22</div>
+      <div class="day" onclick="selectDay(23)">23</div>
+      <div class="day" onclick="selectDay(24)">24</div>
+      <div class="day" onclick="selectDay(25)">25</div>
+      <div class="day" onclick="selectDay(26)">26</div>
+      <div class="day" onclick="selectDay(27)">27</div>
+      <div class="day" onclick="selectDay(28)">28</div>
+      <div class="day" onclick="selectDay(29)">29</div>
+      <div class="day" onclick="selectDay(30)">30</div>
+    </div>
+
+    <div id="devotional-preview" style="margin-top: 30px; font-size: 1rem; opacity: 0.9;">
+      Seleccioná un día para ver el devocional.
+    </div>
+  </div>
+
+</section>
+
+<!-- SCRIPT AL FINAL DEL BODY -->
+<script>
+  function selectDay(day) {
+    document.getElementById("devotional-preview").innerHTML =
+      "Devocional del día <strong>" + day + "</strong><br><br>" +
+      "Un espacio breve para detenerte, orar y reenfocar el corazón.";
+  }
+</script>
 
   <!-- BLOQUE 07 -->
   <section class="soft text-center">
@@ -253,3 +300,4 @@
 
 </body>
 </html>
+
