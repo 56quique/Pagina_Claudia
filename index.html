@@ -37,7 +37,7 @@
       margin: auto;
     }
 
-    h1, h2 {
+    h1, h2, h3 {
       font-family: 'Playfair Display', serif;
     }
 
@@ -66,7 +66,6 @@
       opacity: 0.6;
     }
 
-    /* TEXTO GENERAL */
     .text-center {
       text-align: center;
     }
@@ -101,7 +100,6 @@
       font-size: 0.95rem;
     }
 
-    /* BOTÓN */
     .btn {
       display: inline-block;
       margin-top: 20px;
@@ -117,6 +115,73 @@
       font-size: 0.8rem;
       opacity: 0.7;
       margin-top: 10px;
+    }
+
+    /* DEVOCIONAL */
+    .devotional-wrapper {
+      background: #f3d6dc;
+      border-radius: 16px;
+      padding: 30px 10px;
+      margin-top: 40px;
+    }
+
+    .months-carousel {
+      display: flex;
+      gap: 30px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 20px;
+    }
+
+    .months-carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .month {
+      min-width: 260px;
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      scroll-snap-align: center;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      opacity: 0.6;
+      transform: scale(0.9);
+    }
+
+    .month.active {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    .month h3 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+
+    .day {
+      font-size: 0.75rem;
+      padding: 8px 0;
+      background: #f6f3ef;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .day:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .devotional-preview {
+      margin-top: 30px;
+      font-size: 0.95rem;
+      max-width: 500px;
     }
 
     footer {
@@ -163,86 +228,41 @@
 
   <!-- BLOQUE 04 -->
   <section>
-    <p>
-      <strong>Mujeres de Acción</strong> nace como un espacio de acompañamiento espiritual
-      para mujeres en distintas etapas de la vida.
-    </p>
-    <br>
-    <p>
-      Creemos en una fe que sana, que restaura y que camina al ritmo del proceso de cada una.
-    </p>
+    <p><strong>Mujeres de Acción</strong> nace como un espacio de acompañamiento espiritual.</p>
 
     <div class="pillars">
-      <div class="pillar">
-        <h3>Acompañar</h3>
-        <p>Caminar juntas, sin juicios ni exigencias.</p>
-      </div>
-      <div class="pillar">
-        <h3>Orar</h3>
-        <p>Presentar cada proceso delante de Dios.</p>
-      </div>
-      <div class="pillar">
-        <h3>Restaurar</h3>
-        <p>Creer que siempre hay esperanza.</p>
-      </div>
-      <div class="pillar">
-        <h3>Caminar juntas</h3>
-        <p>No desde arriba, sino al lado.</p>
-      </div>
+      <div class="pillar"><h3>Acompañar</h3><p>Caminar juntas.</p></div>
+      <div class="pillar"><h3>Orar</h3><p>Presentar cada proceso.</p></div>
+      <div class="pillar"><h3>Restaurar</h3><p>Creer que hay esperanza.</p></div>
+      <div class="pillar"><h3>Caminar juntas</h3><p>No desde arriba, sino al lado.</p></div>
     </div>
   </section>
 
   <!-- BLOQUE 05 -->
   <section class="soft">
-    <div class="state">
-      <h3>Cuando te sentís cansada</h3>
-      <p>Hay momentos en que seguir ya es un esfuerzo enorme.</p>
-      <a href="#">Leer una reflexión para este momento →</a>
-    </div>
-
-    <div class="state">
-      <h3>Cuando te sentís quebrada</h3>
-      <p>Las heridas no te definen, aunque hoy duelan.</p>
-      <a href="#">Leer una reflexión para este momento →</a>
-    </div>
-
-    <div class="state">
-      <h3>Cuando querés volver a empezar</h3>
-      <p>El pasado no cancela el propósito.</p>
-      <a href="#">Leer una reflexión para este momento →</a>
-    </div>
-
-    <div class="state">
-      <h3>Cuando estás buscando crecer</h3>
-      <p>El crecimiento no es correr, es avanzar con sentido.</p>
-      <a href="#">Leer una reflexión para este momento →</a>
-    </div>
+    <div class="state"><h3>Cuando te sentís cansada</h3><p>Seguir ya es un esfuerzo.</p></div>
+    <div class="state"><h3>Cuando te sentís quebrada</h3><p>Las heridas no te definen.</p></div>
+    <div class="state"><h3>Cuando querés volver a empezar</h3><p>El pasado no cancela el propósito.</p></div>
   </section>
 
   <!-- BLOQUE 06 -->
   <section>
-    <p>
-      Te compartimos algunos espacios de ministración pensados para acompañarte
-      con calma y profundidad.
-    </p>
-    <br>
-    <p><strong>Devocional</strong> · Reflexión breve</p>
-    <p><strong>Oración guiada</strong> · Palabras para cuando no sabés qué decir</p>
-    <p><strong>Reflexión</strong> · Fe aplicada a la vida diaria</p>
+    <p>Devocional diario 2026</p>
+
+    <div class="devotional-wrapper">
+      <div class="months-carousel" id="monthsCarousel"></div>
+    </div>
+
+    <div id="devotional-preview" class="devotional-preview">
+      Seleccioná un día para ver el devocional.
+    </div>
   </section>
 
   <!-- BLOQUE 07 -->
   <section class="soft text-center">
-    <p>
-      Si sentís la necesidad de que oremos con vos,<br>
-      podés escribirnos.
-    </p>
-
+    <p>Si necesitás que oremos con vos, podés escribirnos.</p>
     <a class="btn" href="#">Pedir oración</a>
-
-    <div class="small">
-      Este espacio brinda acompañamiento espiritual y no reemplaza atención profesional.
-    </div>
+    <div class="small">Acompañamiento espiritual.</div>
   </section>
 
   <!-- BLOQUE 08 -->
@@ -250,6 +270,41 @@
     No estás sola.<br>
     Dios sigue obrando, aun en los procesos silenciosos.
   </footer>
+
+  <script>
+    const year = 2026;
+    const monthNames = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+    const carousel = document.getElementById("monthsCarousel");
+
+    monthNames.forEach((month, i) => {
+      const m = document.createElement("div");
+      m.className = "month";
+
+      m.innerHTML = `<h3>${month} ${year}</h3><div class="calendar-grid"></div>`;
+      const grid = m.querySelector(".calendar-grid");
+
+      const days = new Date(year, i + 1, 0).getDate();
+      for (let d = 1; d <= days; d++) {
+        const day = document.createElement("div");
+        day.className = "day";
+        day.innerText = d;
+        day.onclick = () => {
+          document.getElementById("devotional-preview").innerHTML =
+            `<strong>${d} de ${month} de ${year}</strong><br><br>
+            Devocional del día.<br>
+            Un momento de pausa y oración.`;
+        };
+        grid.appendChild(day);
+      }
+      carousel.appendChild(m);
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => e.target.classList.toggle("active", e.isIntersecting));
+    }, { root: carousel, threshold: 0.6 });
+
+    document.querySelectorAll(".month").forEach(m => observer.observe(m));
+  </script>
 
 </body>
 </html>
