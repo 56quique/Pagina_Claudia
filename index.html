@@ -1,179 +1,51 @@
 <!DOCTYPE html>
+<!-- Le dice al navegador que esto es HTML moderno -->
+
 <html lang="es">
+<!-- Idioma del contenido -->
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mujeres de Acción</title>
+  <!-- Permite usar tildes, ñ, etc -->
 
-  <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background: #fdfbf8;
-      color: #333;
-    }
+  <title>Pantalla 1</title>
+  <!-- Título que aparece en la pestaña del navegador -->
 
-    section {
-      padding: 60px 20px;
-    }
-
-    .center {
-      text-align: center;
-    }
-
-    h1, h2, h3 {
-      font-weight: 500;
-    }
-
-    /* INTRO */
-    .intro {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background: linear-gradient(180deg, #e7e2dc, #fdfbf8);
-    }
-
-    .intro h1 {
-      font-size: 2.2rem;
-      margin-bottom: 15px;
-    }
-
-    .intro p {
-      max-width: 500px;
-      margin: auto;
-      font-size: 1.05rem;
-      opacity: 0.9;
-    }
-
-    /* DEVOCIONAL */
-    .soft {
-      background: #f6f3ef;
-    }
-
-    /* CARRUSEL */
-    .months-carousel {
-      display: flex;
-      gap: 24px;
-      overflow-x: auto;
-      padding: 30px 10px;
-      scroll-snap-type: x mandatory;
-    }
-
-    .months-carousel::-webkit-scrollbar {
-      display: none;
-    }
-
-    .month {
-      min-width: 300px;
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 20px;
-      scroll-snap-align: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-    }
-
-    .month h3 {
-      margin-bottom: 15px;
-      font-size: 1.1rem;
-    }
-
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 10px;
-    }
-
-    .day {
-      padding: 10px 0;
-      background: #f6f3ef;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      transition: 0.2s;
-    }
-
-    .day:hover {
-      background: #9aa79b;
-      color: #fff;
-    }
-
-    #devotional-preview {
-      margin-top: 40px;
-      font-size: 1rem;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  </style>
+  <link rel="stylesheet" href="css/base.css">
+  <!-- Conecta este HTML con el archivo de estilos -->
 </head>
 
 <body>
+<!-- Todo lo visible va dentro del body -->
 
-  <!-- PANTALLA DE INICIO -->
-  <section class="intro center">
-    <h1>Mujeres de Acción</h1>
-    <p>
-      Un espacio de acompañamiento espiritual para cada etapa de la vida.
-      Caminamos juntas, día a día.
-    </p>
-  </section>
+  <div class="pantalla">
+  <!-- Caja principal de la pantalla -->
 
-  <!-- DEVOCIONAL -->
-  <section class="soft center">
-    <h2>Devocional diario</h2>
-    <p>Deslizá el mes, elegí el día y tomá un momento.</p>
+    <div>
+      <!-- Contenedor superior -->
 
-    <div class="months-carousel" id="monthsCarousel"></div>
+      <div class="titulo">
+        Pantalla 1
+      </div>
+      <!-- Título visible -->
 
-    <div id="devotional-preview">
-      Seleccioná un día para ver el devocional.
+      <div class="contenido">
+        <!-- ACÁ después vas a escribir texto, historias, etc -->
+      </div>
+
     </div>
-  </section>
 
-  <!-- SCRIPT -->
-  <script>
-    const year = new Date().getFullYear();
+    <div class="acciones">
+      <!-- Zona de botones -->
 
-    const monthNames = [
-      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-    ];
+      <a href="p2.html" class="boton">
+        Continuar
+      </a>
+      <!-- Botón que lleva a la pantalla 2 -->
 
-    const carousel = document.getElementById("monthsCarousel");
+    </div>
 
-    monthNames.forEach((month, index) => {
-      const monthDiv = document.createElement("div");
-      monthDiv.className = "month";
-
-      const title = document.createElement("h3");
-      title.innerText = `${month} ${year}`;
-      monthDiv.appendChild(title);
-
-      const grid = document.createElement("div");
-      grid.className = "calendar-grid";
-
-      const daysInMonth = new Date(year, index + 1, 0).getDate();
-
-      for (let day = 1; day <= daysInMonth; day++) {
-        const dayDiv = document.createElement("div");
-        dayDiv.className = "day";
-        dayDiv.innerText = day;
-        dayDiv.onclick = () => showDevotional(day, month);
-        grid.appendChild(dayDiv);
-      }
-
-      monthDiv.appendChild(grid);
-      carousel.appendChild(monthDiv);
-    });
-
-    function showDevotional(day, month) {
-      document.getElementById("devotional-preview").innerHTML =
-        `<strong>${day} de ${month} de ${year}</strong><br><br>
-         Devocional del día.<br>
-         Un espacio para orar, reflexionar y reenfocar el corazón.`;
-    }
-  </script>
+  </div>
 
 </body>
 </html>
