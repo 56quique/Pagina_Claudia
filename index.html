@@ -36,47 +36,39 @@
       max-width: 900px;
       margin: auto;
       text-align: center;
+      position: relative;
+      z-index: 2;
     }
 
     h1, h2, h3 {
       font-family: 'Playfair Display', serif;
     }
 
-    /* HERO */
+    /* HERO CON IMAGEN */
     .hero {
       height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      background-image: url("mujer_de_espaldas.jpg");
+      background-size: cover;
+      background-position: center;
       position: relative;
-      overflow: hidden;
     }
 
     .hero::before {
       content: "";
       position: absolute;
       inset: 0;
-      background-image: url("mujer_de_espaldas.jpg");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0.35;
+      background: rgba(246, 243, 239, 0.85);
       z-index: 1;
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(246, 243, 239, 0.6);
-      z-index: 2;
     }
 
     .hero h1,
     .hero h2,
-    .hero .scroll-indicator {
+    .scroll-indicator {
       position: relative;
-      z-index: 3;
+      z-index: 2;
     }
 
     .hero h1 {
@@ -101,7 +93,6 @@
       padding: 60px 30px;
     }
 
-    /* PILARES */
     .pillars {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -114,7 +105,6 @@
       margin-bottom: 10px;
     }
 
-    /* ESTADOS */
     .state {
       margin-bottom: 50px;
     }
@@ -136,7 +126,6 @@
       margin-top: 10px;
     }
 
-    /* TESTIMONIOS */
     .testimony-box {
       max-width: 500px;
       margin: 40px auto 0;
@@ -162,7 +151,6 @@
       opacity: 0.6;
     }
 
-    /* DEVOCIONAL */
     .devotional-wrapper {
       background: #f3d6dc;
       border-radius: 16px;
@@ -233,6 +221,13 @@
 </head>
 
 <body>
-  <!-- EL RESTO DEL HTML QUEDA EXACTAMENTE IGUAL -->
+
+  <section class="hero">
+    <h1>Mujeres de Acción</h1>
+    <h2>Un espacio para detenerte, sanar y volver a levantarte con propósito.</h2>
+    <div class="scroll-indicator">↓ Desplazate</div>
+  </section>
+
+  <!-- TODO EL RESTO QUEDA EXACTAMENTE IGUAL -->
 </body>
 </html>
