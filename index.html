@@ -35,6 +35,7 @@
       padding: 80px 20px;
       max-width: 900px;
       margin: auto;
+      text-align: center;
     }
 
     h1, h2, h3 {
@@ -47,7 +48,6 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      text-align: center;
     }
 
     .hero h1 {
@@ -64,10 +64,6 @@
       margin-top: 60px;
       font-size: 0.9rem;
       opacity: 0.6;
-    }
-
-    .text-center {
-      text-align: center;
     }
 
     .soft {
@@ -94,12 +90,6 @@
       margin-bottom: 50px;
     }
 
-    .state a {
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 0.95rem;
-    }
-
     .btn {
       display: inline-block;
       margin-top: 20px;
@@ -115,6 +105,32 @@
       font-size: 0.8rem;
       opacity: 0.7;
       margin-top: 10px;
+    }
+
+    /* TESTIMONIOS */
+    .testimony-box {
+      max-width: 500px;
+      margin: 40px auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .testimony-box textarea {
+      width: 100%;
+      min-height: 120px;
+      resize: none;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      padding: 15px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .char-counter {
+      font-size: 0.75rem;
+      opacity: 0.6;
     }
 
     /* DEVOCIONAL */
@@ -142,7 +158,6 @@
       background: #ffffff;
       border-radius: 14px;
       padding: 20px;
-      text-align: center;
       scroll-snap-align: center;
       transition: transform 0.3s ease, opacity 0.3s ease;
       opacity: 0.6;
@@ -152,11 +167,6 @@
     .month.active {
       opacity: 1;
       transform: scale(1.05);
-    }
-
-    .month h3 {
-      font-size: 1.2rem;
-      margin-bottom: 15px;
     }
 
     .calendar-grid {
@@ -179,7 +189,7 @@
     }
 
     .devotional-preview {
-      margin-top: 30px;
+      margin: 30px auto 0;
       font-size: 0.95rem;
       max-width: 500px;
     }
@@ -204,21 +214,17 @@
 
   <!-- BLOQUE 02 -->
   <section>
-    <p>
-      Tal vez llegaste hasta acá cansada.<br>
-      Tal vez con preguntas que no te animaste a decir en voz alta.<br>
-      O tal vez solo necesitabas un lugar donde no tengas que explicar nada.
-    </p>
+    <p>Tal vez llegaste hasta acá cansada.<br>
+    Tal vez con preguntas que no te animaste a decir en voz alta.<br>
+    O tal vez solo necesitabas un lugar donde no tengas que explicar nada.</p>
     <br>
-    <p>
-      Este es un espacio pensado para mujeres reales,<br>
-      con historias reales,<br>
-      que siguen caminando aun cuando el corazón pesa.
-    </p>
+    <p>Este es un espacio pensado para mujeres reales,<br>
+    con historias reales,<br>
+    que siguen caminando aun cuando el corazón pesa.</p>
   </section>
 
   <!-- BLOQUE 03 -->
-  <section class="soft text-center">
+  <section class="soft">
     <p>No tenés que ser fuerte todo el tiempo.</p>
     <p>No tenés que tener todas las respuestas.</p>
     <p>No tenés que demostrar nada acá.</p>
@@ -245,6 +251,20 @@
     <div class="state"><h3>Cuando querés volver a empezar</h3><p>El pasado no cancela el propósito.</p></div>
   </section>
 
+  <!-- BLOQUE NUEVO – VOCES -->
+  <section>
+    <h3>Voces de mujeres</h3>
+    <p>Si querés, podés compartir una experiencia, un proceso o algo que Dios esté trabajando en tu vida.<br>
+    No tiene que estar bien escrito. No tiene que ser perfecto.</p>
+
+    <div class="testimony-box">
+      <textarea maxlength="300" placeholder="Escribí acá, con libertad..."></textarea>
+      <div class="char-counter">Máximo 300 caracteres</div>
+    </div>
+
+    <div class="small">Cada mensaje es leído con respeto y cuidado.</div>
+  </section>
+
   <!-- BLOQUE 06 -->
   <section>
     <p>Devocional diario 2026</p>
@@ -259,7 +279,7 @@
   </section>
 
   <!-- BLOQUE 07 -->
-  <section class="soft text-center">
+  <section class="soft">
     <p>Si necesitás que oremos con vos, podés escribirnos.</p>
     <a class="btn" href="#">Pedir oración</a>
     <div class="small">Acompañamiento espiritual.</div>
@@ -279,7 +299,6 @@
     monthNames.forEach((month, i) => {
       const m = document.createElement("div");
       m.className = "month";
-
       m.innerHTML = `<h3>${month} ${year}</h3><div class="calendar-grid"></div>`;
       const grid = m.querySelector(".calendar-grid");
 
