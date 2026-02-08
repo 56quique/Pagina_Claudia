@@ -217,6 +217,21 @@
       font-size: 0.9rem;
       opacity: 0.7;
     }
+    /* CARRUSEL DE FRASES */
+.quotes-carousel {
+  margin: 60px auto 0;
+  max-width: 600px;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: #6f7d73;
+  min-height: 80px;
+  transition: opacity 0.8s ease;
+}
+
+.quotes-carousel span {
+  display: block;
+}
+
   </style>
 </head>
 
@@ -228,6 +243,11 @@
     <h2>Un espacio para detenerte, sanar y volver a levantarte con propósito.</h2>
     <div class="scroll-indicator">↓ Desplazate</div>
   </section>
+<section>
+  <div class="quotes-carousel" id="quotesCarousel">
+    <span>Dios no terminó con vos.</span>
+  </div>
+</section>
 
   <!-- BLOQUE 02 -->
   <section>
@@ -341,7 +361,30 @@
 
     document.querySelectorAll(".month").forEach(m => observer.observe(m));
   </script>
+<script>
+  const quotes = [
+    "Dios no terminó con vos.",
+    "Tu proceso no invalida tu llamado.",
+    "Aun acá, Él está obrando.",
+    "No estás sola.",
+    "Descansá. Dios sigue.",
+    "Lo que duele hoy, Dios lo está sanando."
+  ];
+
+  let quoteIndex = 0;
+  const quoteEl = document.getElementById("quotesCarousel");
+
+  setInterval(() => {
+    quoteEl.style.opacity = 0;
+    setTimeout(() => {
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+      quoteEl.innerHTML = `<span>${quotes[quoteIndex]}</span>`;
+      quoteEl.style.opacity = 1;
+    }, 800);
+  }, 4500);
+</script>
 
 </body>
 </html>
+
 
