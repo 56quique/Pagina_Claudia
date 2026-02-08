@@ -5,7 +5,7 @@
   <title>Mujeres de Acción</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Tipografías -->
+  <!-- Tipografía Google -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
@@ -14,34 +14,30 @@
     :root {
       --bg-main: #f6f3ef;
       --bg-soft: #ffffff;
-      --rose: #f3d6dc;
-      --lavender: #e6e1f0;
-      --sage: #9aa79b;
       --text-main: #3b3b3b;
+      --accent: #9aa79b;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg-main);
       color: var(--text-main);
+      background: var(--bg-main);
       line-height: 1.7;
     }
 
     section {
-      padding: 90px 20px;
+      padding: 80px 20px;
       max-width: 900px;
       margin: auto;
       text-align: center;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 0.9s ease;
-    }
-
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
+      position: relative;
+      z-index: 2;
     }
 
     h1, h2, h3 {
@@ -51,75 +47,55 @@
     /* HERO */
     .hero {
       height: 100vh;
-      background:
-        linear-gradient(rgba(243,214,220,0.75), rgba(243,214,220,0.75)),
-        url("img/mujer_de_espaldas.jpg") center/cover no-repeat;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      color: #4a4a4a;
+      background-image: url("mujer_de_espaldas.jpg");
+      background-size: cover;
+      background-position: center;
+      position: relative;
     }
 
-    .hero h1 { font-size: 3rem; margin-bottom: 20px; }
-    .hero h2 { font-size: 1.2rem; font-weight: 300; }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(246, 243, 239, 0.85);
+      z-index: 1;
+    }
+
+    .hero h1,
+    .hero h2,
+    .scroll-indicator {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .hero h2 {
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
 
     .scroll-indicator {
       margin-top: 60px;
       font-size: 0.9rem;
-      opacity: 0.7;
+      opacity: 0.6;
     }
 
-    /* FRASES */
-    .quotes-carousel {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      color: #6b6a8f;
-      min-height: 80px;
-      transition: opacity 0.8s ease;
+    .soft {
+      background: var(--bg-soft);
+      border-radius: 12px;
+      padding: 60px 30px;
     }
 
-    /* BLOQUES */
-    .soft { background: var(--bg-soft); border-radius: 14px; padding: 60px 30px; }
-    .rose { background: var(--rose); border-radius: 14px; }
-    .lavender { background: var(--lavender); border-radius: 14px; }
-
-    .pillars {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-      gap: 30px;
-      margin-top: 40px;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 25px;
-      padding: 14px 30px;
-      border-radius: 30px;
-      background: var(--sage);
-      color: #fff;
-      text-decoration: none;
-      font-size: 0.95rem;
-    }
-
-    /* TESTIMONIOS */
-    .testimony-box {
-      max-width: 500px;
-      margin: 40px auto 0;
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 120px;
-      border-radius: 14px;
-      border: none;
-      padding: 15px;
-      font-family: 'Inter';
-    }
-
-    /* FOOTER */
     footer {
       text-align: center;
-      padding: 40px;
+      padding: 40px 20px;
       font-size: 0.9rem;
       opacity: 0.7;
     }
@@ -128,71 +104,80 @@
 
 <body>
 
-<section class="hero visible">
-  <h1>Mujeres de Acción</h1>
-  <h2>Un espacio para detenerte, sanar y volver a levantarte con propósito.</h2>
-  <div class="scroll-indicator">↓ Desplazate</div>
-</section>
+  <!-- BLOQUE 01 -->
+  <section class="hero">
+    <h1>Mujeres de Acción</h1>
+    <h2>Mujeres creadas con propósito, llamadas a la acción y sostenidas por la gracia de Dios.</h2>
+    <div class="scroll-indicator">↓ Desplazate</div>
+  </section>
 
-<section class="visible">
-  <div class="quotes-carousel" id="quotesCarousel">
-    Dios no terminó con vos.
-  </div>
-</section>
+  <!-- BLOQUE 02 – BIENVENIDA -->
+  <section class="soft">
+    <h3>Bienvenidas a Mujeres de Acción</h3>
+    <br>
+    <p>
+      ¡Hola, mujer valiente y amada por Dios!<br><br>
+      Te doy la más cordial bienvenida a <strong>Mujeres de Acción</strong>, un espacio creado especialmente para vos,
+      donde la fe, la inspiración y el propósito se encuentran. Aquí vas a encontrar reflexiones, devocionales,
+      recursos y mensajes que fortalecerán tu relación con Dios y te animarán a caminar cada día conforme a Su voluntad.
+    </p>
+    <br>
+    <p>
+      Mi deseo es que este sitio sea un lugar de encuentro, de crecimiento espiritual y de apoyo,
+      entre mujeres que, como vos, anhelan vivir una vida con impacto y obedecer el llamado de Cristo.
+    </p>
+    <br>
+    <p>
+      Creo profundamente que Dios está levantando mujeres decididas, con corazones firmes,
+      llenas del Espíritu Santo y dispuestas a marcar la diferencia en su hogar, en su iglesia y en el mundo.
+    </p>
+    <br>
+    <p>
+      Estás en casa.<br>
+      Estás en misión.<br>
+      Estás en acción.
+    </p>
+    <br>
+    <p><strong>Con amor,<br>Claudia Mabel Silvero</strong></p>
+  </section>
 
-<section class="rose">
-  <p>Tal vez llegaste cansada. Tal vez con preguntas. Tal vez solo buscando un lugar seguro.</p>
-</section>
+  <!-- BLOQUE 03 – HISTORIA -->
+  <section>
+    <h3>Un poco de mi historia...</h3>
+    <br>
+    <p>
+      Crecí en un hogar donde el alcoholismo, la violencia verbal y la violencia física eran un constante tormento.
+      Desde muy pequeña experimenté mucho dolor y confusión. La separación de mis padres fue otro golpe muy duro
+      que dejó una herida profunda en mi corazón y me llevó a atravesar una fuerte depresión.
+    </p>
+    <br>
+    <p>
+      Durante mi adolescencia, todo ese sufrimiento acumulado comenzó a manifestarse en mi conducta.
+      Había una gran ira dentro de mí; me involucré en ambientes dañinos y adopté hábitos autodestructivos,
+      como el consumo de alcohol. Llegué a un punto tan oscuro que incluso intenté quitarme la vida,
+      sintiendo que no había esperanza para mí.
+    </p>
+    <br>
+    <p>
+      Pero fue en medio de ese abismo que Dios usó a una mujer de acción para mostrarme el camino.
+      Acepté a Jesús y conocí, por primera vez, el amor de Dios: un amor que no juzga, que sana y que restaura.
+      En el año 2009 comencé mi caminar con Él, y desde entonces mi vida dio un giro completo.
+    </p>
+    <br>
+    <p>
+      Dios sanó mi corazón, me levantó del lugar más profundo y me dio una nueva identidad,
+      llena de propósito y esperanza. Hoy puedo decir con certeza que solo Su gracia
+      pudo transformar todo mi dolor en una historia de redención.
+    </p>
+    <br>
+    <p><strong>Claudia Mabel Silvero</strong></p>
+  </section>
 
-<section class="soft">
-  <p>No tenés que ser fuerte todo el tiempo.<br>No tenés que demostrar nada acá.</p>
-</section>
-
-<section class="lavender">
-  <h3>Voces de mujeres</h3>
-  <p>Podés escribir con libertad.</p>
-  <div class="testimony-box">
-    <textarea maxlength="300" placeholder="Escribí acá..."></textarea>
-  </div>
-</section>
-
-<section class="soft">
-  <p>Si necesitás que oremos con vos, estamos acá.</p>
-  <a class="btn" href="#">Pedir oración</a>
-</section>
-
-<footer>
-  No estás sola.<br>Dios sigue obrando.
-</footer>
-
-<script>
-  const quotes = [
-    "Dios no terminó con vos.",
-    "Tu proceso no invalida tu llamado.",
-    "No estás sola.",
-    "Aun acá, Él está obrando.",
-    "Descansá. Dios sigue."
-  ];
-
-  let i = 0;
-  const q = document.getElementById("quotesCarousel");
-
-  setInterval(() => {
-    q.style.opacity = 0;
-    setTimeout(() => {
-      i = (i + 1) % quotes.length;
-      q.innerText = quotes[i];
-      q.style.opacity = 1;
-    }, 700);
-  }, 4500);
-
-  const sections = document.querySelectorAll("section");
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => e.target.classList.toggle("visible", e.isIntersecting));
-  }, { threshold: 0.2 });
-
-  sections.forEach(s => obs.observe(s));
-</script>
+  <!-- BLOQUE FINAL -->
+  <footer>
+    No estás sola.<br>
+    Dios sigue obrando, aun en los procesos silenciosos.
+  </footer>
 
 </body>
 </html>
