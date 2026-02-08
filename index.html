@@ -5,17 +5,20 @@
   <title>Mujeres de Acción</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Tipografía Google -->
+  <!-- Tipografías -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --bg-main: #f6f3ef;
       --bg-soft: #ffffff;
       --text-main: #3b3b3b;
-      --accent: #9aa79b;
+      --text-soft: #6f6f6f;
+      --accent: #9aa79b;        /* verde salvia */
+      --rose: #f3d6dc;          /* rosa empolvado */
+      --lavender: #e6e2f0;      /* lavanda suave */
     }
 
     * {
@@ -28,11 +31,11 @@
       font-family: 'Inter', sans-serif;
       color: var(--text-main);
       background: var(--bg-main);
-      line-height: 1.7;
+      line-height: 1.8;
     }
 
     section {
-      padding: 80px 20px;
+      padding: 90px 20px;
       max-width: 900px;
       margin: auto;
       text-align: center;
@@ -42,6 +45,17 @@
 
     h1, h2, h3 {
       font-family: 'Playfair Display', serif;
+      color: #4a4a4a;
+    }
+
+    h3 {
+      font-size: 2rem;
+      margin-bottom: 25px;
+    }
+
+    p {
+      color: var(--text-soft);
+      font-size: 1rem;
     }
 
     /* HERO */
@@ -60,42 +74,150 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: rgba(246, 243, 239, 0.85);
+      background: rgba(246, 243, 239, 0.88);
       z-index: 1;
     }
 
-    .hero h1,
-    .hero h2,
-    .scroll-indicator {
+    .hero * {
       position: relative;
       z-index: 2;
     }
 
     .hero h1 {
-      font-size: 3rem;
+      font-size: 3.2rem;
       margin-bottom: 20px;
     }
 
     .hero h2 {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-weight: 300;
+      max-width: 700px;
+      margin: auto;
     }
 
     .scroll-indicator {
-      margin-top: 60px;
+      margin-top: 70px;
       font-size: 0.9rem;
       opacity: 0.6;
     }
 
+    /* VIDEO */
+    .video-section {
+      background: var(--lavender);
+      padding: 70px 20px;
+    }
+
+    .video-wrapper {
+      max-width: 800px;
+      margin: auto;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    }
+
+    video {
+      width: 100%;
+      display: block;
+    }
+
+    /* BLOQUES SUAVES */
     .soft {
       background: var(--bg-soft);
-      border-radius: 12px;
-      padding: 60px 30px;
+      border-radius: 18px;
+      padding: 70px 35px;
+    }
+
+    /* CARRUSEL FRASES */
+    .quotes-carousel {
+      margin: 40px auto 0;
+      max-width: 600px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #7a8a80;
+      min-height: 80px;
+      transition: opacity 0.8s ease;
+    }
+
+    /* TESTIMONIOS */
+    .testimony-box {
+      max-width: 520px;
+      margin: 40px auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    textarea {
+      border-radius: 14px;
+      border: 1px solid #ddd;
+      padding: 18px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .small {
+      font-size: 0.8rem;
+      opacity: 0.6;
+      margin-top: 15px;
+    }
+
+    /* DEVOCIONAL */
+    .devotional-wrapper {
+      background: var(--rose);
+      border-radius: 22px;
+      padding: 35px 15px;
+      margin-top: 40px;
+    }
+
+    .months-carousel {
+      display: flex;
+      gap: 30px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 20px;
+    }
+
+    .months-carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .month {
+      min-width: 260px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      scroll-snap-align: center;
+      opacity: 0.6;
+      transform: scale(0.9);
+      transition: all 0.3s ease;
+    }
+
+    .month.active {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+
+    .day {
+      font-size: 0.75rem;
+      padding: 8px 0;
+      background: #f6f3ef;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .day:hover {
+      background: var(--accent);
+      color: #fff;
     }
 
     footer {
       text-align: center;
-      padding: 40px 20px;
+      padding: 50px 20px;
       font-size: 0.9rem;
       opacity: 0.7;
     }
@@ -104,80 +226,81 @@
 
 <body>
 
-  <!-- BLOQUE 01 -->
-  <section class="hero">
-    <h1>Mujeres de Acción</h1>
-    <h2>Mujeres creadas con propósito, llamadas a la acción y sostenidas por la gracia de Dios.</h2>
-    <div class="scroll-indicator">↓ Desplazate</div>
-  </section>
+<!-- HERO -->
+<section class="hero">
+  <h1>Mujeres de Acción</h1>
+  <h2>Mujeres creadas con propósito, llamadas a la acción y sostenidas por la gracia de Dios.</h2>
+  <div class="scroll-indicator">↓ Desplazate</div>
+</section>
 
-  <!-- BLOQUE 02 – BIENVENIDA -->
-  <section class="soft">
-    <h3>Bienvenidas a Mujeres de Acción</h3>
-    <br>
-    <p>
-      ¡Hola, mujer valiente y amada por Dios!<br><br>
-      Te doy la más cordial bienvenida a <strong>Mujeres de Acción</strong>, un espacio creado especialmente para vos,
-      donde la fe, la inspiración y el propósito se encuentran. Aquí vas a encontrar reflexiones, devocionales,
-      recursos y mensajes que fortalecerán tu relación con Dios y te animarán a caminar cada día conforme a Su voluntad.
-    </p>
-    <br>
-    <p>
-      Mi deseo es que este sitio sea un lugar de encuentro, de crecimiento espiritual y de apoyo,
-      entre mujeres que, como vos, anhelan vivir una vida con impacto y obedecer el llamado de Cristo.
-    </p>
-    <br>
-    <p>
-      Creo profundamente que Dios está levantando mujeres decididas, con corazones firmes,
-      llenas del Espíritu Santo y dispuestas a marcar la diferencia en su hogar, en su iglesia y en el mundo.
-    </p>
-    <br>
-    <p>
-      Estás en casa.<br>
-      Estás en misión.<br>
-      Estás en acción.
-    </p>
-    <br>
-    <p><strong>Con amor,<br>Claudia Mabel Silvero</strong></p>
-  </section>
+<!-- FRASES -->
+<section>
+  <div class="quotes-carousel" id="quotesCarousel">
+    Dios no terminó con vos.
+  </div>
+</section>
 
-  <!-- BLOQUE 03 – HISTORIA -->
-  <section>
-    <h3>Un poco de mi historia...</h3>
-    <br>
-    <p>
-      Crecí en un hogar donde el alcoholismo, la violencia verbal y la violencia física eran un constante tormento.
-      Desde muy pequeña experimenté mucho dolor y confusión. La separación de mis padres fue otro golpe muy duro
-      que dejó una herida profunda en mi corazón y me llevó a atravesar una fuerte depresión.
-    </p>
-    <br>
-    <p>
-      Durante mi adolescencia, todo ese sufrimiento acumulado comenzó a manifestarse en mi conducta.
-      Había una gran ira dentro de mí; me involucré en ambientes dañinos y adopté hábitos autodestructivos,
-      como el consumo de alcohol. Llegué a un punto tan oscuro que incluso intenté quitarme la vida,
-      sintiendo que no había esperanza para mí.
-    </p>
-    <br>
-    <p>
-      Pero fue en medio de ese abismo que Dios usó a una mujer de acción para mostrarme el camino.
-      Acepté a Jesús y conocí, por primera vez, el amor de Dios: un amor que no juzga, que sana y que restaura.
-      En el año 2009 comencé mi caminar con Él, y desde entonces mi vida dio un giro completo.
-    </p>
-    <br>
-    <p>
-      Dios sanó mi corazón, me levantó del lugar más profundo y me dio una nueva identidad,
-      llena de propósito y esperanza. Hoy puedo decir con certeza que solo Su gracia
-      pudo transformar todo mi dolor en una historia de redención.
-    </p>
-    <br>
-    <p><strong>Claudia Mabel Silvero</strong></p>
-  </section>
+<!-- VIDEO -->
+<section class="video-section">
+  <div class="video-wrapper">
+    <video src="video1.mp4" autoplay muted loop playsinline></video>
+  </div>
+</section>
 
-  <!-- BLOQUE FINAL -->
-  <footer>
-    No estás sola.<br>
-    Dios sigue obrando, aun en los procesos silenciosos.
-  </footer>
+<!-- BIENVENIDA -->
+<section class="soft">
+  <h3>Bienvenidas a Mujeres de Acción</h3>
+  <p>¡Hola, mujer valiente y amada por Dios! Este espacio fue creado para acompañarte, inspirarte y recordarte que no estás sola.</p>
+</section>
+
+<!-- HISTORIA -->
+<section>
+  <h3>Un poco de mi historia…</h3>
+  <p>Mi historia no comienza en un lugar fácil, pero Dios escribió redención donde hubo dolor.</p>
+</section>
+
+<!-- TESTIMONIOS -->
+<section class="soft">
+  <h3>Voces de mujeres</h3>
+  <div class="testimony-box">
+    <textarea maxlength="300" placeholder="Escribí acá, con libertad…"></textarea>
+  </div>
+  <div class="small">Cada mensaje es leído con respeto y cuidado.</div>
+</section>
+
+<!-- DEVOCIONAL -->
+<section>
+  <h3>Devocional diario 2026</h3>
+  <div class="devotional-wrapper">
+    <div class="months-carousel" id="monthsCarousel"></div>
+  </div>
+  <div id="devotional-preview">Seleccioná un día.</div>
+</section>
+
+<footer>
+  No estás sola.<br>
+  Dios sigue obrando, aun en los procesos silenciosos.
+</footer>
+
+<script>
+const quotes = [
+  "Dios no terminó con vos.",
+  "Tu proceso no invalida tu llamado.",
+  "Aun acá, Él está obrando.",
+  "No estás sola.",
+  "Descansá. Dios sigue."
+];
+let i = 0;
+setInterval(() => {
+  const el = document.getElementById("quotesCarousel");
+  el.style.opacity = 0;
+  setTimeout(() => {
+    i = (i + 1) % quotes.length;
+    el.innerText = quotes[i];
+    el.style.opacity = 1;
+  }, 700);
+}, 4500);
+</script>
 
 </body>
 </html>
