@@ -238,11 +238,12 @@
 </section>
 
 <!-- VIDEO 1 -->
-<section class="video-section">
-  <div class="video-wrapper">
-    <iframe src="https://www.youtube.com/embed/iRHMO9dPEZs?autoplay=0&mute=1"></iframe>
-  </div>
-</section>
+<iframe
+  class="yt-video"
+  data-src="https://www.youtube.com/embed/iRHMO9dPEZs?enablejsapi=1&autoplay=1&mute=1&controls=0&rel=0"
+  allow="autoplay; encrypted-media">
+</iframe>
+
 
 <!-- BIENVENIDA -->
 <section class="soft">
@@ -251,11 +252,12 @@
 </section>
 
 <!-- VIDEO 2 -->
-<section class="video-section">
-  <div class="video-wrapper">
-    <iframe src="https://www.youtube.com/embed/_Yi7uwbcdmw?autoplay=0&mute=1"></iframe>
-  </div>
-</section>
+<iframe
+  class="yt-video"
+  data-src="https://www.youtube.com/embed/_Yi7uwbcdmw?enablejsapi=1&autoplay=1&mute=1&controls=0&rel=0"
+  allow="autoplay; encrypted-media">
+</iframe>
+
 
 <!-- HISTORIA -->
 <section>
@@ -341,7 +343,29 @@ const observer=new IntersectionObserver(e=>{
   e.forEach(x=>x.target.classList.toggle("active",x.isIntersecting));
 },{root:carousel,threshold:0.6});
 document.querySelectorAll(".month").forEach(m=>observer.observe(m));
+  <script>
+const videos = document.querySelectorAll(".yt-video");
+
+const videoObserver = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        if (!entry.target.src) {
+          entry.target.src = entry.target.dataset.src;
+        }
+      } else {
+        entry.target.src = "";
+      }
+    });
+  },
+  { threshold: 0.6 }
+);
+
+videos.forEach(video => videoObserver.observe(video));
+</script>
+
 </script>
 
 </body>
 </html>
+
