@@ -1,156 +1,294 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>No estás sola</title>
+<meta charset="UTF-8" />
+<title>Mujeres de Acción</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #0e0e0e;
-  color: #fff;
+:root {
+  --bg-main:#f6f3ef;
+  --bg-soft:#ffffff;
+  --text-main:#3b3b3b;
+  --accent:#9aa79b;
 }
 
-section {
-  padding: 70px 20px;
-  text-align: center;
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:'Inter',sans-serif;
+  color:var(--text-main);
+  background:var(--bg-main);
+  line-height:1.7;
 }
 
-.hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #6a00ff, #ff4ecd);
+section{
+  padding:80px 20px;
+  max-width:900px;
+  margin:auto;
+  text-align:center;
+  opacity:0;
+  transform:translateY(40px);
+  transition:all .9s ease;
 }
 
-.hero h1 {
-  font-size: 3rem;
+section.visible{
+  opacity:1;
+  transform:translateY(0);
 }
 
-/* FRASES */
-.frases {
-  font-size: 1.5rem;
-  min-height: 80px;
+h1,h2,h3{font-family:'Playfair Display',serif}
+
+.hero{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  background:url("mujer_de_espaldas.jpg") center/cover;
+  position:relative;
 }
 
-/* VIDEO */
-.video-box {
-  max-width: 360px;
-  margin: auto;
-  aspect-ratio: 9 / 16;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 0 25px rgba(255,255,255,.15);
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(246,243,239,.85);
 }
 
-.video-box iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
+.hero *{position:relative;z-index:2}
+
+.scroll-indicator{margin-top:60px;opacity:.6}
+
+.quotes-carousel{
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;
+  color:#6f7d73;
+  min-height:80px;
+  transition:opacity .8s ease;
 }
 
-/* PANTALLAS TEXTO */
-.pantalla h2 {
-  font-size: 2.2rem;
-  margin-bottom: 15px;
+.soft{
+  background:var(--bg-soft);
+  border-radius:12px;
+  padding:60px 30px;
 }
 
-.pantalla p {
-  opacity: 0.7;
+.video-wrapper{
+  max-width:420px;
+  margin:auto;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 15px 30px rgba(0,0,0,.15);
 }
 
-/* FOOTER */
-footer {
-  padding: 40px 20px;
-  text-align: center;
-  font-size: 1rem;
-  opacity: .7;
+iframe{
+  width:100%;
+  height:75vh;
+  border:none;
+}
+
+@media (max-width:600px){
+  iframe{height:85vh}
+}
+
+.testimony-box{
+  max-width:500px;
+  margin:40px auto 0;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+textarea{
+  min-height:120px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  padding:15px;
+}
+
+.devotional-wrapper{
+  background:#f3d6dc;
+  border-radius:16px;
+  padding:30px 10px;
+}
+
+.months-carousel{
+  display:flex;
+  gap:30px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+}
+
+.month{
+  min-width:260px;
+  background:#fff;
+  border-radius:14px;
+  padding:20px;
+  opacity:.6;
+  transform:scale(.9);
+  transition:.3s;
+  scroll-snap-align:center;
+}
+
+.month.active{
+  opacity:1;
+  transform:scale(1.05);
+}
+
+.calendar-grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:8px;
+}
+
+.day{
+  font-size:.75rem;
+  padding:8px 0;
+  background:#f6f3ef;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.day:hover{
+  background:var(--accent);
+  color:#fff;
+}
+
+footer{
+  padding:40px 20px;
+  text-align:center;
+  opacity:.7;
 }
 </style>
 </head>
 
 <body>
 
-<!-- HERO -->
-<section class="hero">
-  <h1>No estás sola</h1>
+<section class="hero visible">
+<h1>Mujeres de Acción</h1>
+<h2>Un espacio para detenerte, sanar y volver a levantarte con propósito.</h2>
+<div class="scroll-indicator">↓ Desplazate</div>
 </section>
 
-<!-- FRASES AUTOMÁTICAS -->
 <section>
-  <div class="frases" id="frase"></div>
+<div class="quotes-carousel" id="quotesCarousel">Dios no terminó con vos.</div>
 </section>
 
-<!-- VIDEO 1 -->
 <section>
-  <div class="video-box">
-    <iframe
-      src="https://www.youtube.com/embed/iRHMO9dPEZs?autoplay=1&mute=1&loop=1&playlist=iRHMO9dPEZs&playsinline=1"
-      allow="autoplay; encrypted-media"
-      allowfullscreen>
-    </iframe>
-  </div>
+<div class="video-wrapper">
+<iframe data-src="https://www.youtube.com/embed/iRHMO9dPEZs?mute=1&playsinline=1&enablejsapi=1"></iframe>
+</div>
 </section>
 
-<!-- BIENVENIDA -->
-<section class="pantalla">
-  <h2>Bienvenida</h2>
-  <p>(frase a completar)</p>
+<section class="soft">
+<h3>Bienvenida</h3>
+<p>Frase corta que luego vas a completar.</p>
 </section>
 
-<!-- VIDEO 2 -->
 <section>
-  <div class="video-box">
-    <iframe
-      src="https://www.youtube.com/embed/_Yi7uwbcdmw?autoplay=1&mute=1&loop=1&playlist=_Yi7uwbcdmw&playsinline=1"
-      allow="autoplay; encrypted-media"
-      allowfullscreen>
-    </iframe>
-  </div>
+<div class="video-wrapper">
+<iframe data-src="https://www.youtube.com/embed/_Yi7uwbcdmw?mute=1&playsinline=1&enablejsapi=1"></iframe>
+</div>
 </section>
 
-<!-- HISTORIA PERSONAL -->
-<section class="pantalla">
-  <h2>Mi historia personal</h2>
-  <p>(frase a completar)</p>
+<section class="soft">
+<h3>Mi Historia personal</h3>
+<p>Frase corta que luego vas a completar.</p>
 </section>
 
-<!-- TODO LO DEMÁS TAL CUAL ESTABA -->
-<!-- testimonios -->
-<!-- devocional -->
-<!-- pedido de oración -->
+<section>
+<h3>Voces de mujeres</h3>
+<div class="testimony-box">
+<textarea maxlength="300" placeholder="Escribí acá, con libertad..."></textarea>
+</div>
+</section>
+
+<section>
+<p>Devocional diario 2026</p>
+<div class="devotional-wrapper">
+<div class="months-carousel" id="monthsCarousel"></div>
+</div>
+<div id="devotional-preview">Seleccioná un día.</div>
+</section>
 
 <footer>
-  No estás sola.<br>
-  Dios sigue obrando, aun en los procesos silenciosos.
+No estás sola.<br>
+Dios sigue obrando, aun en los procesos silenciosos.
 </footer>
 
 <script>
-/* FRASES AUTOMÁTICAS */
-const frases = [
-  "Dios no terminó contigo",
-  "Aun en silencio Él obra",
-  "Tu proceso tiene propósito",
-  "No estás sola"
+// FRASES
+const quotes=[
+"Dios no terminó con vos.",
+"Tu proceso no invalida tu llamado.",
+"Aun acá, Él está obrando.",
+"No estás sola.",
+"Descansá. Dios sigue."
 ];
+let qi=0;
+setInterval(()=>{
+const el=document.getElementById("quotesCarousel");
+el.style.opacity=0;
+setTimeout(()=>{
+qi=(qi+1)%quotes.length;
+el.innerText=quotes[qi];
+el.style.opacity=1;
+},800);
+},4500);
 
-let i = 0;
-const fraseEl = document.getElementById("frase");
-
-function cambiarFrase() {
-  fraseEl.style.opacity = 0;
-  setTimeout(() => {
-    fraseEl.textContent = frases[i];
-    fraseEl.style.opacity = 1;
-    i = (i + 1) % frases.length;
-  }, 500);
+// FADE IN + VIDEO AUTOPLAY
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(e=>{
+if(e.isIntersecting){
+e.target.classList.add("visible");
+const iframe=e.target.querySelector("iframe");
+if(iframe && !iframe.src){
+iframe.src=iframe.dataset.src+"&autoplay=1";
 }
+}else{
+const iframe=e.target.querySelector("iframe");
+if(iframe){
+iframe.src=iframe.src.replace("&autoplay=1","");
+}
+}
+});
+},{threshold:.6});
 
-cambiarFrase();
-setInterval(cambiarFrase, 4000);
+document.querySelectorAll("section").forEach(s=>observer.observe(s));
+
+// DEVOCIONAL
+const year=2026;
+const months=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+const carousel=document.getElementById("monthsCarousel");
+
+months.forEach((m,i)=>{
+const el=document.createElement("div");
+el.className="month";
+el.innerHTML=`<h3>${m} ${year}</h3><div class="calendar-grid"></div>`;
+const grid=el.querySelector(".calendar-grid");
+const days=new Date(year,i+1,0).getDate();
+for(let d=1;d<=days;d++){
+const day=document.createElement("div");
+day.className="day";
+day.innerText=d;
+day.onclick=()=>{
+document.getElementById("devotional-preview").innerHTML=
+`<strong>${d} de ${m} de ${year}</strong><br><br>Devocional del día.`;
+};
+grid.appendChild(day);
+}
+carousel.appendChild(el);
+});
+
+const obs2=new IntersectionObserver(e=>{
+e.forEach(x=>x.target.classList.toggle("active",x.isIntersecting));
+},{root:carousel,threshold:.6});
+
+document.querySelectorAll(".month").forEach(m=>obs2.observe(m));
 </script>
 
 </body>
