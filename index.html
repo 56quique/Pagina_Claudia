@@ -36,18 +36,39 @@
       max-width: 900px;
       margin: auto;
       text-align: center;
+      position: relative;
+      z-index: 2;
     }
 
     h1, h2, h3 {
       font-family: 'Playfair Display', serif;
     }
 
-    /* HERO */
+    /* HERO CON IMAGEN */
     .hero {
       height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      background-image: url("mujer_de_espaldas.jpg");
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(246, 243, 239, 0.85);
+      z-index: 1;
+    }
+
+    .hero h1,
+    .hero h2,
+    .scroll-indicator {
+      position: relative;
+      z-index: 2;
     }
 
     .hero h1 {
@@ -72,7 +93,6 @@
       padding: 60px 30px;
     }
 
-    /* PILARES */
     .pillars {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -85,7 +105,6 @@
       margin-bottom: 10px;
     }
 
-    /* ESTADOS */
     .state {
       margin-bottom: 50px;
     }
@@ -107,7 +126,6 @@
       margin-top: 10px;
     }
 
-    /* TESTIMONIOS */
     .testimony-box {
       max-width: 500px;
       margin: 40px auto 0;
@@ -133,7 +151,6 @@
       opacity: 0.6;
     }
 
-    /* DEVOCIONAL */
     .devotional-wrapper {
       background: #f3d6dc;
       border-radius: 16px;
@@ -200,6 +217,21 @@
       font-size: 0.9rem;
       opacity: 0.7;
     }
+    /* CARRUSEL DE FRASES */
+.quotes-carousel {
+  margin: 60px auto 0;
+  max-width: 600px;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: #6f7d73;
+  min-height: 80px;
+  transition: opacity 0.8s ease;
+}
+
+.quotes-carousel span {
+  display: block;
+}
+
   </style>
 </head>
 
@@ -211,6 +243,11 @@
     <h2>Un espacio para detenerte, sanar y volver a levantarte con propósito.</h2>
     <div class="scroll-indicator">↓ Desplazate</div>
   </section>
+<section>
+  <div class="quotes-carousel" id="quotesCarousel">
+    <span>Dios no terminó con vos.</span>
+  </div>
+</section>
 
   <!-- BLOQUE 02 -->
   <section>
@@ -218,7 +255,7 @@
     Tal vez con preguntas que no te animaste a decir en voz alta.<br>
     O tal vez solo necesitabas un lugar donde no tengas que explicar nada.</p>
     <br>
-    <p>Este es un espacio pensado para mujeres reales,<br>
+    <p>Este es un espacio pensado para mujeres,<br>
     con historias reales,<br>
     que siguen caminando aun cuando el corazón pesa.</p>
   </section>
@@ -240,7 +277,7 @@
       <div class="pillar"><h3>Acompañar</h3><p>Caminar juntas.</p></div>
       <div class="pillar"><h3>Orar</h3><p>Presentar cada proceso.</p></div>
       <div class="pillar"><h3>Restaurar</h3><p>Creer que hay esperanza.</p></div>
-      <div class="pillar"><h3>Caminar juntas</h3><p>No desde arriba, sino al lado.</p></div>
+      <div class="pillar"><h3>Crecer juntas</h3><p>No desde arriba, sino al lado.</p></div>
     </div>
   </section>
 
@@ -255,7 +292,7 @@
   <section>
     <h3>Voces de mujeres</h3>
     <p>Si querés, podés compartir una experiencia, un proceso o algo que Dios esté trabajando en tu vida.<br>
-    No tiene que estar bien escrito. No tiene que ser perfecto.</p>
+    Tu história puede ayudar a cambiar mi história.</p>
 
     <div class="testimony-box">
       <textarea maxlength="300" placeholder="Escribí acá, con libertad..."></textarea>
@@ -324,6 +361,28 @@
 
     document.querySelectorAll(".month").forEach(m => observer.observe(m));
   </script>
+<script>
+  const quotes = [
+    "Dios no terminó con vos.",
+    "Tu proceso no invalida tu llamado.",
+    "Aun acá, Él está obrando.",
+    "No estás sola.",
+    "Descansá. Dios sigue.",
+    "Lo que duele hoy, Dios lo está sanando."
+  ];
+
+  let quoteIndex = 0;
+  const quoteEl = document.getElementById("quotesCarousel");
+
+  setInterval(() => {
+    quoteEl.style.opacity = 0;
+    setTimeout(() => {
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+      quoteEl.innerHTML = `<span>${quotes[quoteIndex]}</span>`;
+      quoteEl.style.opacity = 1;
+    }, 800);
+  }, 4500);
+</script>
 
 </body>
 </html>
