@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
-:root {
+:root{
   --bg-main:#f6f3ef;
   --bg-soft:#ffffff;
   --text-main:#3b3b3b;
@@ -21,8 +21,8 @@
 
 body{
   font-family:'Inter',sans-serif;
-  color:var(--text-main);
   background:var(--bg-main);
+  color:var(--text-main);
   line-height:1.7;
 }
 
@@ -91,7 +91,7 @@ iframe{
   border:none;
 }
 
-@media (max-width:600px){
+@media(max-width:600px){
   iframe{height:85vh}
 }
 
@@ -179,30 +179,23 @@ footer{
 </section>
 
 <section>
-  <div class="video-wrapper">
-    <iframe
-      data-src="https://www.youtube.com/embed/iRHMO9dPEZs?autoplay=1&mute=1&playsinline=1"
-      allow="autoplay; encrypted-media"
-      allowfullscreen>
-    </iframe>
-  </div>
+<div class="video-wrapper">
+<iframe data-src="https://www.youtube.com/embed/iRHMO9dPEZs?autoplay=1&mute=1&playsinline=1"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
 </section>
-
 
 <section class="soft">
 <h3>Bienvenida</h3>
 <p>Frase corta que luego vas a completar.</p>
 </section>
 
-<section>  
-<div class="video-wrapper">   
- <iframe      
-data-src="https://www.youtube.com/embed/Yi7uwbcdmw?autoplay=1&mute=1&playsinline=1"      allow="autoplay; encrypted-media"      
-allowfullscreen>    
-</iframe>  
+<section>
+<div class="video-wrapper">
+<iframe data-src="https://www.youtube.com/embed/_Yi7uwbcdmw?autoplay=1&mute=1&playsinline=1"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
 </div>
 </section>
-
 
 <section class="soft">
 <h3>Mi Historia personal</h3>
@@ -249,24 +242,20 @@ el.style.opacity=1;
 },800);
 },4500);
 
-<script>
-// FADE IN + VIDEO AUTOPLAY (CORRECTO)
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("visible");
+// FADE IN + VIDEO AUTOPLAY
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(e=>{
+if(e.isIntersecting){
+e.target.classList.add("visible");
+const iframe=e.target.querySelector("iframe");
+if(iframe && !iframe.src){
+iframe.src=iframe.dataset.src;
+}
+}
+});
+},{threshold:.6});
 
-      const iframe = entry.target.querySelector("iframe");
-      if (iframe && !iframe.src) {
-        iframe.src = iframe.dataset.src;
-      }
-    }
-  });
-}, { threshold: 0.6 });
-
-document.querySelectorAll("section").forEach(sec => observer.observe(sec));
-</script>
-
+document.querySelectorAll("section").forEach(s=>observer.observe(s));
 
 // DEVOCIONAL
 const year=2026;
@@ -301,4 +290,3 @@ document.querySelectorAll(".month").forEach(m=>obs2.observe(m));
 
 </body>
 </html>
-
