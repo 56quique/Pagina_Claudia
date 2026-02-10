@@ -179,21 +179,30 @@ footer{
 </section>
 
 <section>
-<div class="video-wrapper">
-<iframe data-src="https://www.youtube.com/embed/iRHMO9dPEZs?mute=1&playsinline=1&enablejsapi=1"></iframe>
-</div>
+  <div class="video-wrapper">
+    <iframe
+      data-src="https://www.youtube.com/embed/iRHMO9dPEZs?autoplay=1&mute=1&playsinline=1"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  </div>
 </section>
+
 
 <section class="soft">
 <h3>Bienvenida</h3>
 <p>Frase corta que luego vas a completar.</p>
 </section>
 
-<section>
-<div class="video-wrapper">
-<iframe data-src="https://www.youtube.com/embed/_Yi7uwbcdmw?mute=1&playsinline=1&enablejsapi=1"></iframe>
+<section>  
+<div class="video-wrapper">   
+ <iframe      
+data-src="https://www.youtube.com/embed/Yi7uwbcdmw?autoplay=1&mute=1&playsinline=1"      allow="autoplay; encrypted-media"      
+allowfullscreen>    
+</iframe>  
 </div>
 </section>
+
 
 <section class="soft">
 <h3>Mi Historia personal</h3>
@@ -240,25 +249,24 @@ el.style.opacity=1;
 },800);
 },4500);
 
-// FADE IN + VIDEO AUTOPLAY
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(e=>{
-if(e.isIntersecting){
-e.target.classList.add("visible");
-const iframe=e.target.querySelector("iframe");
-if(iframe && !iframe.src){
-iframe.src=iframe.dataset.src+"&autoplay=1";
-}
-}else{
-const iframe=e.target.querySelector("iframe");
-if(iframe){
-iframe.src=iframe.src.replace("&autoplay=1","");
-}
-}
-});
-},{threshold:.6});
+<script>
+// FADE IN + VIDEO AUTOPLAY (CORRECTO)
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
 
-document.querySelectorAll("section").forEach(s=>observer.observe(s));
+      const iframe = entry.target.querySelector("iframe");
+      if (iframe && !iframe.src) {
+        iframe.src = iframe.dataset.src;
+      }
+    }
+  });
+}, { threshold: 0.6 });
+
+document.querySelectorAll("section").forEach(sec => observer.observe(sec));
+</script>
+
 
 // DEVOCIONAL
 const year=2026;
@@ -293,3 +301,4 @@ document.querySelectorAll(".month").forEach(m=>obs2.observe(m));
 
 </body>
 </html>
+
