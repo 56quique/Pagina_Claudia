@@ -1,387 +1,294 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Mujeres de Acción</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+<title>Mujeres de Acción</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Tipografía Google -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --bg-main: #f6f3ef;
-      --bg-soft: #ffffff;
-      --text-main: #3b3b3b;
-      --accent: #9aa79b;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      color: var(--text-main);
-      background: var(--bg-main);
-      line-height: 1.7;
-    }
-
-    section {
-      padding: 80px 20px;
-      max-width: 900px;
-      margin: auto;
-      text-align: center;
-      position: relative;
-      z-index: 2;
-    }
-
-    h1, h2, h3 {
-      font-family: 'Playfair Display', serif;
-    }
-
-    /* HERO CON IMAGEN */
-    .hero {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background-image: url("mujer_de_espaldas.jpg");
-      background-size: cover;
-      background-position: center;
-      position: relative;
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(246, 243, 239, 0.85);
-      z-index: 1;
-    }
-
-    .hero h1,
-    .hero h2,
-    .scroll-indicator {
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 20px;
-    }
-
-    .hero h2 {
-      font-size: 1.2rem;
-      font-weight: 300;
-    }
-
-    .scroll-indicator {
-      margin-top: 60px;
-      font-size: 0.9rem;
-      opacity: 0.6;
-    }
-
-    .soft {
-      background: var(--bg-soft);
-      border-radius: 12px;
-      padding: 60px 30px;
-    }
-
-    .pillars {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 30px;
-      margin-top: 40px;
-    }
-
-    .pillar h3 {
-      font-size: 1.1rem;
-      margin-bottom: 10px;
-    }
-
-    .state {
-      margin-bottom: 50px;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 14px 28px;
-      border-radius: 30px;
-      background: var(--accent);
-      color: #fff;
-      text-decoration: none;
-      font-size: 0.95rem;
-    }
-
-    .small {
-      font-size: 0.8rem;
-      opacity: 0.7;
-      margin-top: 10px;
-    }
-
-    .testimony-box {
-      max-width: 500px;
-      margin: 40px auto 0;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .testimony-box textarea {
-      width: 100%;
-      min-height: 120px;
-      resize: none;
-      border-radius: 12px;
-      border: 1px solid #ddd;
-      padding: 15px;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.9rem;
-      line-height: 1.5;
-    }
-
-    .char-counter {
-      font-size: 0.75rem;
-      opacity: 0.6;
-    }
-
-    .devotional-wrapper {
-      background: #f3d6dc;
-      border-radius: 16px;
-      padding: 30px 10px;
-      margin-top: 40px;
-    }
-
-    .months-carousel {
-      display: flex;
-      gap: 30px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      padding: 20px;
-    }
-
-    .months-carousel::-webkit-scrollbar {
-      display: none;
-    }
-
-    .month {
-      min-width: 260px;
-      background: #ffffff;
-      border-radius: 14px;
-      padding: 20px;
-      scroll-snap-align: center;
-      transition: transform 0.3s ease, opacity 0.3s ease;
-      opacity: 0.6;
-      transform: scale(0.9);
-    }
-
-    .month.active {
-      opacity: 1;
-      transform: scale(1.05);
-    }
-
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 8px;
-    }
-
-    .day {
-      font-size: 0.75rem;
-      padding: 8px 0;
-      background: #f6f3ef;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .day:hover {
-      background: var(--accent);
-      color: #fff;
-    }
-
-    .devotional-preview {
-      margin: 30px auto 0;
-      font-size: 0.95rem;
-      max-width: 500px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 40px 20px;
-      font-size: 0.9rem;
-      opacity: 0.7;
-    }
-    /* CARRUSEL DE FRASES */
-.quotes-carousel {
-  margin: 60px auto 0;
-  max-width: 600px;
-  font-family: 'Playfair Display', serif;
-  font-size: 1.4rem;
-  color: #6f7d73;
-  min-height: 80px;
-  transition: opacity 0.8s ease;
+<style>
+:root {
+  --bg-main:#f6f3ef;
+  --bg-soft:#ffffff;
+  --text-main:#3b3b3b;
+  --accent:#9aa79b;
 }
 
-.quotes-carousel span {
-  display: block;
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:'Inter',sans-serif;
+  color:var(--text-main);
+  background:var(--bg-main);
+  line-height:1.7;
 }
 
-  </style>
+section{
+  padding:80px 20px;
+  max-width:900px;
+  margin:auto;
+  text-align:center;
+  opacity:0;
+  transform:translateY(40px);
+  transition:all .9s ease;
+}
+
+section.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+h1,h2,h3{font-family:'Playfair Display',serif}
+
+.hero{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  background:url("mujer_de_espaldas.jpg") center/cover;
+  position:relative;
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(246,243,239,.85);
+}
+
+.hero *{position:relative;z-index:2}
+
+.scroll-indicator{margin-top:60px;opacity:.6}
+
+.quotes-carousel{
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;
+  color:#6f7d73;
+  min-height:80px;
+  transition:opacity .8s ease;
+}
+
+.soft{
+  background:var(--bg-soft);
+  border-radius:12px;
+  padding:60px 30px;
+}
+
+.video-wrapper{
+  max-width:420px;
+  margin:auto;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 15px 30px rgba(0,0,0,.15);
+}
+
+iframe{
+  width:100%;
+  height:75vh;
+  border:none;
+}
+
+@media (max-width:600px){
+  iframe{height:85vh}
+}
+
+.testimony-box{
+  max-width:500px;
+  margin:40px auto 0;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+textarea{
+  min-height:120px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  padding:15px;
+}
+
+.devotional-wrapper{
+  background:#f3d6dc;
+  border-radius:16px;
+  padding:30px 10px;
+}
+
+.months-carousel{
+  display:flex;
+  gap:30px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+}
+
+.month{
+  min-width:260px;
+  background:#fff;
+  border-radius:14px;
+  padding:20px;
+  opacity:.6;
+  transform:scale(.9);
+  transition:.3s;
+  scroll-snap-align:center;
+}
+
+.month.active{
+  opacity:1;
+  transform:scale(1.05);
+}
+
+.calendar-grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:8px;
+}
+
+.day{
+  font-size:.75rem;
+  padding:8px 0;
+  background:#f6f3ef;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.day:hover{
+  background:var(--accent);
+  color:#fff;
+}
+
+footer{
+  padding:40px 20px;
+  text-align:center;
+  opacity:.7;
+}
+</style>
 </head>
 
 <body>
 
-  <!-- BLOQUE 01 -->
-  <section class="hero">
-    <h1>Mujeres de Acción</h1>
-    <h2>Un espacio para detenerte, sanar y volver a levantarte con propósito.</h2>
-    <div class="scroll-indicator">↓ Desplazate</div>
-  </section>
-<section>
-  <div class="quotes-carousel" id="quotesCarousel">
-    <span>Dios no terminó con vos.</span>
-  </div>
+<section class="hero visible">
+<h1>Mujeres de Acción</h1>
+<h2>Un espacio para detenerte, sanar y volver a levantarte con propósito.</h2>
+<div class="scroll-indicator">↓ Desplazate</div>
 </section>
 
-  <!-- BLOQUE 02 -->
-  <section>
-    <p>Tal vez llegaste hasta acá cansada.<br>
-    Tal vez con preguntas que no te animaste a decir en voz alta.<br>
-    O tal vez solo necesitabas un lugar donde no tengas que explicar nada.</p>
-    <br>
-    <p>Este es un espacio pensado para mujeres,<br>
-    con historias reales,<br>
-    que siguen caminando aun cuando el corazón pesa.</p>
-  </section>
+<section>
+<div class="quotes-carousel" id="quotesCarousel">Dios no terminó con vos.</div>
+</section>
 
-  <!-- BLOQUE 03 -->
-  <section class="soft">
-    <p>No tenés que ser fuerte todo el tiempo.</p>
-    <p>No tenés que tener todas las respuestas.</p>
-    <p>No tenés que demostrar nada acá.</p>
-    <br>
-    <p>Podés descansar. Podés respirar. Podés permitirte ser acompañada.</p>
-  </section>
+<section>
+<div class="video-wrapper">
+<iframe data-src="https://www.youtube.com/embed/iRHMO9dPEZs?mute=1&playsinline=1&enablejsapi=1"></iframe>
+</div>
+</section>
 
-  <!-- BLOQUE 04 -->
-  <section>
-    <p><strong>Mujeres de Acción</strong> nace como un espacio de acompañamiento espiritual.</p>
+<section class="soft">
+<h3>Bienvenida</h3>
+<p>Frase corta que luego vas a completar.</p>
+</section>
 
-    <div class="pillars">
-      <div class="pillar"><h3>Acompañar</h3><p>Caminar juntas.</p></div>
-      <div class="pillar"><h3>Orar</h3><p>Presentar cada proceso.</p></div>
-      <div class="pillar"><h3>Restaurar</h3><p>Creer que hay esperanza.</p></div>
-      <div class="pillar"><h3>Crecer juntas</h3><p>No desde arriba, sino al lado.</p></div>
-    </div>
-  </section>
+<section>
+<div class="video-wrapper">
+<iframe data-src="https://www.youtube.com/embed/_Yi7uwbcdmw?mute=1&playsinline=1&enablejsapi=1"></iframe>
+</div>
+</section>
 
-  <!-- BLOQUE 05 -->
-  <section class="soft">
-    <div class="state"><h3>Cuando te sentís cansada</h3><p>Seguir ya es un esfuerzo.</p></div>
-    <div class="state"><h3>Cuando te sentís quebrada</h3><p>Las heridas no te definen.</p></div>
-    <div class="state"><h3>Cuando querés volver a empezar</h3><p>El pasado no cancela el propósito.</p></div>
-  </section>
+<section class="soft">
+<h3>Mi Historia personal</h3>
+<p>Frase corta que luego vas a completar.</p>
+</section>
 
-  <!-- BLOQUE NUEVO – VOCES -->
-  <section>
-    <h3>Voces de mujeres</h3>
-    <p>Si querés, podés compartir una experiencia, un proceso o algo que Dios esté trabajando en tu vida.<br>
-    Tu história puede ayudar a cambiar mi história.</p>
+<section>
+<h3>Voces de mujeres</h3>
+<div class="testimony-box">
+<textarea maxlength="300" placeholder="Escribí acá, con libertad..."></textarea>
+</div>
+</section>
 
-    <div class="testimony-box">
-      <textarea maxlength="300" placeholder="Escribí acá, con libertad..."></textarea>
-      <div class="char-counter">Máximo 300 caracteres</div>
-    </div>
+<section>
+<p>Devocional diario 2026</p>
+<div class="devotional-wrapper">
+<div class="months-carousel" id="monthsCarousel"></div>
+</div>
+<div id="devotional-preview">Seleccioná un día.</div>
+</section>
 
-    <div class="small">Cada mensaje es leído con respeto y cuidado.</div>
-  </section>
+<footer>
+No estás sola.<br>
+Dios sigue obrando, aun en los procesos silenciosos.
+</footer>
 
-  <!-- BLOQUE 06 -->
-  <section>
-    <p>Devocional diario 2026</p>
-
-    <div class="devotional-wrapper">
-      <div class="months-carousel" id="monthsCarousel"></div>
-    </div>
-
-    <div id="devotional-preview" class="devotional-preview">
-      Seleccioná un día para ver el devocional.
-    </div>
-  </section>
-
-  <!-- BLOQUE 07 -->
-  <section class="soft">
-    <p>Si necesitás que oremos con vos, podés escribirnos.</p>
-    <a class="btn" href="#">Pedir oración</a>
-    <div class="small">Acompañamiento espiritual.</div>
-  </section>
-
-  <!-- BLOQUE 08 -->
-  <footer>
-    No estás sola.<br>
-    Dios sigue obrando, aun en los procesos silenciosos.
-  </footer>
-
-  <script>
-    const year = 2026;
-    const monthNames = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
-    const carousel = document.getElementById("monthsCarousel");
-
-    monthNames.forEach((month, i) => {
-      const m = document.createElement("div");
-      m.className = "month";
-      m.innerHTML = `<h3>${month} ${year}</h3><div class="calendar-grid"></div>`;
-      const grid = m.querySelector(".calendar-grid");
-
-      const days = new Date(year, i + 1, 0).getDate();
-      for (let d = 1; d <= days; d++) {
-        const day = document.createElement("div");
-        day.className = "day";
-        day.innerText = d;
-        day.onclick = () => {
-          document.getElementById("devotional-preview").innerHTML =
-            `<strong>${d} de ${month} de ${year}</strong><br><br>
-            Devocional del día.<br>
-            Un momento de pausa y oración.`;
-        };
-        grid.appendChild(day);
-      }
-      carousel.appendChild(m);
-    });
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => e.target.classList.toggle("active", e.isIntersecting));
-    }, { root: carousel, threshold: 0.6 });
-
-    document.querySelectorAll(".month").forEach(m => observer.observe(m));
-  </script>
 <script>
-  const quotes = [
-    "Dios no terminó con vos.",
-    "Tu proceso no invalida tu llamado.",
-    "Aun acá, Él está obrando.",
-    "No estás sola.",
-    "Descansá. Dios sigue.",
-    "Lo que duele hoy, Dios lo está sanando."
-  ];
+// FRASES
+const quotes=[
+"Dios no terminó con vos.",
+"Tu proceso no invalida tu llamado.",
+"Aun acá, Él está obrando.",
+"No estás sola.",
+"Descansá. Dios sigue."
+];
+let qi=0;
+setInterval(()=>{
+const el=document.getElementById("quotesCarousel");
+el.style.opacity=0;
+setTimeout(()=>{
+qi=(qi+1)%quotes.length;
+el.innerText=quotes[qi];
+el.style.opacity=1;
+},800);
+},4500);
 
-  let quoteIndex = 0;
-  const quoteEl = document.getElementById("quotesCarousel");
+// FADE IN + VIDEO AUTOPLAY
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(e=>{
+if(e.isIntersecting){
+e.target.classList.add("visible");
+const iframe=e.target.querySelector("iframe");
+if(iframe && !iframe.src){
+iframe.src=iframe.dataset.src+"&autoplay=1";
+}
+}else{
+const iframe=e.target.querySelector("iframe");
+if(iframe){
+iframe.src=iframe.src.replace("&autoplay=1","");
+}
+}
+});
+},{threshold:.6});
 
-  setInterval(() => {
-    quoteEl.style.opacity = 0;
-    setTimeout(() => {
-      quoteIndex = (quoteIndex + 1) % quotes.length;
-      quoteEl.innerHTML = `<span>${quotes[quoteIndex]}</span>`;
-      quoteEl.style.opacity = 1;
-    }, 800);
-  }, 4500);
+document.querySelectorAll("section").forEach(s=>observer.observe(s));
+
+// DEVOCIONAL
+const year=2026;
+const months=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+const carousel=document.getElementById("monthsCarousel");
+
+months.forEach((m,i)=>{
+const el=document.createElement("div");
+el.className="month";
+el.innerHTML=`<h3>${m} ${year}</h3><div class="calendar-grid"></div>`;
+const grid=el.querySelector(".calendar-grid");
+const days=new Date(year,i+1,0).getDate();
+for(let d=1;d<=days;d++){
+const day=document.createElement("div");
+day.className="day";
+day.innerText=d;
+day.onclick=()=>{
+document.getElementById("devotional-preview").innerHTML=
+`<strong>${d} de ${m} de ${year}</strong><br><br>Devocional del día.`;
+};
+grid.appendChild(day);
+}
+carousel.appendChild(el);
+});
+
+const obs2=new IntersectionObserver(e=>{
+e.forEach(x=>x.target.classList.toggle("active",x.isIntersecting));
+},{root:carousel,threshold:.6});
+
+document.querySelectorAll(".month").forEach(m=>obs2.observe(m));
 </script>
 
 </body>
