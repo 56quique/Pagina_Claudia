@@ -85,15 +85,22 @@ h1,h2,h3{font-family:'Playfair Display',serif}
   box-shadow:0 15px 30px rgba(0,0,0,.15);
 }
 
-iframe{
+iframe,
+video{
   width:100%;
   height:75vh;
   border:none;
+  object-fit:cover;
+  display:block;
 }
 
 @media(max-width:600px){
-  iframe{height:85vh}
+  iframe,
+  video{
+    height:85vh;
+  }
 }
+
 
 .testimony-box{
   max-width:500px;
@@ -323,6 +330,7 @@ videos.forEach(video => videoObserver.observe(video));
 
 </body>
 </html>
+
 
 
 
