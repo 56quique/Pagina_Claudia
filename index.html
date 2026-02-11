@@ -463,22 +463,32 @@ for(let d=1; d<=days; d++){
 
   day.addEventListener("click", function(){
 
-    const devotionalData = devotionals[year]?.[m]?.[d];
+  fetch(`${m.toLowerCase()}-${year}.html`)
+    .then(res => res.text())
+    .then(html => {
 
-    if(devotionalData){
-      document.getElementById("modal-content").innerHTML = `
-        <h2>${devotionalData.title}</h2>
-        <p>${devotionalData.text}</p>
-      `;
-    } else {
-      document.getElementById("modal-content").innerHTML = `
-        <h2>${d} de ${m} de ${year}</h2>
-        <p>Este devocional aún no está disponible.</p>
-      `;
-    }
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = html;
 
-    document.getElementById("content-modal").style.display = "flex";
-  });
+      const devotionalDay = tempDiv.querySelector(`#day-${d}`);
+
+      if(devotionalDay){
+        document.getElementById("modal-content").innerHTML = devotionalDay.innerHTML;
+      } else {
+        document.getElementById("modal-content").innerHTML =
+          `<h2>${d} de ${m}</h2><p>Este devocional aún no está disponible.</p>`;
+      }
+
+      document.getElementById("content-modal").style.display = "flex";
+    })
+    .catch(() => {
+      document.getElementById("modal-content").innerHTML =
+        `<p>No se pudo cargar el archivo del mes.</p>`;
+      document.getElementById("content-modal").style.display = "flex";
+    });
+
+});
+
 
   grid.appendChild(day);
 }
@@ -543,6 +553,7 @@ function closeModal(){
 
 </body>
 </html>
+
 
 
 
