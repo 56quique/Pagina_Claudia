@@ -438,6 +438,17 @@ document.querySelectorAll("section").forEach(s=>observer.observe(s));
 const year=2026;
 const months=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 const carousel=document.getElementById("monthsCarousel");
+const devotionals = {
+  "2026": {
+    "Enero": {
+      1: {
+        title: "Comenzar con Dios",
+        text: "Hoy es un nuevo comienzo. Dios va delante tuyo."
+      }
+    }
+  }
+};
+
 
 months.forEach((m,i)=>{
 const el=document.createElement("div");
@@ -445,16 +456,33 @@ el.className="month";
 el.innerHTML=`<h3>${m} ${year}</h3><div class="calendar-grid"></div>`;
 const grid=el.querySelector(".calendar-grid");
 const days=new Date(year,i+1,0).getDate();
-for(let d=1;d<=days;d++){
-const day=document.createElement("div");
-day.className="day";
-day.innerText=d;
-day.onclick=()=>{
-document.getElementById("devotional-preview").innerHTML=
-`<strong>${d} de ${m} de ${year}</strong><br><br>Devocional del día.`;
-};
-grid.appendChild(day);
+for(let d=1; d<=days; d++){
+  const day = document.createElement("div");
+  day.className = "day";
+  day.innerText = d;
+
+  day.addEventListener("click", function(){
+
+    const devotionalData = devotionals[year]?.[m]?.[d];
+
+    if(devotionalData){
+      document.getElementById("modal-content").innerHTML = `
+        <h2>${devotionalData.title}</h2>
+        <p>${devotionalData.text}</p>
+      `;
+    } else {
+      document.getElementById("modal-content").innerHTML = `
+        <h2>${d} de ${m} de ${year}</h2>
+        <p>Este devocional aún no está disponible.</p>
+      `;
+    }
+
+    document.getElementById("content-modal").style.display = "flex";
+  });
+
+  grid.appendChild(day);
 }
+
 carousel.appendChild(el);
 });
 
@@ -515,6 +543,7 @@ function closeModal(){
 
 </body>
 </html>
+
 
 
 
