@@ -77,13 +77,15 @@ h1,h2,h3{font-family:'Playfair Display',serif}
   transition:opacity 1s ease;
   line-height:1.4;
 }
-  /* FILIGRANA SUPERIOR */
+ /* FILIGRANA SUPERIOR */
 .quotes-carousel::before{
   content:"";
   position:absolute;
-  top:10px;
-  width:320px;
-  height:220px;
+  top:-20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:clamp(150px, 40vw, 300px);
+  height:clamp(80px, 18vw, 160px);
   background:url("filigrana1.png") center/contain no-repeat;
   opacity:.9;
 }
@@ -92,11 +94,12 @@ h1,h2,h3{font-family:'Playfair Display',serif}
 .quotes-carousel::after{
   content:"";
   position:absolute;
-  bottom:10px;
-  width:320px;
-  height:220px;
+  bottom:-20px;   
+  left:50%;
+  transform:translateX(-50%) rotate(180deg);
+  width:clamp(150px, 40vw, 300px);
+  height:clamp(80px, 18vw, 160px);
   background:url("filigrana1.png") center/contain no-repeat;
-  transform:rotate(180deg);
   opacity:.9;
 }
 
@@ -584,6 +587,7 @@ function closeModal(){
 
 </body>
 </html>
+
 
 
 
