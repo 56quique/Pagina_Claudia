@@ -81,26 +81,30 @@ h1,h2,h3{font-family:'Playfair Display',serif}
 .quotes-carousel::before{
   content:"";
   position:absolute;
-  top:-20px;
+  top:15px;
   left:50%;
   transform:translateX(-50%);
   width:clamp(150px, 40vw, 300px);
   height:clamp(80px, 18vw, 160px);
   background:url("filigrana1.png") center/contain no-repeat;
   opacity:.9;
+  filter: invert(60%) sepia(20%) saturate(400%) hue-rotate(250deg);
+
 }
 
 /* FILIGRANA INFERIOR */
 .quotes-carousel::after{
   content:"";
   position:absolute;
-  bottom:-20px;   
+  bottom:15px;   
   left:50%;
   transform:translateX(-50%) rotate(180deg);
   width:clamp(150px, 40vw, 300px);
   height:clamp(80px, 18vw, 160px);
   background:url("filigrana1.png") center/contain no-repeat;
   opacity:.9;
+  filter: invert(60%) sepia(20%) saturate(400%) hue-rotate(250deg);
+
 }
 
 
@@ -587,6 +591,7 @@ function closeModal(){
 
 </body>
 </html>
+
 
 
 
