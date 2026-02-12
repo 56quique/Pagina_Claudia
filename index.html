@@ -7,7 +7,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@300;400&family=Great+Vibes&display=swap" rel="stylesheet">
+
 
 <style>
 :root{
@@ -64,12 +65,19 @@ h1,h2,h3{font-family:'Playfair Display',serif}
 .scroll-indicator{margin-top:60px;opacity:.6}
 
 .quotes-carousel{
-  font-family:'Playfair Display',serif;
-  font-size:1.4rem;
-  color:#6f7d73;
-  min-height:80px;
-  transition:opacity .8s ease;
+  font-family:'Great Vibes', cursive;
+  font-size:2.2rem;
+  color:#b57edc; /* lavanda */
+  min-height:120px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px 10px;
+  transition:opacity 1s ease;
+  line-height:1.4;
 }
+
 
 .soft{
   background:var(--bg-soft);
@@ -407,11 +415,11 @@ Dios sigue obrando, aun en los procesos silenciosos.
 <script>
 // FRASES
 const quotes=[
-"Dios no terminó con vos.",
-"Tu proceso no invalida tu llamado.",
-"Aun acá, Él está obrando.",
-"No estás sola.",
-"Descansá. Dios sigue."
+"Dios no solo cambia circunstancias, cambia personas.",
+"Lo nuevo comienza cuando dejo de vivir anclada al pasado.”,
+“No puedo abrazar lo que viene si sigo aferrada a lo que fue.”,
+“Dios no repite temporadas, Él forma nuevas.”,
+"Tu pasado no invalida tu propósito."
 ];
 let qi=0;
 setInterval(()=>{
@@ -421,8 +429,8 @@ setTimeout(()=>{
 qi=(qi+1)%quotes.length;
 el.innerText=quotes[qi];
 el.style.opacity=1;
-},800);
-},4500);
+},1000);
+},7000);
 
 // FADE IN + VIDEO AUTOPLAY
 const observer=new IntersectionObserver(entries=>{
@@ -554,6 +562,7 @@ function closeModal(){
 
 </body>
 </html>
+
 
 
 
