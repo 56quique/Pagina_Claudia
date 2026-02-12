@@ -79,22 +79,25 @@ h1,h2,h3{font-family:'Playfair Display',serif}
 }
   /* FILIGRANA SUPERIOR */
 .quotes-carousel::before{
-  content:"❦ ❦ ❦";
+  content:"";
   position:absolute;
-  top:0;
-  font-size:1.5rem;
-  color:#d8b4f0;
-  letter-spacing:8px;
+  top:10px;
+  width:120px;
+  height:60px;
+  background:url("filigrana1.png") center/contain no-repeat;
+  opacity:.25;
 }
 
 /* FILIGRANA INFERIOR */
 .quotes-carousel::after{
-  content:"❦ ❦ ❦";
+  content:"";
   position:absolute;
-  bottom:0;
-  font-size:1.5rem;
-  color:#d8b4f0;
-  letter-spacing:8px;
+  bottom:10px;
+  width:120px;
+  height:60px;
+  background:url("filigrana1.png") center/contain no-repeat;
+  transform:rotate(180deg);
+  opacity:.25;
 }
 
 
@@ -581,6 +584,7 @@ function closeModal(){
 
 </body>
 </html>
+
 
 
 
