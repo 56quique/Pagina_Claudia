@@ -289,6 +289,23 @@ textarea{
   transition:.3s ease;
   box-shadow:0 8px 18px rgba(0,0,0,.08);
 }
+.bienvenida-section{
+  position: relative;
+  background: url("Fondo-Bienevenida.jpg") center/cover no-repeat;
+  overflow: hidden;
+}
+
+.bienvenida-section::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(255,255,255,0.85); /* suaviza la imagen */
+}
+
+.bienvenida-overlay{
+  position: relative;
+  z-index:2;
+}
 
 .content-card:hover{
   transform:translateY(-6px);
@@ -370,15 +387,21 @@ footer{
   </div>
 </section>
 
-<section class="soft">
-<h3>Bienvenida</h3>
-<p>¡Hola, mujer valiente y amada por Dios!
-Te doy la más cordial bienvenida a Mujeres de Acción, un espacio creado especialmente para vos, donde la fe, la inspiración y el propósito se encuentran. Aquí vas a encontrar reflexiones, devocionales, recursos y mensajes que fortalecerán tu relación con Dios y te animarán a caminar cada día conforme a Su voluntad.
-Mi deseo es que este sitio sea un lugar de encuentro, de crecimiento espiritual y de apoyo, entre mujeres que, como vos, anhelan vivir una vida con impacto y obedecer el llamado de Cristo.
-Creo profundamente que Dios está levantando mujeres decididas, con corazones firmes, llenas del Espíritu Santo y dispuestas a marcar la diferencia en su hogar, en su iglesia y en el mundo.
-Estás en casa.Estás en misión.Estás en acción.
-Con amor,Claudia Mabel Silvero</p>
+<section class="soft bienvenida-section">
+  <div class="bienvenida-overlay">
+    <h3>Bienvenida</h3>
+    <p>¡Hola, mujer valiente y amada por Dios!
+      Te doy la más cordial bienvenida a Mujeres de Acción, un espacio creado especialmente para vos, donde la fe, 
+      la inspiración y el propósito se encuentran. 
+      Aquí vas a encontrar reflexiones, devocionales, recursos y mensajes que fortalecerán tu relación con Dios y 
+      te animarán a caminar cada día conforme a Su voluntad.Mi deseo es que este sitio sea un lugar de encuentro, 
+      de crecimiento espiritual y de apoyo, entre mujeres que, como vos, anhelan vivir una vida con impacto y obedecer el 
+      llamado de Cristo.Creo profundamente que Dios está levantando mujeres decididas, con corazones firmes, 
+      llenas del Espíritu Santo y dispuestas a marcar la diferencia en su hogar, en su iglesia y en el mundo.
+      Estás en casa.Estás en misión.Estás en acción.Con amor,Claudia Mabel Silvero </p>
+  </div>
 </section>
+
 
 <section>
   <div class="video-wrapper">
@@ -633,6 +656,7 @@ function closeModal(){
 
 </body>
 </html>
+
 
 
 
