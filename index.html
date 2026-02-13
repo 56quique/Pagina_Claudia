@@ -77,36 +77,19 @@ h1,h2,h3{font-family:'Playfair Display',serif}
   transition:opacity 1s ease;
   line-height:1.4;
 }
- /* FILIGRANA SUPERIOR */
+ /* MARCO DE FRASES */
+.quotes-carousel{
+  position: relative;
+  padding: 120px 40px; /* espacio interno */
+}
+
 .quotes-carousel::before{
   content:"";
   position:absolute;
-  top:15px;
-  left:50%;
-  transform:translateX(-50%) translateY(-20px);;
-  width: 450px;
-  height: auto;
-  aspect-ratio: 2 / 1;
-  background:url("filigrana1.png") center/contain no-repeat;
-  opacity:.9;
-  filter: invert(60%) sepia(20%) saturate(400%) hue-rotate(250deg);
-
-}
-
-/* FILIGRANA INFERIOR */
-.quotes-carousel::after{
-  content:"";
-  position:absolute;
-  bottom:15px;   
-  left:50%;
-  transform:translateX(-50%) rotate(180deg) translateY(-20px);
-  width: 450px;
-  height: auto;
-  aspect-ratio: 2 / 1;
-  background:url("filigrana1.png") center/contain no-repeat;
-  opacity:.9;
-  filter: invert(60%) sepia(20%) saturate(400%) hue-rotate(250deg);
-
+  inset:0;
+  background:url("marco.png") center/contain no-repeat;
+  opacity:.85;
+  pointer-events:none;
 }
 
 
@@ -593,6 +576,7 @@ function closeModal(){
 
 </body>
 </html>
+
 
 
 
