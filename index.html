@@ -77,20 +77,57 @@ h1,h2,h3{font-family:'Playfair Display',serif}
   transition:opacity 1s ease;
   line-height:1.4;
 }
- /* MARCO DE FRASES */
 .quotes-carousel{
-  position: relative;
-  padding: 120px 40px; /* espacio interno */
+  position: relative; /* importante para las esquinas */
+  font-family:'Great Vibes', cursive;
+  font-size:3.5rem;
+  color:#b57edc;
+  min-height:250px; /* subimos altura base */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:120px 60px; /* espacio para que no choque con esquinas */
+  transition:opacity 1s ease;
+  line-height:1.4;
 }
-
-.quotes-carousel::before{
-  content:"";
+.esquina{
   position:absolute;
-  inset:0;
-  background:url("Marco.jpeg") center/100% 100% no-repeat;
-  opacity:.85;
+  width:120px;
+  height:120px;
+  background-size:contain;
+  background-repeat:no-repeat;
   pointer-events:none;
 }
+
+.esquina.tl{
+  top:0;
+  left:0;
+  background-image:url("esquina-tl.png");
+}
+
+.esquina.tr{
+  top:0;
+  right:0;
+  background-image:url("esquina-tr.png");
+}
+
+.esquina.bl{
+  bottom:0;
+  left:0;
+  background-image:url("esquina-bl.png");
+}
+
+.esquina.br{
+  bottom:0;
+  right:0;
+  background-image:url("esquina-br.png");
+}
+.frase{
+  position: relative;
+  z-index: 2;
+}
+
 
 
 .soft{
@@ -309,8 +346,20 @@ footer{
 </section>
 
 <section>
-<div class="quotes-carousel" id="quotesCarousel">Dios no terminó con vos.</div>
+  <div class="quotes-carousel" id="quotesCarousel">
+
+    <div class="esquina tl"></div>
+    <div class="esquina tr"></div>
+    <div class="esquina bl"></div>
+    <div class="esquina br"></div>
+
+    <div class="frase">
+      Dios no terminó con vos.
+    </div>
+
+  </div>
 </section>
+
 
 <section>
   <div class="video-wrapper">
@@ -435,16 +484,23 @@ const quotes=[
 "Dios no repite temporadas, Él forma nuevas.",
 "Tu pasado no invalida tu propósito."
 ];
+
 let qi=0;
+
 setInterval(()=>{
-const el=document.getElementById("quotesCarousel");
-el.style.opacity=0;
-setTimeout(()=>{
-qi=(qi+1)%quotes.length;
-el.innerText=quotes[qi];
-el.style.opacity=1;
-},1000);
+  const el=document.getElementById("quotesCarousel");
+  const frase=el.querySelector(".frase");
+
+  el.style.opacity=0;
+
+  setTimeout(()=>{
+    qi=(qi+1)%quotes.length;
+    frase.innerText=quotes[qi];
+    el.style.opacity=1;
+  },1000);
+
 },10000);
+
 
 // FADE IN + VIDEO AUTOPLAY
 const observer=new IntersectionObserver(entries=>{
@@ -576,6 +632,7 @@ function closeModal(){
 
 </body>
 </html>
+
 
 
 
