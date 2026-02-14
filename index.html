@@ -12,11 +12,17 @@
 
 <style>
 :root{
-  --bg-main:#f6f3ef;
+  --bg-main:#f7f2f5;
   --bg-soft:#ffffff;
-  --text-main:#3b3b3b;
-  --accent:#9aa79b;
+
+  --text-main:#321d28;
+  --accent:#6e4068;
+  --accent-strong:#bc455f;
+  --accent-light:#706193;
+  --highlight:#f05984;
+  --deep-blue:#273c70;
 }
+
 
 *{box-sizing:border-box;margin:0;padding:0}
 
@@ -92,7 +98,8 @@ text-shadow:0 4px 18px rgba(110,64,104,.25);
   position: relative; /* importante para las esquinas */
   font-family:'Great Vibes', cursive;
   font-size:3.5rem;
-  color:#b57edc;
+  color:var(--accent);
+
   min-height:250px; /* subimos altura base */
   display:flex;
   align-items:center;
@@ -224,7 +231,8 @@ textarea{
 }
 
 .day{
-  background:#fff;
+  background:var(--bg-soft);
+
   border-radius:8px;
   transition:.2s;
 }
@@ -245,7 +253,8 @@ textarea{
 }
 
 .modal-box{
-  background:#fff;
+ background:var(--bg-soft);
+
   width:90%;
   max-width:820px;
   max-height:85vh;
@@ -667,6 +676,7 @@ function closeModal(){
 
 </body>
 </html>
+
 
 
 
