@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MateBot ILC — Tu tutor con actitud 🤖</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap');
+  :root {
+    --verde:#00C896;--verde-d:#009970;--azul:#3A7BFF;--azul-d:#2457CC;
+    --rojo:#FF4D6D;--amarillo:#FFD60A;--fondo:#0F1117;--carta:#1A1D2B;
+    --carta2:#22263A;--texto:#E8EAF6;--muted:#7C83A0;--border:#2E3350;--radio:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--fondo);color:var(--texto);font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;}
+  header{background:linear-gradient(135deg,#1A1D2B 0%,#0F1117 100%);border-bottom:2px solid var(--verde);padding:18px 24px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100;}
+  .logo{font-size:2rem;line-height:1;}
+  .header-text h1{font-size:1.3rem;font-weight:900;color:var(--verde);letter-spacing:-0.5px;}
+  .header-text p{font-size:0.75rem;color:var(--muted);}
+  .xp-pill{margin-left:auto;background:var(--carta2);border:1px solid var(--amarillo);color:var(--amarillo);font-weight:800;font-size:0.85rem;padding:6px 14px;border-radius:99px;display:flex;align-items:center;gap:6px;}
+  nav{display:flex;gap:4px;padding:14px 16px 0;border-bottom:1px solid var(--border);overflow-x:auto;}
+  nav button{background:none;border:none;color:var(--muted);font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;padding:10px 16px;border-radius:10px 10px 0 0;cursor:pointer;white-space:nowrap;transition:all .2s;border-bottom:3px solid transparent;margin-bottom:-1px;}
+  nav button.active{color:var(--verde);background:var(--carta);border-bottom-color:var(--verde);}
+  nav button:hover:not(.active){color:var(--texto);background:var(--carta2);}
+  main{padding:20px 16px;max-width:820px;margin:0 auto;}
+  .page{display:none;}.page.active{display:block;}
+  .card{background:var(--carta);border:1px solid var(--border);border-radius:var(--radio);padding:20px;margin-bottom:16px;}
+  .card-titulo{font-size:1.1rem;font-weight:900;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+  .badge{background:var(--verde);color:#000;font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:99px;letter-spacing:.5px;text-transform:uppercase;}
+  .badge.azul{background:var(--azul);color:#fff;}.badge.rojo{background:var(--rojo);color:#fff;}.badge.amarillo{background:var(--amarillo);color:#000;}
+  .tema-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-bottom:20px;}
+  .tema-btn{background:var(--carta2);border:1px solid var(--border);border-radius:var(--radio);padding:16px;cursor:pointer;text-align:left;transition:all .2s;color:var(--texto);font-family:'Nunito',sans-serif;}
+  .tema-btn:hover{border-color:var(--verde);transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,200,150,.15);}
+  .tema-btn .icono{font-size:1.8rem;margin-bottom:8px;}
+  .tema-btn .nombre{font-weight:800;font-size:.95rem;margin-bottom:4px;}
+  .tema-btn .desc{font-size:.75rem;color:var(--muted);}
+  .chat-area{background:var(--carta2);border:1px solid var(--border);border-radius:var(--radio);min-height:280px;max-height:420px;overflow-y:auto;padding:16px;margin-bottom:12px;scroll-behavior:smooth;}
+  .bubble{margin-bottom:14px;display:flex;gap:10px;align-items:flex-start;animation:fadeIn .3s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  .bubble.user{flex-direction:row-reverse;}
+  .avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;background:var(--carta);border:2px solid var(--border);}
+  .bubble.bot .avatar{border-color:var(--verde);}.bubble.user .avatar{border-color:var(--azul);}
+  .msg{background:var(--carta);border:1px solid var(--border);border-radius:12px;padding:10px 14px;font-size:.9rem;line-height:1.6;max-width:80%;}
+  .bubble.user .msg{background:var(--azul-d);border-color:var(--azul);}
+  .msg code{font-family:'Space Mono',monospace;background:rgba(0,200,150,.12);color:var(--verde);padding:1px 5px;border-radius:4px;font-size:.85em;}
+  .msg .formula{font-family:'Space Mono',monospace;background:var(--carta2);border-left:3px solid var(--verde);padding:8px 12px;margin:8px 0;border-radius:0 8px 8px 0;font-size:.85em;}
+  .typing{display:flex;gap:4px;padding:4px 0;}
+  .typing span{width:7px;height:7px;background:var(--verde);border-radius:50%;animation:bounce 1s infinite;}
+  .typing span:nth-child(2){animation-delay:.15s;}.typing span:nth-child(3){animation-delay:.3s;}
+  @keyframes bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);}}
+  .input-row{display:flex;gap:8px;}
+  .input-row input{flex:1;background:var(--carta2);border:1px solid var(--border);border-radius:10px;color:var(--texto);font-family:'Nunito',sans-serif;font-size:.9rem;padding:10px 14px;outline:none;transition:border-color .2s;}
+  .input-row input:focus{border-color:var(--verde);}
+  .input-row input::placeholder{color:var(--muted);}
+  .btn{background:var(--verde);color:#000;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;padding:10px 18px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+  .btn:hover{background:var(--verde-d);transform:translateY(-1px);}
+  .btn:active{transform:translateY(0);}
+  .btn.azul{background:var(--azul);color:#fff;}.btn.azul:hover{background:var(--azul-d);}
+  .btn.rojo{background:var(--rojo);color:#fff;}
+  .btn.outline{background:transparent;border:2px solid var(--verde);color:var(--verde);}
+  .btn.outline:hover{background:var(--verde);color:#000;}
+  .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+  .ejercicio-box{background:var(--carta2);border:2px solid var(--border);border-radius:var(--radio);padding:20px;margin-bottom:16px;font-family:'Space Mono',monospace;font-size:1.05rem;text-align:center;letter-spacing:.5px;min-height:80px;display:flex;align-items:center;justify-content:center;}
+  .opciones-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+  .opcion-btn{background:var(--carta2);border:2px solid var(--border);border-radius:10px;color:var(--texto);font-family:'Space Mono',monospace;font-weight:700;font-size:.95rem;padding:14px;cursor:pointer;transition:all .2s;}
+  .opcion-btn:hover:not(:disabled){border-color:var(--azul);transform:translateY(-2px);box-shadow:0 4px 14px rgba(58,123,255,.2);}
+  .opcion-btn.correcto{border-color:var(--verde)!important;background:rgba(0,200,150,.15);color:var(--verde);}
+  .opcion-btn.incorrecto{border-color:var(--rojo)!important;background:rgba(255,77,109,.15);color:var(--rojo);}
+  .opcion-btn:disabled{cursor:not-allowed;}
+  .feedback-box{border-radius:10px;padding:14px 16px;font-size:.9rem;line-height:1.5;margin-bottom:14px;display:none;}
+  .feedback-box.correcto{background:rgba(0,200,150,.12);border:1px solid var(--verde);color:var(--verde);display:block;}
+  .feedback-box.incorrecto{background:rgba(255,77,109,.12);border:1px solid var(--rojo);color:var(--rojo);display:block;}
+  .progreso-barra-wrap{background:var(--carta2);border-radius:99px;height:8px;margin-bottom:6px;overflow:hidden;}
+  .progreso-barra{height:100%;background:linear-gradient(90deg,var(--verde),var(--azul));border-radius:99px;transition:width .5s ease;}
+  .progreso-info{font-size:.75rem;color:var(--muted);text-align:right;margin-bottom:14px;}
+  .nota-grande{font-size:5rem;font-weight:900;line-height:1;margin-bottom:10px;font-family:'Space Mono',monospace;}
+  .estrellitas{font-size:2rem;margin-bottom:16px;}
+  .select-tema{background:var(--carta2);border:1px solid var(--border);border-radius:10px;color:var(--texto);font-family:'Nunito',sans-serif;font-size:.9rem;padding:10px 14px;width:100%;margin-bottom:14px;outline:none;cursor:pointer;}
+  .select-tema:focus{border-color:var(--verde);}
+  .bienvenida{text-align:center;padding:30px 20px;}
+  .bot-grande{font-size:5rem;margin-bottom:16px;animation:float 3s ease-in-out infinite;display:block;}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  .bienvenida h2{font-size:1.8rem;font-weight:900;margin-bottom:8px;background:linear-gradient(135deg,var(--verde),var(--azul));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .bienvenida p{color:var(--muted);font-size:.95rem;max-width:420px;margin:0 auto 24px;line-height:1.6;}
+  .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px;}
+  .stat-card{background:var(--carta2);border:1px solid var(--border);border-radius:var(--radio);padding:16px;text-align:center;}
+  .stat-card .num{font-size:2rem;font-weight:900;font-family:'Space Mono',monospace;color:var(--verde);}
+  .stat-card .lbl{font-size:.7rem;color:var(--muted);margin-top:4px;}
+  .examen-resultado{text-align:center;padding:30px 20px;}
+  @media(max-width:500px){.tema-grid{grid-template-columns:1fr;}.opciones-grid{grid-template-columns:1fr;}.stats-row{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🤖</div>
+  <div class="header-text">
+    <h1>MateBot ILC</h1>
+    <p>1er año Secundaria · Instituto Línea Cuchilla</p>
+  </div>
+  <div class="xp-pill">⭐ <span id="xpTotal">0</span> XP</div>
+</header>
+
+<nav>
+  <button class="active" onclick="irA('inicio')">🏠 Inicio</button>
+  <button onclick="irA('teoria')">📖 Teoría</button>
+  <button onclick="irA('practica')">✏️ Práctica</button>
+  <button onclick="irA('examen')">🧪 Examen</button>
+  <button onclick="irA('chat')">💬 Chat con MateBot</button>
+</nav>
+
+<main>
+
+<!-- INICIO -->
+<div id="pg-inicio" class="page active">
+  <div class="bienvenida">
+    <span class="bot-grande">🤖</span>
+    <h2>¡Hola, matemático!</h2>
+    <p>Soy <strong>MateBot</strong>, tu tutor personal con más actitud que una calculadora científica. Vamos a repasar todo el cuadernillo del ILC sin morir en el intento.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn" onclick="irA('teoria')">📖 Ver teoría</button>
+      <button class="btn azul" onclick="irA('practica')">✏️ Practicar</button>
+      <button class="btn rojo" onclick="irA('examen')">🧪 Examen</button>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="num" id="statEjercicios">0</div><div class="lbl">Ejercicios<br>resueltos</div></div>
+      <div class="stat-card"><div class="num" id="statCorrectos">0</div><div class="lbl">Correctos</div></div>
+      <div class="stat-card"><div class="num" id="statRacha">0</div><div class="lbl">Racha<br>actual 🔥</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TEORIA -->
+<div id="pg-teoria" class="page">
+  <div class="card">
+    <div class="card-titulo">📖 Elegí un tema <span class="badge">TEORÍA</span></div>
+    <p style="font-size:.85rem;color:var(--muted);margin-bottom:16px;">MateBot te explica el tema con ejemplos del cuadernillo. Tocá uno y preguntale lo que quieras.</p>
+  </div>
+  <div class="tema-grid">
+    <button class="tema-btn" onclick="cargarTema('enteros')"><div class="icono">🔢</div><div class="nombre">Números Enteros</div><div class="desc">Naturales, negativos, Z, recta numérica, orden</div></button>
+    <button class="tema-btn" onclick="cargarTema('valor_absoluto')"><div class="icono">📏</div><div class="nombre">Valor Absoluto</div><div class="desc">Distancia al cero, notación |x|, ejemplos</div></button>
+    <button class="tema-btn" onclick="cargarTema('suma_resta')"><div class="icono">➕</div><div class="nombre">Suma y Resta</div><div class="desc">Regla de signos, mismo signo, distinto signo</div></button>
+    <button class="tema-btn" onclick="cargarTema('mult_div')"><div class="icono">✖️</div><div class="nombre">Multiplicación y División</div><div class="desc">Regla de signos, propiedad distributiva</div></button>
+    <button class="tema-btn" onclick="cargarTema('potenciacion')"><div class="icono">⚡</div><div class="nombre">Potenciación</div><div class="desc">Base, exponente, potencias de enteros</div></button>
+    <button class="tema-btn" onclick="cargarTema('radicacion')"><div class="icono">√</div><div class="nombre">Radicación</div><div class="desc">Raíz cuadrada, cúbica, índice, radicando</div></button>
+    <button class="tema-btn" onclick="cargarTema('decimales')"><div class="icono">🔡</div><div class="nombre">Números Decimales</div><div class="desc">Exactos, periódicos, conversión a fracción</div></button>
+    <button class="tema-btn" onclick="cargarTema('fracciones')"><div class="icono">🍕</div><div class="nombre">Fracciones</div><div class="desc">Equivalentes, simplificación, amplificación</div></button>
+    <button class="tema-btn" onclick="cargarTema('divisibilidad')"><div class="icono">🔍</div><div class="nombre">Divisibilidad</div><div class="desc">Criterios por 2,3,4,5,6,9,10 · Números primos</div></button>
+  </div>
+  <div id="teoria-chat-area" style="display:none;">
+    <div class="card" style="border-color:var(--verde);">
+      <div class="card-titulo" id="teoria-titulo">📖 Tema</div>
+      <div class="chat-area" id="teoria-chat"></div>
+      <div class="input-row">
+        <input type="text" id="teoria-input" placeholder="Preguntale algo a MateBot..." onkeydown="if(event.key==='Enter')enviarTeoria()">
+        <button class="btn" onclick="enviarTeoria()">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRACTICA -->
+<div id="pg-practica" class="page">
+  <div class="card">
+    <div class="card-titulo">✏️ Práctica guiada <span class="badge azul">CON PISTAS</span></div>
+    <select class="select-tema" id="practica-tema-select">
+      <option value="enteros">🔢 Números Enteros — Orden y comparación</option>
+      <option value="valor_absoluto">📏 Valor Absoluto</option>
+      <option value="suma_resta">➕ Suma y Resta de Enteros</option>
+      <option value="mult_div">✖️ Multiplicación y División</option>
+      <option value="potenciacion">⚡ Potenciación de Enteros</option>
+      <option value="radicacion">√ Radicación</option>
+      <option value="combinadas">🧮 Operaciones Combinadas</option>
+      <option value="fracciones">🍕 Fracciones Equivalentes</option>
+      <option value="divisibilidad">🔍 Criterios de Divisibilidad</option>
+    </select>
+    <button class="btn" onclick="generarEjercicioPractica()" id="btn-generar">🎲 Generar ejercicio</button>
+  </div>
+  <div id="practica-area" style="display:none;">
+    <div class="progreso-barra-wrap"><div class="progreso-barra" id="progreso-barra-elem" style="width:0%"></div></div>
+    <div class="progreso-info" id="progreso-info">0 / 0 en esta sesión</div>
+    <div class="card" style="border-color:var(--azul);">
+      <div style="font-size:.75rem;color:var(--muted);margin-bottom:8px;" id="practica-subtitulo">Ejercicio</div>
+      <div class="ejercicio-box" id="ejercicio-enunciado">...</div>
+      <div class="opciones-grid" id="opciones-container"></div>
+      <div class="feedback-box" id="feedback-box"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn" id="btn-siguiente" onclick="generarEjercicioPractica()" disabled>Siguiente →</button>
+        <button class="btn outline" id="btn-pista" onclick="pedirPista()">💡 Pista</button>
+      </div>
+    </div>
+    <div class="card" id="pista-chat-card" style="display:none;border-color:var(--amarillo);">
+      <div class="card-titulo" style="color:var(--amarillo);">💡 MateBot dice...</div>
+      <div id="pista-contenido" style="font-size:.9rem;line-height:1.6;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- EXAMEN -->
+<div id="pg-examen" class="page">
+  <div id="examen-config">
+    <div class="card">
+      <div class="card-titulo">🧪 Mini Examen <span class="badge rojo">SIN PISTAS</span></div>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:16px;">Igual que en el colegio: sin ayuda. MateBot te corrige y te da devolución al final.</p>
+      <div style="margin-bottom:14px;">
+        <label style="font-size:.85rem;color:var(--muted);display:block;margin-bottom:6px;">Cantidad de preguntas:</label>
+        <select class="select-tema" id="examen-cantidad">
+          <option value="5">5 preguntas (rápido)</option>
+          <option value="10" selected>10 preguntas (completo)</option>
+          <option value="15">15 preguntas (intensivo)</option>
+        </select>
+      </div>
+      <div style="margin-bottom:14px;">
+        <label style="font-size:.85rem;color:var(--muted);display:block;margin-bottom:6px;">Temas:</label>
+        <select class="select-tema" id="examen-temas">
+          <option value="todo">Todos los temas mezclados</option>
+          <option value="enteros">Solo Números Enteros</option>
+          <option value="suma_resta">Solo Suma y Resta</option>
+          <option value="mult_div">Solo Multiplicación y División</option>
+          <option value="fracciones">Solo Fracciones</option>
+        </select>
+      </div>
+      <button class="btn rojo" onclick="iniciarExamen()">🚀 Empezar examen</button>
+    </div>
+  </div>
+  <div id="examen-activo" style="display:none;">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div class="card-titulo" style="margin:0;">🧪 Examen en curso</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.85rem;color:var(--muted);"><span id="ex-num-actual">1</span>/<span id="ex-total">10</span></div>
+      </div>
+      <div class="progreso-barra-wrap"><div class="progreso-barra" id="ex-progreso" style="width:0%"></div></div>
+      <div style="height:12px;"></div>
+      <div style="font-size:.75rem;color:var(--muted);margin-bottom:8px;" id="ex-subtitulo">Pregunta</div>
+      <div class="ejercicio-box" id="ex-enunciado">...</div>
+      <div class="opciones-grid" id="ex-opciones"></div>
+    </div>
+  </div>
+  <div id="examen-resultado" style="display:none;">
+    <div class="card">
+      <div class="examen-resultado" id="resultado-contenido"></div>
+      <div style="text-align:center;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn" onclick="reiniciarExamen()">🔁 Otro examen</button>
+        <button class="btn azul" onclick="irA('practica')">✏️ Practicar más</button>
+      </div>
+    </div>
+    <div class="card" id="revision-examen" style="display:none;">
+      <div class="card-titulo">📋 Revisión detallada</div>
+      <div id="revision-contenido"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT -->
+<div id="pg-chat" class="page">
+  <div class="card" style="border-color:var(--verde);">
+    <div class="card-titulo">💬 Preguntale a MateBot <span class="badge">IA ACTIVA</span></div>
+    <p style="font-size:.82rem;color:var(--muted);margin-bottom:14px;">Preguntá cualquier cosa del cuadernillo. ¡No te da vergüenza preguntar acá!</p>
+    <div class="chat-area" id="chat-libre-area">
+      <div class="bubble bot">
+        <div class="avatar">🤖</div>
+        <div class="msg">¡Buenas! Soy MateBot, el tutor más buena onda del ILC.<br><br>
+        Preguntame lo que quieras: enteros, fracciones, raíces, por qué el -1 × -1 = +1 y no "nada"... Lo que sea.<br><br>
+        (Spoiler: la matemática tiene sus caprichos, pero te los explico con cariño 😄)<br><br>¿Por dónde empezamos? 🚀</div>
+      </div>
+    </div>
+    <div class="input-row">
+      <input type="text" id="chat-libre-input" placeholder="¿Cómo se suman enteros con distinto signo?" onkeydown="if(event.key==='Enter')enviarChatLibre()">
+      <button class="btn" onclick="enviarChatLibre()">Enviar</button>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ─── ESTADO ───
+let xp = parseInt(localStorage.getItem('mb_xp')||'0');
+let stats = JSON.parse(localStorage.getItem('mb_stats')||'{"ejercicios":0,"correctos":0,"racha":0}');
+let teoriaHistorial=[], chatHistorial=[];
+let ejercicioActual=null, pistaUsada=false;
+let practica={correctos:0,total:0};
+let exPreguntas=[], exIndex=0, exRespuestas=[];
+
+actualizarXP();
+
+// ─── NAV ───
+function irA(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
+  document.getElementById('pg-'+p).classList.add('active');
+  ['inicio','teoria','practica','examen','chat'].forEach((t,i)=>{
+    if(t===p) document.querySelectorAll('nav button')[i].classList.add('active');
+  });
+  if(p==='inicio') refrescarStats();
+}
+
+function actualizarXP(){document.getElementById('xpTotal').textContent=xp;}
+function refrescarStats(){
+  document.getElementById('statEjercicios').textContent=stats.ejercicios;
+  document.getElementById('statCorrectos').textContent=stats.correctos;
+  document.getElementById('statRacha').textContent=stats.racha;
+}
+function guardar(){localStorage.setItem('mb_xp',xp);localStorage.setItem('mb_stats',JSON.stringify(stats));actualizarXP();}
+function ganarXP(n){xp+=n;guardar();const p=document.querySelector('.xp-pill');p.style.transform='scale(1.2)';setTimeout(()=>p.style.transform='',300);}
+
+// ─── API ───
+async function claude(msgs, sys, max=800){
+  const r=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:max,system:sys,messages:msgs})
+  });
+  if(!r.ok) throw new Error(r.status);
+  const d=await r.json();
+  return d.content.map(b=>b.text||'').join('');
+}
+
+const SYS = `Sos MateBot, tutor de matemáticas del Instituto Línea Cuchilla (ILC) para 1er año de Secundaria.
+Personalidad: buena onda, divertido, chistes malos de matemáticas, como el profe que todos recuerdan.
+- Cuando acierta: "¡Correcto! Sos más inteligente que mi calculadora... y ella tiene pilas nuevas."
+- Cuando falla: "Casi... tan cerca que hasta el resultado te saludó al pasar."
+- Respondés siempre en español argentino, brevemente, máx 200 palabras salvo pedido explícito.
+- Nunca usás términos complejos sin explicarlos.
+
+CONTENIDO DEL CUADERNILLO ILC:
+UNIDAD 1 — Números Enteros (Z):
+• N = {0,1,2,3...}, Negativos = {-1,-2,-3...}, Z = N ∪ Negativos
+• Recta numérica: mayor = más a la derecha
+• Valor absoluto: |x| = distancia al cero, siempre positivo. |-3|=3, |+3|=3
+• Suma/Resta: mismo signo → sumás absolutos + conservás signo; distinto signo → restás absolutos + signo del mayor
+• Mult/Div: mismo signo → (+); distinto signo → (-)
+• Propiedad distributiva división: solo se aplica al dividendo, NO es commutativa
+• Potenciación: (-n)^par = positivo; (-n)^impar = negativo
+• Radicación: índice par + radicando negativo → NO EXISTE en Z
+UNIDAD 2 — Decimales y Fracciones:
+• Decimales exactos (terminan) y periódicos (con arco)
+• Conversión exacto→fracción: número sin coma / 10^(cant_decimales), simplificar
+• Periódico puro: parte_periódica / tantos_nueves; periódico mixto: regla combinada
+• Fracciones equivalentes: misma fracción, distinta expresión
+• Simplificación: dividir num y den por MCD
+• Amplificación: multiplicar num y den por mismo número
+ANEXO — Divisibilidad:
+• 2: termina en par • 3: suma cifras div por 3 • 4: últimas 2 cifras div por 4 o múltiplo de 400
+• 5: termina en 0 o 5 • 6: cumple 2 y 3 • 9: suma cifras div por 9 • 10: termina en 0
+• Números primos: divisibles solo por 1 y sí mismos`;
+
+// ─── TEORÍA ───
+const TEMAS={
+  enteros:{titulo:'🔢 Números Enteros',prompt:'Explicame los Números Enteros del cuadernillo ILC: qué son, clasificación en N y negativos, conjunto Z, recta numérica y cómo comparar con > y <. Usá ejemplos concretos y humor.'},
+  valor_absoluto:{titulo:'📏 Valor Absoluto',prompt:'Explicame el valor absoluto del cuadernillo ILC: qué representa, notación |x|, por qué siempre es positivo, y ejemplos como |-3|=+3 y |+3|=+3. Con humor y analogías.'},
+  suma_resta:{titulo:'➕ Suma y Resta de Enteros',prompt:'Explicame las reglas de suma y resta de enteros del cuadernillo ILC: mismo signo (sumás y conservás), distinto signo (restás y ponés el del mayor valor absoluto). Ejemplos: +14+7=+21, -14-7=-21, +10-5=+5, -10+5=-5.'},
+  mult_div:{titulo:'✖️ Multiplicación y División',prompt:'Explicame la regla de signos de multiplicación y división del cuadernillo ILC: mismo signo→positivo, distinto signo→negativo. También la propiedad distributiva de la división respecto a la suma/resta.'},
+  potenciacion:{titulo:'⚡ Potenciación',prompt:'Explicame potenciación de enteros del cuadernillo ILC: base, exponente, y las reglas de signos: negativo con exponente par→positivo, negativo con exponente impar→negativo. Ejemplos: (-3)²=9, (-3)³=-27.'},
+  radicacion:{titulo:'√ Radicación',prompt:'Explicame radicación del cuadernillo ILC: índice, radicando, raíz de raíz. Por qué índice par con radicando negativo no existe en Z. Incluí el ejemplo de √-81 del cuadernillo.'},
+  decimales:{titulo:'🔡 Números Decimales',prompt:'Explicame decimales del cuadernillo ILC: exactos vs periódicos, cómo convertir a fracción. Ejemplos: 1,4=7/5; 0,17=17/100; 0,23(periódico)=23/99; 1,9(periódico)=19/9.'},
+  fracciones:{titulo:'🍕 Fracciones',prompt:'Explicame fracciones equivalentes, simplificación y amplificación del cuadernillo ILC. Cómo simplificar dividiendo por MCD y cómo amplificar multiplicando. Con ejemplos y humor (la pizza es bienvenida).'},
+  divisibilidad:{titulo:'🔍 Divisibilidad',prompt:'Explicame los criterios de divisibilidad del cuadernillo ILC: por 2,3,4,5,6,9,10. También qué son los números primos y algunos ejemplos de la tabla del cuadernillo.'}
+};
+
+async function cargarTema(t){
+  teoriaHistorial=[];
+  const info=TEMAS[t];
+  const chat=document.getElementById('teoria-chat');
+  const wrap=document.getElementById('teoria-chat-area');
+  document.getElementById('teoria-titulo').textContent=info.titulo;
+  chat.innerHTML='';
+  wrap.style.display='block';
+  setTimeout(()=>wrap.scrollIntoView({behavior:'smooth',block:'start'}),100);
+  const typing=burb(chat,'bot','<div class="typing"><span></span><span></span><span></span></div>');
+  try{
+    const r=await claude([{role:'user',content:info.prompt}],SYS,900);
+    typing.remove();
+    teoriaHistorial=[{role:'user',content:info.prompt},{role:'assistant',content:r}];
+    burb(chat,'bot',fmt(r));
+  }catch(e){typing.remove();burb(chat,'bot','😅 Error de conexión. ¿Tenés internet? Probá de nuevo.');}
+}
+
+async function enviarTeoria(){
+  const inp=document.getElementById('teoria-input');
+  const chat=document.getElementById('teoria-chat');
+  const msg=inp.value.trim(); if(!msg)return; inp.value='';
+  burb(chat,'user',msg);
+  const t=burb(chat,'bot','<div class="typing"><span></span><span></span><span></span></div>');
+  teoriaHistorial.push({role:'user',content:msg});
+  try{
+    const r=await claude(teoriaHistorial,SYS,700);
+    t.remove(); teoriaHistorial.push({role:'assistant',content:r}); burb(chat,'bot',fmt(r));
+    if(teoriaHistorial.length>20) teoriaHistorial=teoriaHistorial.slice(-20);
+  }catch(e){t.remove();burb(chat,'bot','😅 Falló la conexión. ¡Probá de nuevo!');}
+}
+
+// ─── PRÁCTICA ───
+async function generarEjercicioPractica(){
+  const tema=document.getElementById('practica-tema-select').value;
+  document.getElementById('practica-area').style.display='block';
+  document.getElementById('pista-chat-card').style.display='none';
+  document.getElementById('feedback-box').className='feedback-box';
+  document.getElementById('btn-siguiente').disabled=true;
+  document.getElementById('ejercicio-enunciado').textContent='Generando ejercicio...';
+  document.getElementById('opciones-container').innerHTML='';
+  pistaUsada=false;
+
+  const PROMPT=`Generá un ejercicio de matemáticas nivel 1er año secundaria Argentina sobre: "${tema}".
+Respondé SOLO con JSON válido sin markdown ni texto extra:
+{"enunciado":"texto del ejercicio","opciones":["A","B","C","D"],"correcta":0,"subtitulo":"tipo de ejercicio","explicacion":"explicación breve con humor de por qué esa es la correcta"}
+El campo "correcta" es el índice 0-3. Las opciones deben ser valores numéricos o expresiones concretas. Variá la dificultad.`;
+
+  try{
+    const raw=await claude([{role:'user',content:PROMPT}],'Sos un generador de ejercicios. Solo respondés con JSON válido.',500);
+    ejercicioActual=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    document.getElementById('ejercicio-enunciado').textContent=ejercicioActual.enunciado;
+    document.getElementById('practica-subtitulo').textContent=ejercicioActual.subtitulo||'Ejercicio';
+    const cont=document.getElementById('opciones-container');
+    ejercicioActual.opciones.forEach((op,i)=>{
+      const btn=document.createElement('button');
+      btn.className='opcion-btn'; btn.textContent=op;
+      btn.onclick=()=>verificar(i,btn); cont.appendChild(btn);
+    });
+    stats.ejercicios++; guardar();
+  }catch(e){
+    document.getElementById('ejercicio-enunciado').textContent='😅 Error generando ejercicio. Probá de nuevo.';
+    document.getElementById('btn-siguiente').disabled=false;
+  }
+}
+
+function verificar(idx,btn){
+  if(!ejercicioActual)return;
+  document.querySelectorAll('#opciones-container .opcion-btn').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('feedback-box');
+  const ok=idx===ejercicioActual.correcta;
+  document.querySelectorAll('#opciones-container .opcion-btn')[ejercicioActual.correcta].classList.add('correcto');
+  if(!ok) btn.classList.add('incorrecto');
+  practica.total++;
+  if(ok){
+    stats.correctos++; stats.racha++;
+    ganarXP(pistaUsada?5:10);
+    practica.correctos++;
+    const msgs=['¡Correcto! 🎉 Sos más inteligente que mi calculadora... y ella tiene pilas nuevas.','¡Exacto! 🚀 Los números te respetan ahora.','¡Bien! ✅ Si la matemática fuera fútbol, acabás de meter un golazo.',`¡Correcto! 💯 ${ejercicioActual.explicacion||'¡Seguí así!'}`];
+    fb.textContent=msgs[Math.floor(Math.random()*msgs.length)];
+    fb.className='feedback-box correcto';
+  }else{
+    stats.racha=0;
+    fb.innerHTML=`❌ Casi... pero no. La correcta era: <strong>${ejercicioActual.opciones[ejercicioActual.correcta]}</strong><br><br>💡 ${ejercicioActual.explicacion||'Revisá la regla y volvé a intentarlo.'}`;
+    fb.className='feedback-box incorrecto';
+  }
+  actualizarBarraPractica(); guardar();
+  document.getElementById('btn-siguiente').disabled=false;
+}
+
+function actualizarBarraPractica(){
+  const pct=practica.total>0?Math.round((practica.correctos/practica.total)*100):0;
+  document.getElementById('progreso-barra-elem').style.width=pct+'%';
+  document.getElementById('progreso-info').textContent=`${practica.correctos} correctos de ${practica.total} en esta sesión (${pct}%)`;
+}
+
+async function pedirPista(){
+  if(!ejercicioActual)return;
+  pistaUsada=true;
+  const card=document.getElementById('pista-chat-card');
+  const cont=document.getElementById('pista-contenido');
+  card.style.display='block';
+  cont.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
+  try{
+    const r=await claude([{role:'user',content:`Dame una pista para este ejercicio SIN dar la respuesta directamente: "${ejercicioActual.enunciado}". Opciones: ${ejercicioActual.opciones.join(', ')}. Sé breve y con humor.`}],SYS,350);
+    cont.innerHTML=fmt(r);
+  }catch(e){cont.textContent='😅 No pude generar pista. ¡Pensá un poco más!';}
+}
+
+// ─── EXAMEN ───
+async function iniciarExamen(){
+  const cant=parseInt(document.getElementById('examen-cantidad').value);
+  const tema=document.getElementById('examen-temas').value;
+  document.getElementById('examen-config').style.display='none';
+  document.getElementById('examen-activo').style.display='block';
+  document.getElementById('examen-resultado').style.display='none';
+  exPreguntas=[]; exIndex=0; exRespuestas=[];
+  document.getElementById('ex-total').textContent=cant;
+  document.getElementById('ex-enunciado').textContent='Cargando preguntas...';
+  document.getElementById('ex-opciones').innerHTML='';
+
+  const PROMPT=`Generá ${cant} preguntas de matemáticas para examen de 1er año secundaria Argentina${tema!=='todo'?' sobre el tema: '+tema:' mezclando todos los temas del cuadernillo ILC (enteros, operaciones, potenciación, radicación, decimales, fracciones, divisibilidad)'}.
+Respondé SOLO con un array JSON válido sin texto extra ni markdown:
+[{"enunciado":"pregunta","opciones":["A","B","C","D"],"correcta":0,"tema":"nombre tema","explicacion":"breve explicación de la respuesta correcta"}]
+Variá dificultad. Los valores de correcta son índices 0-3.`;
+
+  try{
+    const raw=await claude([{role:'user',content:PROMPT}],'Sos generador de exámenes matemáticos. Solo respondés con JSON válido.',2000);
+    exPreguntas=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    mostrarPregExamen();
+  }catch(e){document.getElementById('ex-enunciado').textContent='😅 Error cargando examen. Probá de nuevo.';}
+}
+
+function mostrarPregExamen(){
+  const p=exPreguntas[exIndex], tot=exPreguntas.length;
+  document.getElementById('ex-num-actual').textContent=exIndex+1;
+  document.getElementById('ex-progreso').style.width=((exIndex/tot)*100)+'%';
+  document.getElementById('ex-subtitulo').textContent=p.tema||'Pregunta';
+  document.getElementById('ex-enunciado').textContent=p.enunciado;
+  const el=document.getElementById('ex-opciones'); el.innerHTML='';
+  p.opciones.forEach((op,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opcion-btn'; btn.textContent=op;
+    btn.onclick=()=>{exRespuestas.push(i);exIndex++;exIndex>=exPreguntas.length?mostrarResultado():mostrarPregExamen();};
+    el.appendChild(btn);
+  });
+}
+
+async function mostrarResultado(){
+  document.getElementById('examen-activo').style.display='none';
+  document.getElementById('examen-resultado').style.display='block';
+  let ok=0;
+  exRespuestas.forEach((r,i)=>{if(r===exPreguntas[i].correcta)ok++;});
+  const tot=exPreguntas.length, pct=Math.round((ok/tot)*100);
+  const nota=Math.round((ok/tot)*100)/10;
+  ganarXP(ok*15); stats.ejercicios+=tot; stats.correctos+=ok; guardar();
+  let emoji,frase;
+  if(pct>=90){emoji='🏆';frase='¡Estás listo para dar clases! Bueno, casi.';}
+  else if(pct>=70){emoji='😎';frase='Muy bien. Los números te tienen respeto.';}
+  else if(pct>=50){emoji='💪';frase='Aprobado con esfuerzo. Seguí practicando, vas a brillar.';}
+  else{emoji='🔄';frase='Momento de repasar la teoría. ¡MateBot al rescate!';}
+  const estrellas=pct>=90?'⭐⭐⭐':pct>=70?'⭐⭐':pct>=50?'⭐':'🔄';
+  const color=pct>=70?'var(--verde)':pct>=50?'var(--amarillo)':'var(--rojo)';
+  document.getElementById('resultado-contenido').innerHTML=`
+    <div style="font-size:4rem;margin-bottom:10px;">${emoji}</div>
+    <div class="nota-grande" style="color:${color}">${nota}</div>
+    <div style="font-size:.8rem;color:var(--muted);margin-bottom:8px;">sobre 10</div>
+    <div class="estrellitas">${estrellas}</div>
+    <div style="font-size:1.1rem;font-weight:700;margin-bottom:6px;">${ok} de ${tot} correctas</div>
+    <div style="color:var(--muted);font-size:.9rem;margin-bottom:20px;">${frase}</div>
+    <div style="background:var(--carta2);border-radius:10px;padding:12px;font-size:.85rem;">⭐ <strong>+${ok*15} XP</strong> ganados</div>`;
+
+  // Revisión
+  const rev=document.getElementById('revision-examen');
+  const rc=document.getElementById('revision-contenido');
+  rev.style.display='block'; rc.innerHTML='';
+  exPreguntas.forEach((p,i)=>{
+    const esOk=exRespuestas[i]===p.correcta;
+    const d=document.createElement('div');
+    d.style.cssText='border-bottom:1px solid var(--border);padding:12px 0;font-size:.85rem;';
+    d.innerHTML=`<div style="font-weight:700;margin-bottom:4px;">${esOk?'✅':'❌'} <em>${p.tema||'Ejercicio'}</em></div>
+    <div style="margin-bottom:4px;">${p.enunciado}</div>
+    <div style="color:var(--muted);font-size:.8rem;">Tu respuesta: <span style="color:${esOk?'var(--verde)':'var(--rojo)'}">${p.opciones[exRespuestas[i]]}</span>${!esOk?' · Correcta: <span style="color:var(--verde)">'+p.opciones[p.correcta]+'</span>':''}</div>
+    ${!esOk?`<div style="color:var(--muted);font-size:.78rem;margin-top:4px;">💡 ${p.explicacion}</div>`:''}`;
+    rc.appendChild(d);
+  });
+  // Consejo IA
+  try{
+    const errados=[...new Set(exPreguntas.filter((_,i)=>exRespuestas[i]!==exPreguntas[i].correcta).map(p=>p.tema).filter(Boolean))];
+    if(errados.length>0){
+      const c=await claude([{role:'user',content:`El alumno sacó ${nota}/10. Erró en: ${errados.join(', ')}. Dales un consejo motivador y gracioso para mejorar. Máximo 3 oraciones.`}],SYS,300);
+      const cd=document.createElement('div');
+      cd.style.cssText='background:var(--carta2);border:1px solid var(--verde);border-radius:10px;padding:14px;margin-top:16px;font-size:.88rem;line-height:1.6;';
+      cd.innerHTML='🤖 <strong>MateBot dice:</strong><br>'+fmt(c);
+      rc.appendChild(cd);
+    }
+  }catch(e){}
+}
+
+function reiniciarExamen(){
+  document.getElementById('examen-config').style.display='block';
+  document.getElementById('examen-activo').style.display='none';
+  document.getElementById('examen-resultado').style.display='none';
+}
+
+// ─── CHAT LIBRE ───
+async function enviarChatLibre(){
+  const inp=document.getElementById('chat-libre-input');
+  const area=document.getElementById('chat-libre-area');
+  const msg=inp.value.trim(); if(!msg)return; inp.value='';
+  burb(area,'user',msg);
+  const t=burb(area,'bot','<div class="typing"><span></span><span></span><span></span></div>');
+  chatHistorial.push({role:'user',content:msg});
+  try{
+    const r=await claude(chatHistorial,SYS,700);
+    t.remove(); chatHistorial.push({role:'assistant',content:r}); burb(area,'bot',fmt(r));
+    if(chatHistorial.length>20) chatHistorial=chatHistorial.slice(-20);
+  }catch(e){t.remove();burb(area,'bot','😅 ¡Se me cortó la onda! Probá de nuevo.');}
+}
+
+// ─── UTILS ───
+function burb(el,quien,html){
+  const d=document.createElement('div');
+  d.className='bubble '+quien;
+  d.innerHTML=`<div class="avatar">${quien==='bot'?'🤖':'👨‍🎓'}</div><div class="msg">${html}</div>`;
+  el.appendChild(d); el.scrollTop=el.scrollHeight; return d;
+}
+function fmt(t){
+  return '<p>'+t
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/→\s*(.+)/g,'<div class="formula">→ $1</div>')
+    .replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>')+'</p>';
+}
+</script>
+</body>
+</html>
