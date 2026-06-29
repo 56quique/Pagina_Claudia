@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MateBot ILC — Edición Minecraft</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+  --dirt:    #8B5E3C;
+  --grass:   #5D9E3A;
+  --grass-d: #3D7A1E;
+  --stone:   #7F7F7F;
+  --stone-l: #9E9E9E;
+  --coal:    #2D2D2D;
+  --wood:    #7B5B2E;
+  --gold:    #FFD700;
+  --diamond: #4DD9E0;
+  --red:     #C0392B;
+  --sky:     #5B9BD5;
+  --night:   #0D1A2B;
+  --sand:    #DEB887;
+  --lava:    #FF6600;
+  --fondo:   #1A1A1A;
+  --carta:   #2D2D2D;
+  --carta2:  #3A3A3A;
+  --border:  #555;
+  --texto:   #E8E8D0;
+  --muted:   #9A9A7A;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--night);
+  background-image:
+    radial-gradient(ellipse at 20% 80%, rgba(93,158,58,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(77,217,224,0.05) 0%, transparent 50%);
+  color: var(--texto);
+  font-family: 'Press Start 2P', monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-size: 10px;
+}
+
+/* ── Pixel border utility ── */
+.pixel-box {
+  border: 4px solid #000;
+  box-shadow: inset -4px -4px 0 rgba(0,0,0,0.4), inset 4px 4px 0 rgba(255,255,255,0.15);
+  image-rendering: pixelated;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--dirt);
+  border-bottom: 4px solid #000;
+  box-shadow: 0 4px 0 var(--grass), 0 8px 0 var(--grass-d);
+  padding: 14px 20px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo {
+  font-size: 2.4rem;
+  image-rendering: pixelated;
+  filter: drop-shadow(2px 2px 0 #000);
+}
+.header-text h1 {
+  font-size: 0.75rem;
+  color: var(--grass);
+  text-shadow: 2px 2px 0 #000, -1px -1px 0 #000;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+.header-text p {
+  font-size: 0.5rem;
+  color: var(--sand);
+  text-shadow: 1px 1px 0 #000;
+}
+.xp-pill {
+  margin-left: auto;
+  background: var(--coal);
+  border: 3px solid var(--gold);
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.5), 2px 2px 0 #000;
+  color: var(--gold);
+  font-size: 0.55rem;
+  padding: 7px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* ── STARS BAR (progress) ── */
+.hearts-bar {
+  background: var(--coal);
+  border-bottom: 4px solid #000;
+  padding: 6px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+}
+
+/* ── NAV ── */
+nav {
+  background: var(--stone);
+  border-bottom: 4px solid #000;
+  display: flex;
+  overflow-x: auto;
+  gap: 2px;
+  padding: 0 4px;
+}
+nav button {
+  background: var(--stone-l);
+  border: none;
+  border-right: 2px solid #000;
+  color: #000;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  padding: 10px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .1s;
+  letter-spacing: 0.5px;
+  text-shadow: none;
+  border-top: 2px solid rgba(255,255,255,0.3);
+}
+nav button.active {
+  background: var(--grass);
+  color: #fff;
+  text-shadow: 1px 1px 0 #000;
+  box-shadow: inset 0 -3px 0 var(--grass-d);
+}
+nav button:hover:not(.active) {
+  background: #ccc;
+}
+
+/* ── MAIN ── */
+main {
+  padding: 16px 12px;
+  max-width: 780px;
+  margin: 0 auto;
+}
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--carta);
+  border: 4px solid #000;
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,0.4), inset 3px 3px 0 rgba(255,255,255,0.08), 4px 4px 0 #000;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.card-titulo {
+  font-size: 0.65rem;
+  color: var(--grass);
+  text-shadow: 1px 1px 0 #000;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.badge {
+  background: var(--grass);
+  color: #000;
+  font-size: 0.42rem;
+  padding: 3px 7px;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 #000;
+  text-shadow: none;
+}
+.badge.azul { background: var(--diamond); }
+.badge.rojo { background: var(--red); color: #fff; }
+.badge.gold { background: var(--gold); }
+
+/* ── TEMA GRID ── */
+.tema-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.tema-btn {
+  background: var(--wood);
+  border: 4px solid #000;
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,0.4), inset 3px 3px 0 rgba(255,255,255,0.1), 3px 3px 0 #000;
+  padding: 14px 12px;
+  cursor: pointer;
+  text-align: left;
+  color: var(--texto);
+  font-family: 'Press Start 2P', monospace;
+  transition: transform .1s;
+}
+.tema-btn:hover { transform: translate(-2px, -2px); box-shadow: inset -3px -3px 0 rgba(0,0,0,0.4), inset 3px 3px 0 rgba(255,255,255,0.1), 5px 5px 0 #000; }
+.tema-btn:active { transform: translate(1px, 1px); box-shadow: inset -3px -3px 0 rgba(0,0,0,0.4), inset 3px 3px 0 rgba(255,255,255,0.1), 1px 1px 0 #000; }
+.tema-btn .icono { font-size: 1.6rem; margin-bottom: 8px; display: block; }
+.tema-btn .nombre { font-size: 0.5rem; color: var(--gold); text-shadow: 1px 1px 0 #000; margin-bottom: 6px; line-height: 1.6; }
+.tema-btn .desc { font-size: 0.38rem; color: var(--sand); line-height: 1.7; }
+
+/* ── CHAT ── */
+.chat-area {
+  background: var(--night);
+  border: 4px solid #000;
+  box-shadow: inset 3px 3px 0 rgba(0,0,0,0.6);
+  min-height: 240px;
+  max-height: 380px;
+  overflow-y: auto;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+.bubble {
+  margin-bottom: 12px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  animation: pixelIn .2s steps(4);
+}
+@keyframes pixelIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
+.bubble.user { flex-direction: row-reverse; }
+.avatar {
+  width: 32px; height: 32px;
+  border: 3px solid #000;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  background: var(--carta2);
+  box-shadow: 2px 2px 0 #000;
+  image-rendering: pixelated;
+}
+.msg {
+  background: var(--carta2);
+  border: 3px solid #000;
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.4), inset 2px 2px 0 rgba(255,255,255,0.08), 2px 2px 0 #000;
+  padding: 10px 12px;
+  font-size: 0.5rem;
+  line-height: 2;
+  max-width: 82%;
+  color: var(--texto);
+}
+.bubble.user .msg {
+  background: #1A3A5C;
+  border-color: var(--sky);
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.4), 2px 2px 0 #000;
+}
+.msg .formula {
+  background: var(--coal);
+  border-left: 4px solid var(--grass);
+  padding: 8px 10px;
+  margin: 8px 0;
+  font-size: 0.48rem;
+  color: var(--grass);
+  display: block;
+}
+
+/* ── TYPING ── */
+.typing { display: flex; gap: 6px; padding: 4px 0; }
+.typing span {
+  width: 8px; height: 8px;
+  background: var(--grass);
+  image-rendering: pixelated;
+  animation: blink 1s steps(1) infinite;
+}
+.typing span:nth-child(2) { animation-delay: .33s; }
+.typing span:nth-child(3) { animation-delay: .66s; }
+@keyframes blink { 0%,49% { opacity:1; } 50%,100% { opacity:0; } }
+
+/* ── INPUT ── */
+.input-row { display: flex; gap: 6px; }
+.input-row input {
+  flex: 1;
+  background: var(--coal);
+  border: 3px solid #555;
+  color: var(--texto);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  padding: 10px 12px;
+  outline: none;
+  box-shadow: inset 2px 2px 0 rgba(0,0,0,0.5);
+}
+.input-row input:focus { border-color: var(--grass); }
+.input-row input::placeholder { color: var(--muted); }
+
+/* ── BUTTONS ── */
+.btn {
+  background: var(--grass);
+  color: #fff;
+  border: 3px solid #000;
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.4), inset 2px 2px 0 rgba(255,255,255,0.2), 3px 3px 0 #000;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.48rem;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: transform .08s;
+  text-shadow: 1px 1px 0 #000;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.4;
+}
+.btn:hover { background: var(--grass-d); transform: translate(-1px,-1px); box-shadow: inset -2px -2px 0 rgba(0,0,0,0.4), inset 2px 2px 0 rgba(255,255,255,0.2), 4px 4px 0 #000; }
+.btn:active { transform: translate(2px,2px); box-shadow: inset -2px -2px 0 rgba(0,0,0,0.4), 1px 1px 0 #000; }
+.btn.azul { background: var(--sky); }
+.btn.azul:hover { background: #3A7BB5; }
+.btn.rojo { background: var(--red); }
+.btn.rojo:hover { background: #922B21; }
+.btn.gold { background: #B8860B; }
+.btn.gold:hover { background: #8B6508; }
+.btn.outline { background: var(--coal); border-color: var(--grass); color: var(--grass); }
+.btn.outline:hover { background: var(--grass); color: #fff; }
+.btn:disabled { opacity: .4; cursor: not-allowed; transform: none !important; }
+
+/* ── EJERCICIO ── */
+.ejercicio-box {
+  background: var(--coal);
+  border: 4px solid #555;
+  box-shadow: inset 3px 3px 0 rgba(0,0,0,0.6);
+  padding: 20px;
+  margin-bottom: 14px;
+  font-size: 0.75rem;
+  text-align: center;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--grass);
+  text-shadow: 1px 1px 0 #000;
+  line-height: 2;
+}
+.opciones-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.opcion-btn {
+  background: var(--stone);
+  border: 3px solid #000;
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.4), inset 2px 2px 0 rgba(255,255,255,0.12), 3px 3px 0 #000;
+  color: var(--texto);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.6rem;
+  padding: 14px 10px;
+  cursor: pointer;
+  transition: transform .08s;
+  text-shadow: 1px 1px 0 #000;
+  line-height: 1.8;
+}
+.opcion-btn:hover:not(:disabled) { background: var(--stone-l); transform: translate(-1px,-1px); box-shadow: inset -2px -2px 0 rgba(0,0,0,0.4), 4px 4px 0 #000; }
+.opcion-btn:active:not(:disabled) { transform: translate(1px,1px); box-shadow: 1px 1px 0 #000; }
+.opcion-btn.correcto { background: var(--grass); border-color: var(--grass-d); color: #fff; }
+.opcion-btn.incorrecto { background: var(--red); border-color: #7B241C; color: #fff; }
+.opcion-btn:disabled { cursor: not-allowed; }
+
+.feedback-box {
+  border: 3px solid #000;
+  padding: 12px 14px;
+  font-size: 0.48rem;
+  line-height: 2;
+  margin-bottom: 12px;
+  display: none;
+}
+.feedback-box.correcto { background: rgba(93,158,58,0.2); border-color: var(--grass); color: #90EE90; display: block; }
+.feedback-box.incorrecto { background: rgba(192,57,43,0.2); border-color: var(--red); color: #FF9999; display: block; }
+
+/* ── PROGRESS BAR ── */
+.progreso-wrap {
+  background: var(--coal);
+  border: 3px solid #000;
+  height: 18px;
+  margin-bottom: 6px;
+  position: relative;
+  overflow: hidden;
+}
+.progreso-fill {
+  height: 100%;
+  background: repeating-linear-gradient(90deg, var(--grass) 0px, var(--grass) 8px, var(--grass-d) 8px, var(--grass-d) 16px);
+  transition: width .4s steps(10);
+  image-rendering: pixelated;
+}
+.progreso-info { font-size: 0.42rem; color: var(--muted); text-align: right; margin-bottom: 12px; }
+
+/* ── BIENVENIDA ── */
+.bienvenida { text-align: center; padding: 24px 16px; }
+.bot-grande { font-size: 5rem; display: block; margin-bottom: 14px; animation: float 2s steps(4) infinite; filter: drop-shadow(3px 3px 0 #000); }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.bienvenida h2 { font-size: 0.8rem; color: var(--grass); text-shadow: 2px 2px 0 #000; margin-bottom: 12px; line-height: 1.8; }
+.bienvenida p { font-size: 0.48rem; color: var(--sand); max-width: 420px; margin: 0 auto 20px; line-height: 2.2; }
+.stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-top: 20px; }
+.stat-card {
+  background: var(--dirt);
+  border: 4px solid #000;
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,0.4), 3px 3px 0 #000;
+  padding: 14px 10px;
+  text-align: center;
+}
+.stat-card .num { font-size: 1.4rem; color: var(--gold); text-shadow: 2px 2px 0 #000; }
+.stat-card .lbl { font-size: 0.38rem; color: var(--sand); margin-top: 6px; line-height: 1.8; text-shadow: 1px 1px 0 #000; }
+
+/* ── SELECT ── */
+.select-tema {
+  background: var(--coal);
+  border: 3px solid #555;
+  color: var(--texto);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  padding: 10px 12px;
+  width: 100%;
+  margin-bottom: 12px;
+  outline: none;
+  line-height: 1.8;
+}
+.select-tema:focus { border-color: var(--grass); }
+
+/* ── EXAMEN RESULTADO ── */
+.examen-resultado { text-align: center; padding: 24px 16px; }
+.nota-grande { font-size: 3.5rem; text-shadow: 3px 3px 0 #000; line-height: 1; margin-bottom: 10px; }
+.estrellitas { font-size: 1.8rem; margin-bottom: 14px; }
+
+/* ── TEORÍA CONTENT ── */
+.teoria-content {
+  font-size: 0.5rem;
+  line-height: 2.2;
+  color: var(--texto);
+}
+.teoria-content h3 { color: var(--gold); text-shadow: 1px 1px 0 #000; margin: 14px 0 8px; font-size: 0.58rem; }
+.teoria-content .regla {
+  background: var(--coal);
+  border-left: 4px solid var(--grass);
+  padding: 10px 12px;
+  margin: 10px 0;
+  font-size: 0.48rem;
+  line-height: 2;
+  color: #90EE90;
+}
+.teoria-content .ejemplo {
+  background: #1A2A1A;
+  border: 2px solid var(--grass-d);
+  padding: 10px 12px;
+  margin: 8px 0;
+  font-size: 0.48rem;
+  line-height: 2.2;
+  color: var(--sand);
+}
+.teoria-content .alerta {
+  background: #2A1A00;
+  border: 2px solid var(--gold);
+  padding: 10px 12px;
+  margin: 8px 0;
+  font-size: 0.48rem;
+  line-height: 2;
+  color: var(--gold);
+}
+
+@media(max-width:500px){
+  .tema-grid{grid-template-columns:1fr 1fr;}
+  .opciones-grid{grid-template-columns:1fr;}
+  .stats-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">⛏️</div>
+  <div class="header-text">
+    <h1>MATEBOT ILC</h1>
+    <p>1ER AÑO · INSTITUTO LINEA CUCHILLA</p>
+  </div>
+  <div class="xp-pill">🪙 <span id="xpTotal">0</span> XP</div>
+</header>
+
+<nav>
+  <button class="active" onclick="irA('inicio')">🏠 INICIO</button>
+  <button onclick="irA('teoria')">📖 TEORIA</button>
+  <button onclick="irA('practica')">⚔️ PRACTICAR</button>
+  <button onclick="irA('examen')">🧪 EXAMEN</button>
+</nav>
+
+<main>
+
+<!-- ══ INICIO ══ -->
+<div id="pg-inicio" class="page active">
+  <div class="bienvenida">
+    <span class="bot-grande">🧱</span>
+    <h2>BIENVENIDO AL<br>MUNDO DE LAS MATES</h2>
+    <p>Yo soy MateBot. Como Minecraft, las matemáticas se construyen bloque por bloque. Vamos a armar juntos todo el cuadernillo del ILC.</p>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn" onclick="irA('teoria')">📖 VER TEORIA</button>
+      <button class="btn azul" onclick="irA('practica')">⚔️ PRACTICAR</button>
+      <button class="btn rojo" onclick="irA('examen')">🧪 EXAMEN</button>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="num" id="statEj">0</div><div class="lbl">EJERCICIOS</div></div>
+      <div class="stat-card"><div class="num" id="statOk">0</div><div class="lbl">CORRECTOS</div></div>
+      <div class="stat-card"><div class="num" id="statRacha">0</div><div class="lbl">RACHA 🔥</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TEORIA ══ -->
+<div id="pg-teoria" class="page">
+  <div class="card">
+    <div class="card-titulo">📖 ELEGÍ UN BLOQUE DE TEORIA <span class="badge">SIN INTERNET</span></div>
+    <p style="font-size:.42rem;color:var(--muted);margin-bottom:14px;line-height:2;">Cada tema es un bloque del cuadernillo ILC. Tocá uno para ver la explicación y los ejemplos.</p>
+  </div>
+  <div class="tema-grid">
+    <button class="tema-btn" onclick="verTema('enteros')"><span class="icono">🔢</span><div class="nombre">NUMEROS ENTEROS</div><div class="desc">Z, naturales, negativos, recta numérica, orden</div></button>
+    <button class="tema-btn" onclick="verTema('valor_absoluto')"><span class="icono">📏</span><div class="nombre">VALOR ABSOLUTO</div><div class="desc">Distancia al cero · notación |x|</div></button>
+    <button class="tema-btn" onclick="verTema('suma_resta')"><span class="icono">➕</span><div class="nombre">SUMA Y RESTA</div><div class="desc">Regla de signos, mismo/distinto signo</div></button>
+    <button class="tema-btn" onclick="verTema('mult_div')"><span class="icono">✖️</span><div class="nombre">MULT. Y DIVISION</div><div class="desc">Regla de signos · propiedad distributiva</div></button>
+    <button class="tema-btn" onclick="verTema('potenciacion')"><span class="icono">⚡</span><div class="nombre">POTENCIACION</div><div class="desc">Base, exponente, signos en potencias</div></button>
+    <button class="tema-btn" onclick="verTema('radicacion')"><span class="icono">🌿</span><div class="nombre">RADICACION</div><div class="desc">Raíz cuadrada, cúbica, índice</div></button>
+    <button class="tema-btn" onclick="verTema('decimales')"><span class="icono">🔡</span><div class="nombre">DECIMALES</div><div class="desc">Exactos, periódicos, fracción</div></button>
+    <button class="tema-btn" onclick="verTema('fracciones')"><span class="icono">🍕</span><div class="nombre">FRACCIONES</div><div class="desc">Equivalentes, simplificación, amplificación</div></button>
+    <button class="tema-btn" onclick="verTema('divisibilidad')"><span class="icono">🔍</span><div class="nombre">DIVISIBILIDAD</div><div class="desc">Criterios por 2,3,4,5,6,9,10 · Primos</div></button>
+  </div>
+  <div id="teoria-panel" style="display:none;">
+    <div class="card" style="border-color:var(--grass);">
+      <div class="card-titulo" id="teoria-titulo">📖 TEMA</div>
+      <div id="teoria-contenido" class="teoria-content"></div>
+      <div style="margin-top:14px;">
+        <button class="btn" onclick="document.getElementById('teoria-panel').style.display='none'">← VOLVER</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PRACTICA ══ -->
+<div id="pg-practica" class="page">
+  <div class="card">
+    <div class="card-titulo">⚔️ PRACTICA GUIADA <span class="badge azul">CON PISTAS</span></div>
+    <select class="select-tema" id="practica-select">
+      <option value="enteros">🔢 Números Enteros — Orden y comparación</option>
+      <option value="valor_absoluto">📏 Valor Absoluto</option>
+      <option value="suma_resta">➕ Suma y Resta de Enteros</option>
+      <option value="mult_div">✖️ Multiplicación y División</option>
+      <option value="potenciacion">⚡ Potenciación</option>
+      <option value="radicacion">🌿 Radicación</option>
+      <option value="combinadas">🧮 Operaciones Combinadas</option>
+      <option value="fracciones">🍕 Fracciones</option>
+      <option value="divisibilidad">🔍 Divisibilidad</option>
+      <option value="todo">🎲 ALEATORIO — todos los temas</option>
+    </select>
+    <button class="btn" onclick="nuevoEjercicio()">🎲 NUEVO EJERCICIO</button>
+  </div>
+
+  <div id="practica-area" style="display:none;">
+    <div class="progreso-wrap"><div class="progreso-fill" id="barra-p" style="width:0%"></div></div>
+    <div class="progreso-info" id="info-p">0 de 0 correctos</div>
+    <div class="card" style="border-color:var(--diamond);">
+      <div style="font-size:.42rem;color:var(--muted);margin-bottom:8px;" id="p-subtitulo">Ejercicio</div>
+      <div class="ejercicio-box" id="p-enunciado">...</div>
+      <div class="opciones-grid" id="p-opciones"></div>
+      <div class="feedback-box" id="p-feedback"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn" id="btn-sig" onclick="nuevoEjercicio()" disabled>SIGUIENTE →</button>
+        <button class="btn outline" onclick="mostrarPista()">💡 PISTA</button>
+      </div>
+    </div>
+    <div class="card" id="pista-card" style="display:none;border-color:var(--gold);">
+      <div class="card-titulo" style="color:var(--gold);">💡 PISTA DE MATEBOT</div>
+      <div id="pista-texto" class="teoria-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ EXAMEN ══ -->
+<div id="pg-examen" class="page">
+  <div id="ex-config">
+    <div class="card">
+      <div class="card-titulo">🧪 MINI EXAMEN <span class="badge rojo">SIN PISTAS</span></div>
+      <p style="font-size:.42rem;color:var(--muted);margin-bottom:14px;line-height:2;">Como el colegio: sin ayuda. MateBot te corrige al final y te dice en qué te trabaste.</p>
+      <div style="margin-bottom:12px;">
+        <div style="font-size:.42rem;color:var(--muted);margin-bottom:6px;">CANTIDAD DE PREGUNTAS:</div>
+        <select class="select-tema" id="ex-cant">
+          <option value="5">5 preguntas (rápido)</option>
+          <option value="10" selected>10 preguntas (completo)</option>
+          <option value="15">15 preguntas (intensivo)</option>
+        </select>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div style="font-size:.42rem;color:var(--muted);margin-bottom:6px;">TEMAS:</div>
+        <select class="select-tema" id="ex-temas">
+          <option value="todo">Todos mezclados</option>
+          <option value="enteros">Solo Enteros</option>
+          <option value="suma_resta">Solo Suma y Resta</option>
+          <option value="mult_div">Solo Mult. y División</option>
+          <option value="fracciones">Solo Fracciones</option>
+        </select>
+      </div>
+      <button class="btn rojo" onclick="iniciarExamen()">🚀 EMPEZAR EXAMEN</button>
+    </div>
+  </div>
+
+  <div id="ex-activo" style="display:none;">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div class="card-titulo" style="margin:0;">🧪 EXAMEN</div>
+        <div style="font-size:.5rem;color:var(--gold);text-shadow:1px 1px 0 #000;">PREG <span id="ex-num">1</span>/<span id="ex-tot">10</span></div>
+      </div>
+      <div class="progreso-wrap"><div class="progreso-fill" id="barra-ex" style="width:0%"></div></div>
+      <div style="height:10px;"></div>
+      <div style="font-size:.42rem;color:var(--muted);margin-bottom:8px;" id="ex-sub">Pregunta</div>
+      <div class="ejercicio-box" id="ex-enunciado">...</div>
+      <div class="opciones-grid" id="ex-opciones"></div>
+    </div>
+  </div>
+
+  <div id="ex-resultado" style="display:none;">
+    <div class="card">
+      <div class="examen-resultado" id="ex-resultado-cont"></div>
+      <div style="text-align:center;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn" onclick="reiniciarExamen()">🔁 OTRO EXAMEN</button>
+        <button class="btn azul" onclick="irA('practica')">⚔️ PRACTICAR MAS</button>
+      </div>
+    </div>
+    <div class="card" id="ex-revision" style="display:none;border-color:var(--diamond);">
+      <div class="card-titulo">📋 REVISION DETALLADA</div>
+      <div id="ex-rev-cont"></div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ══════════════════════════════════════════════════
+//  ESTADO
+// ══════════════════════════════════════════════════
+let xp    = parseInt(localStorage.getItem('mc_xp')||'0');
+let stats = JSON.parse(localStorage.getItem('mc_stats')||'{"ej":0,"ok":0,"racha":0}');
+let ejActual = null, pistaUsada = false;
+let sesion = {ok:0,total:0};
+let exPregs=[], exIdx=0, exResps=[];
+
+actualizarXP();
+
+// ══════════════════════════════════════════════════
+//  NAV
+// ══════════════════════════════════════════════════
+function irA(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
+  document.getElementById('pg-'+p).classList.add('active');
+  ['inicio','teoria','practica','examen'].forEach((t,i)=>{
+    if(t===p) document.querySelectorAll('nav button')[i].classList.add('active');
+  });
+  if(p==='inicio') refStats();
+}
+function actualizarXP(){ document.getElementById('xpTotal').textContent=xp; }
+function refStats(){
+  document.getElementById('statEj').textContent=stats.ej;
+  document.getElementById('statOk').textContent=stats.ok;
+  document.getElementById('statRacha').textContent=stats.racha;
+}
+function guardar(){ localStorage.setItem('mc_xp',xp); localStorage.setItem('mc_stats',JSON.stringify(stats)); actualizarXP(); }
+function ganarXP(n){
+  xp+=n; guardar();
+  const p=document.querySelector('.xp-pill');
+  p.style.background='var(--gold)'; p.style.color='#000';
+  setTimeout(()=>{ p.style.background='var(--coal)'; p.style.color='var(--gold)'; },500);
+}
+
+// ══════════════════════════════════════════════════
+//  BASE DE DATOS DE TEORÍA (cuadernillo ILC)
+// ══════════════════════════════════════════════════
+const TEORIA = {
+  enteros: {
+    titulo: '🔢 NUMEROS ENTEROS',
+    html: `
+    <h3>¿QUÉ SON LOS NÚMEROS ENTEROS?</h3>
+    <p>Para entender qué son los números enteros, primero veamos sus partes:</p>
+    <p style="margin:8px 0;"><strong style="color:var(--gold)">Números Naturales (N):</strong> Son los que usamos para contar cosas enteras, incluyendo el 0. Se llaman así porque son "naturales" (como contar piedras en Minecraft 😄).</p>
+    <div class="ejemplo">Ejemplos de N: 0, 1, 8, 54, 150, 10000...</div>
+    <p style="margin:8px 0;"><strong style="color:var(--gold)">Números Negativos:</strong> Son los opuestos a los naturales. Tienen el signo "-" adelante.</p>
+    <div class="ejemplo">Ejemplos: -1, -7, -83, -999, -10000...</div>
+    <h3>EL CONJUNTO Z</h3>
+    <div class="regla">Los Números Enteros (Z) = Naturales + Negativos juntos. La Z viene del alemán "Zahlen" que significa "números".</div>
+    <div class="ejemplo">Z = { ..., -4, -3, -2, -1, 0, 1, 2, 3, 4, ... }</div>
+    <div class="alerta">⚠️ Los Naturales están DENTRO de los Enteros: N ⊆ Z</div>
+    <h3>LA RECTA NUMÉRICA</h3>
+    <p>Imaginala como una carretera infinita. El 0 está en el centro, los positivos van a la derecha y los negativos a la izquierda:</p>
+    <div class="ejemplo">← -∞ ... -3  -2  -1  [0]  +1  +2  +3 ... +∞ →</div>
+    <h3>ORDEN EN LA RECTA</h3>
+    <div class="regla">El número que está MÁS A LA DERECHA en la recta es el MAYOR.<br>N° mayor > N° menor<br>N° menor &lt; N° mayor</div>
+    <div class="ejemplo">Ejemplos:<br>8 &gt; 3 → "ocho es mayor que tres"<br>5 &gt; -3 → "cinco es mayor que menos tres"<br>-1 &gt; -7 → "menos uno es mayor que menos siete"</div>
+    <div class="alerta">💡 ¡OJO! -1 es MAYOR que -7, aunque parezca raro. En la recta, -1 está más a la derecha que -7.</div>`
+  },
+  valor_absoluto: {
+    titulo: '📏 VALOR ABSOLUTO',
+    html: `
+    <h3>¿QUÉ ES EL VALOR ABSOLUTO?</h3>
+    <p>El valor absoluto de un número es la <strong style="color:var(--gold)">distancia</strong> desde ese número hasta el cero en la recta numérica. Como la distancia en Minecraft: no importa si vas al este o al oeste, siempre es positiva.</p>
+    <div class="regla">Se escribe con barras: |número|<br>El resultado SIEMPRE es positivo (o cero).</div>
+    <h3>EJEMPLOS</h3>
+    <div class="ejemplo">|-3| = +3 → "La distancia del 0 al -3 es 3"<br>|+3| = +3 → "La distancia del 0 al +3 es 3"<br>|-7| = 7<br>|+15| = 15<br>|0| = 0</div>
+    <div class="alerta">⚠️ El valor absoluto de un número NEGATIVO se convierte en POSITIVO.<br>El valor absoluto de un número POSITIVO queda igual.</div>
+    <h3>EN LA RECTA NUMÉRICA</h3>
+    <div class="ejemplo">        3 espacios    3 espacios<br>←————←[0]→————→<br>  -3                    +3<br><br>|-3| = 3   y   |+3| = 3 ← ¡iguales!</div>
+    <div class="regla">El valor absoluto de un número, sea positivo o negativo, SIEMPRE será positivo o cero. Nunca negativo.</div>`
+  },
+  suma_resta: {
+    titulo: '➕ SUMA Y RESTA DE ENTEROS',
+    html: `
+    <h3>CASO 1: MISMO SIGNO → SUMAR</h3>
+    <div class="regla">Si los dos números tienen el MISMO signo:<br>→ Sumás los valores absolutos<br>→ El resultado lleva ese mismo signo</div>
+    <div class="ejemplo">+14 + 7 = +21  (ambos positivos → suma, resultado positivo)<br>-14 - 7 = -21  (ambos negativos → suma, resultado negativo)</div>
+    <h3>CASO 2: DISTINTO SIGNO → RESTAR</h3>
+    <div class="regla">Si los dos números tienen DISTINTO signo:<br>→ Restás los valores absolutos (mayor menos menor)<br>→ El resultado lleva el signo del número con MAYOR valor absoluto</div>
+    <div class="ejemplo">+10 - 5 = +5  (|10|&gt;|5|, el mayor es positivo → resultado +5)<br>-10 + 5 = -5  (|-10|&gt;|5|, el mayor es negativo → resultado -5)<br>+3 - 8 = -5   (|8|&gt;|3|, el mayor es negativo → resultado -5)<br>-3 + 8 = +5   (|8|&gt;|3|, el mayor es positivo → resultado +5)</div>
+    <div class="alerta">💡 TRUCO: Pensá que los positivos son esmeraldas y los negativos son deudas. Si tenés 10 esmeraldas y debés 5, te quedan 5. Si tenés 5 esmeraldas y debés 10, quedás en -5.</div>
+    <h3>CON DOBLE SIGNO</h3>
+    <div class="regla">+ ( + ) = +<br>+ ( - ) = -<br>- ( + ) = -<br>- ( - ) = +</div>
+    <div class="ejemplo">5 + (+3) = 5 + 3 = +8<br>5 + (-3) = 5 - 3 = +2<br>5 - (+3) = 5 - 3 = +2<br>5 - (-3) = 5 + 3 = +8</div>`
+  },
+  mult_div: {
+    titulo: '✖️ MULTIPLICACION Y DIVISION',
+    html: `
+    <h3>REGLA DE SIGNOS</h3>
+    <div class="regla">MISMO SIGNO → resultado POSITIVO (+)<br>DISTINTO SIGNO → resultado NEGATIVO (-)</div>
+    <div class="ejemplo">( + ) × ( + ) = +    →  (+4) × (+3) = +12<br>( - ) × ( - ) = +    →  (-4) × (-3) = +12<br>( + ) × ( - ) = -    →  (+4) × (-3) = -12<br>( - ) × ( + ) = -    →  (-4) × (+3) = -12</div>
+    <div class="alerta">💡 Mismo signo, como en Minecraft: dos negativos juntos se cancelan y generan positivo. ¡Las deudas de las deudas son ganancias!</div>
+    <h3>PARA LA DIVISIÓN: IGUAL REGLA</h3>
+    <div class="ejemplo">(+20) : (+4) = +5<br>(-20) : (-4) = +5<br>(+20) : (-4) = -5<br>(-20) : (+4) = -5</div>
+    <h3>PROPIEDAD DISTRIBUTIVA DE LA DIVISIÓN</h3>
+    <p>Recordar que en una división: <strong style="color:var(--gold)">A/B → A = Dividendo, B = Divisor</strong></p>
+    <div class="regla">La propiedad distributiva se puede aplicar en la división, pero SOLO si la suma/resta está en el DIVIDENDO.<br>(a + b) : c = (a : c) + (b : c)</div>
+    <div class="ejemplo">(20 + 10) : 10 = (20:10) + (10:10) = 2 + 1 = 3 ✓<br><br>¡CUIDADO! No se puede hacer al revés:<br>10 : (20 + 10) ≠ (10:20) + (10:10) ✗</div>
+    <div class="alerta">⚠️ La división NO es commutativa: 10:2 ≠ 2:10. ¡No da lo mismo quién divide a quién!</div>`
+  },
+  potenciacion: {
+    titulo: '⚡ POTENCIACION',
+    html: `
+    <h3>¿QUÉ ES UNA POTENCIA?</h3>
+    <p>Una potencia es una multiplicación repetida del mismo número.</p>
+    <div class="ejemplo">3⁴ = 3 × 3 × 3 × 3 = 81<br>      ↑       ↑<br>    base  exponente</div>
+    <div class="regla">base^exponente = base multiplicada por sí misma (exponente) veces</div>
+    <h3>POTENCIAS CON NÚMEROS NEGATIVOS</h3>
+    <div class="regla">BASE NEGATIVA con EXPONENTE PAR → resultado POSITIVO<br>BASE NEGATIVA con EXPONENTE IMPAR → resultado NEGATIVO</div>
+    <div class="ejemplo">(-3)² = (-3)×(-3) = +9           ← par → positivo<br>(-3)³ = (-3)×(-3)×(-3) = -27    ← impar → negativo<br>(-2)⁴ = +16   ← par → positivo<br>(-2)⁵ = -32   ← impar → negativo</div>
+    <div class="alerta">💡 TRUCO: Exponente par = número de signos (-) es par = siempre terminás en positivo. Como en Minecraft: dos veces al revés te deja mirando para adelante.</div>
+    <h3>CUIDADO CON LOS PARÉNTESIS</h3>
+    <div class="ejemplo">(-3)² = +9     ← el signo ES parte de la base<br>-3²   = -9     ← el signo NO es parte de la base<br>                  se lee como "-(3²)" = -(9) = -9</div>
+    <div class="alerta">⚠️ ¡Los paréntesis cambian todo! (-3)² ≠ -3²</div>`
+  },
+  radicacion: {
+    titulo: '🌿 RADICACION',
+    html: `
+    <h3>¿QUÉ ES UNA RAÍZ?</h3>
+    <p>La radicación es la operación inversa a la potenciación. Pregunta: ¿qué número multiplicado por sí mismo da tal resultado?</p>
+    <div class="ejemplo">√9 = 3  porque  3 × 3 = 9<br>³√27 = 3  porque  3 × 3 × 3 = 27<br>⁴√81 = 3  porque  3⁴ = 81</div>
+    <div class="regla">ⁿ√a = b  significa que  bⁿ = a<br><br>n = ÍNDICE (qué raíz es)<br>a = RADICANDO (el número adentro)<br>b = RESULTADO</div>
+    <h3>CUÁNDO EXISTE LA RAÍZ</h3>
+    <div class="regla">Si el ÍNDICE es PAR y el RADICANDO es NEGATIVO → la raíz NO EXISTE en los enteros.</div>
+    <div class="ejemplo">√-81 = ?<br>¿Existe algún entero que elevado a la 2 dé -81?<br>(-3)² = +81  ✗<br>(+3)² = +81  ✗<br>→ NO EXISTE en Z</div>
+    <div class="alerta">⚠️ Índice par + radicando negativo = NO EXISTE en Z<br>Índice impar + radicando negativo = SÍ EXISTE<br>³√-27 = -3  porque (-3)³ = -27 ✓</div>
+    <h3>RAÍZ DE OTRA RAÍZ</h3>
+    <div class="regla">Cuando hay una raíz dentro de otra raíz, se MULTIPLICAN los índices.</div>
+    <div class="ejemplo">³√(²√(1/64)) = ³˙²√(1/64) = ⁶√(1/64) = 1/2</div>`
+  },
+  decimales: {
+    titulo: '🔡 NUMEROS DECIMALES',
+    html: `
+    <h3>TIPOS DE DECIMALES</h3>
+    <p><strong style="color:var(--gold)">Decimales exactos:</strong> Terminan. Tienen finita cantidad de decimales.</p>
+    <div class="ejemplo">1,4  →  0,125  →  3,75</div>
+    <p style="margin:8px 0;"><strong style="color:var(--gold)">Decimales periódicos:</strong> Se repiten infinitamente. Se marca con arco la parte que se repite.</p>
+    <div class="ejemplo">0,333... = 0,3̄   (el 3 se repite)<br>0,121212... = 0,12̄   (el 12 se repite)</div>
+    <h3>DECIMAL EXACTO → FRACCIÓN</h3>
+    <div class="regla">1. Escribís el número SIN la coma<br>2. Lo dividís por 1 seguido de tantos ceros como decimales tenga<br>3. Simplificás</div>
+    <div class="ejemplo">1,4 = 14/10 = 7/5<br>0,17 = 17/100<br>3,12 = 312/100 = 78/25</div>
+    <h3>PERIÓDICO PURO → FRACCIÓN</h3>
+    <div class="regla">Tantos NUEVES como cifras tiene el período (parte que se repite)</div>
+    <div class="ejemplo">0,3̄ = 3/9 = 1/3<br>0,17̄ = 17/99<br>0,23̄ = 23/99</div>
+    <h3>PERIÓDICO MIXTO → FRACCIÓN</h3>
+    <div class="regla">Numerador = número completo sin coma − parte sin período<br>Denominador = tantos 9 como cifras del período + tantos 0 como cifras no periódicas</div>
+    <div class="ejemplo">2,103̄ = (2103 − 210) / 990 = 1893/990 = 347/165<br>1,9̄ = (19 − 1) / 9 = 18/9 = 2</div>`
+  },
+  fracciones: {
+    titulo: '🍕 FRACCIONES',
+    html: `
+    <h3>FRACCIONES EQUIVALENTES</h3>
+    <p>Son fracciones que representan la misma cantidad aunque se escriban diferente. Como cortar la misma pizza en más o menos pedazos.</p>
+    <div class="ejemplo">1/2 = 2/4 = 3/6 = 50/100 ← todas son la mitad</div>
+    <div class="regla">Dos fracciones son equivalentes si al simplificarlas al máximo dan el mismo resultado.</div>
+    <h3>SIMPLIFICACIÓN</h3>
+    <p>Simplificar = expresar la fracción con los números más chicos posibles.</p>
+    <div class="regla">Dividís numerador y denominador por el mismo número (su MCD) hasta que no puedan dividirse más.</div>
+    <div class="ejemplo">64/52 → ÷4/÷4 → 16/13 ✓<br>84/98 → ÷14/÷14 → 6/7 ✓<br>222/66 → ÷6/÷6 → 37/11 ✓<br>48/192 → ÷48/÷48 → 1/4 ✓</div>
+    <div class="alerta">💡 TRUCO para encontrar el MCD: descomponés en factores primos o usás el algoritmo de Euclides. ¡O vas probando con 2, 3, 5, 7...!</div>
+    <h3>AMPLIFICACIÓN</h3>
+    <p>Amplificar = hacer la fracción más grande sin cambiar su valor.</p>
+    <div class="regla">Multiplicás numerador y denominador por el MISMO número.</div>
+    <div class="ejemplo">1/2 × (3/3) = 3/6   (amplificamos por 3)<br>2/5 × (4/4) = 8/20  (amplificamos por 4)</div>
+    <div class="alerta">⚠️ Simplificar y amplificar no cambian el valor de la fracción, solo cómo se ve. Es como cambiar el tamaño de los bloques sin cambiar la construcción.</div>`
+  },
+  divisibilidad: {
+    titulo: '🔍 DIVISIBILIDAD',
+    html: `
+    <h3>CRITERIOS DE DIVISIBILIDAD</h3>
+    <p>Son atajos para saber si un número es divisible por otro SIN hacer la división. ¡Muy útiles para simplificar!</p>
+    <div class="ejemplo"><strong style="color:var(--gold)">÷ 2:</strong> Si termina en cifra PAR (0,2,4,6,8)<br>  → 348 ÷ 2 ✓  (termina en 8)<br><br><strong style="color:var(--gold)">÷ 3:</strong> Si la suma de sus cifras es divisible por 3<br>  → 126: 1+2+6=9, y 9÷3=3 ✓<br><br><strong style="color:var(--gold)">÷ 4:</strong> Si sus dos últimas cifras son divisibles por 4 (o múltiplo de 400)<br>  → 1324: las últimas dos son 24, y 24÷4=6 ✓<br><br><strong style="color:var(--gold)">÷ 5:</strong> Si termina en 0 o 5<br>  → 345 ✓, 280 ✓<br><br><strong style="color:var(--gold)">÷ 6:</strong> Si cumple ÷2 Y ÷3 al mismo tiempo<br>  → 126: par ✓ y 1+2+6=9 ÷3 ✓ → 126÷6 ✓<br><br><strong style="color:var(--gold)">÷ 9:</strong> Si la suma de sus cifras es divisible por 9<br>  → 2187: 2+1+8+7=18, y 18÷9=2 ✓<br><br><strong style="color:var(--gold)">÷ 10:</strong> Si termina en 0<br>  → 340 ✓, 1000 ✓</div>
+    <h3>NÚMEROS PRIMOS</h3>
+    <div class="regla">Un número primo es el que SOLO es divisible por 1 y por sí mismo.</div>
+    <div class="ejemplo">Primos hasta 30: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29<br><br>El 1 NO es primo.<br>El 2 es el único primo par.</div>
+    <div class="alerta">💡 Para simplificar fracciones, buscás qué número primo divide a los dos. Empezá siempre por el 2, luego el 3, el 5, el 7...</div>`
+  }
+};
+
+function verTema(t){
+  const info = TEORIA[t];
+  document.getElementById('teoria-titulo').textContent = info.titulo;
+  document.getElementById('teoria-contenido').innerHTML = info.html;
+  document.getElementById('teoria-panel').style.display = 'block';
+  setTimeout(()=>document.getElementById('teoria-panel').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+// ══════════════════════════════════════════════════
+//  BASE DE EJERCICIOS (cuadernillo ILC)
+// ══════════════════════════════════════════════════
+const EJERCICIOS = {
+  enteros: [
+    {e:'¿Cuál de estos números es MAYOR?', ops:['-3 y -7','+2 y -8','-1 y +1','-5 y -4'], ok:3, sub:'Orden en la recta', pista:'En la recta numérica, el número más a la derecha es el mayor. Los negativos: entre dos negativos, el que tiene menor valor absoluto es mayor.', exp:'La respuesta es -5 y -4: el mayor es -4, porque en la recta está más a la derecha que -5.'},
+    {e:'Ordenar de menor a mayor: -3, +5, -1, 0', ops:['-3 &lt; -1 &lt; 0 &lt; +5','+5 &lt; 0 &lt; -1 &lt; -3','0 &lt; -1 &lt; -3 &lt; +5','-1 &lt; -3 &lt; 0 &lt; +5'], ok:0, sub:'Orden de enteros', pista:'Imaginá la recta numérica. De izquierda a derecha va del menor al mayor.', exp:'De izquierda a derecha en la recta: -3, -1, 0, +5.'},
+    {e:'¿Qué número está ENTRE -4 y -2 en la recta numérica?', ops:['-5','-3','0','+1'], ok:1, sub:'Recta numérica', pista:'Buscá el número que en la recta esté después de -4 pero antes de -2.', exp:'-3 está entre -4 y -2 en la recta numérica.'},
+    {e:'¿Cuántos números enteros hay entre -3 y +2 (sin contar los extremos)?', ops:['3','4','5','6'], ok:1, sub:'Conteo en la recta', pista:'Listá los números enteros: -2, -1, 0, +1. ¿Cuántos son?', exp:'Entre -3 y +2 están: -2, -1, 0, +1 → 4 números.'},
+    {e:'El opuesto de -7 es:', ops:['+7','7','-7 y +7','0'], ok:0, sub:'Opuesto de un entero', pista:'El opuesto es el número que tiene el mismo valor absoluto pero distinto signo.', exp:'El opuesto de -7 es +7. Están a la misma distancia del cero pero en lados opuestos.'},
+  ],
+  valor_absoluto: [
+    {e:'|-15| = ?', ops:['-15','+15','15','-15 y +15'], ok:2, sub:'Valor absoluto', pista:'El valor absoluto siempre es la distancia al cero, ¡y la distancia no puede ser negativa!', exp:'|-15| = 15. La distancia del 0 al -15 es 15, sin signo.'},
+    {e:'¿Cuál de estas igualdades es CORRECTA?', ops:['|-8| = -8','|+6| = -6','|-3| = |+3|','|+5| = -5'], ok:2, sub:'Propiedades del valor absoluto', pista:'El valor absoluto de cualquier número es siempre positivo (o cero). Y |-3| = 3, |+3| = 3...', exp:'|-3| = 3 y |+3| = 3, entonces |-3| = |+3|. ¡Ambos tienen la misma distancia al cero!'},
+    {e:'Si |x| = 4, ¿cuáles pueden ser los valores de x?', ops:['Solo +4','Solo -4','+4 o -4','Ninguno'], ok:2, sub:'Ecuación con valor absoluto', pista:'¿Qué números tienen distancia 4 al cero? Puede haber dos: uno a la derecha y uno a la izquierda.', exp:'Tanto +4 como -4 tienen |x| = 4, porque ambos están a 4 de distancia del cero.'},
+    {e:'|-23| + |+7| = ?', ops:['16','-16','30','Ninguno'], ok:2, sub:'Operación con valor absoluto', pista:'Calculá cada valor absoluto por separado: |-23| = ?, |+7| = ?. Luego sumalos.', exp:'|-23| = 23 y |+7| = 7. Entonces 23 + 7 = 30.'},
+    {e:'¿Cuál tiene MAYOR valor absoluto: -18 o +12?', ops:['+12','-18','Ambos igual','No se puede saber'], ok:1, sub:'Comparar valores absolutos', pista:'|-18| = 18 y |+12| = 12. ¿Cuál es mayor?', exp:'|-18| = 18 y |+12| = 12. El mayor valor absoluto es el de -18.'},
+  ],
+  suma_resta: [
+    {e:'(+14) + (+7) = ?', ops:['+21','-21','+7','-7'], ok:0, sub:'Suma de igual signo', pista:'Mismo signo positivo: sumás los valores absolutos y conservás el signo positivo.', exp:'Mismo signo positivo: 14 + 7 = 21, y como son positivos, el resultado es +21.'},
+    {e:'(-14) + (-7) = ?', ops:['+21','-21','+7','-7'], ok:1, sub:'Suma de igual signo', pista:'Mismo signo negativo: sumás los valores absolutos y conservás el signo negativo.', exp:'Mismo signo negativo: 14 + 7 = 21, y como son negativos, el resultado es -21.'},
+    {e:'(+10) + (-5) = ?', ops:['+15','-15','+5','-5'], ok:2, sub:'Suma de distinto signo', pista:'Distinto signo: restás los valores absolutos (10-5) y ponés el signo del mayor (que es +10).', exp:'10 - 5 = 5. El mayor es +10, así que el resultado es +5.'},
+    {e:'(-10) + (+5) = ?', ops:['+15','-15','+5','-5'], ok:3, sub:'Suma de distinto signo', pista:'Distinto signo: restás los valores absolutos (10-5) y ponés el signo del mayor (que es -10).', exp:'10 - 5 = 5. El mayor valor absoluto es |-10|=10, negativo, así que resultado = -5.'},
+    {e:'(+3) + (-8) = ?', ops:['+11','-11','+5','-5'], ok:3, sub:'Suma de distinto signo', pista:'Distinto signo: 8-3 = 5. ¿Cuál tiene mayor valor absoluto, el +3 o el -8?', exp:'|8|>|3|, restamos: 8-3=5. El mayor es el -8 (negativo), entonces resultado = -5.'},
+    {e:'(-3) - (-5) = ?', ops:['-8','+8','-2','+2'], ok:3, sub:'Resta con doble negativo', pista:'- (-5) se convierte en +5. Entonces la operación queda: -3 + 5 = ?', exp:'- (-5) = +5. Entonces: -3 + 5 = +2. Dos signos iguales dan positivo.'},
+    {e:'(+100) - (+75) + (-25) = ?', ops:['0','+50','-50','200'], ok:0, sub:'Operación combinada', pista:'Paso a paso: primero 100 - 75 = 25. Luego 25 + (-25) = ?', exp:'100 - 75 = 25. Luego 25 + (-25) = 0. ¡Se anulan!'},
+  ],
+  mult_div: [
+    {e:'(+4) × (+3) = ?', ops:['+12','-12','+7','-7'], ok:0, sub:'Multiplicación mismo signo', pista:'Mismo signo → positivo. Y 4 × 3 = 12.', exp:'Dos signos positivos → resultado positivo. 4 × 3 = 12 → +12.'},
+    {e:'(-4) × (-3) = ?', ops:['+12','-12','+7','-7'], ok:0, sub:'Multiplicación mismo signo', pista:'Dos negativos = mismo signo → resultado positivo. ¡Las deudas de las deudas son ganancias!', exp:'(-) × (-) = (+). Entonces: 4 × 3 = 12 → +12.'},
+    {e:'(+4) × (-3) = ?', ops:['+12','-12','+7','-1'], ok:1, sub:'Multiplicación distinto signo', pista:'Distinto signo → negativo. Y 4 × 3 = 12.', exp:'(+) × (-) = (-). Entonces: 4 × 3 = 12 → -12.'},
+    {e:'(-20) : (-4) = ?', ops:['+5','-5','+80','-80'], ok:0, sub:'División mismo signo', pista:'(-) : (-) = (+). Y 20 ÷ 4 = 5.', exp:'Mismo signo → positivo. 20 ÷ 4 = 5 → +5.'},
+    {e:'(+20) : (-4) = ?', ops:['+5','-5','+80','-80'], ok:1, sub:'División distinto signo', pista:'(+) : (-) = (-). Y 20 ÷ 4 = 5.', exp:'Distinto signo → negativo. 20 ÷ 4 = 5 → -5.'},
+    {e:'(-3) × (-3) × (-3) = ?', ops:['+27','-27','+9','-9'], ok:1, sub:'Múltiples multiplicaciones', pista:'Hacelo de a pares: (-3)×(-3) = +9. Luego +9 × (-3) = ?', exp:'(-3)×(-3) = +9. Luego +9 × (-3) = -27. Tres negativos dan negativo.'},
+    {e:'(+588) : (45 + 89 - 85) = ?', ops:['+12','-12','+588','No se puede'], ok:0, sub:'Propiedad distributiva', pista:'Primero resolvé el paréntesis del divisor: 45 + 89 - 85 = ?', exp:'45 + 89 - 85 = 49. Luego 588 ÷ 49 = 12. Resultado: +12.'},
+  ],
+  potenciacion: [
+    {e:'(-3)² = ?', ops:['-9','+9','-6','+6'], ok:1, sub:'Potencia de negativo, exponente par', pista:'Exponente par → resultado positivo. ¡Dos negativos se cancelan!', exp:'(-3)² = (-3)×(-3) = +9. Exponente par → positivo.'},
+    {e:'(-3)³ = ?', ops:['-27','+27','-9','+9'], ok:0, sub:'Potencia de negativo, exponente impar', pista:'Exponente impar → resultado negativo.', exp:'(-3)³ = (-3)×(-3)×(-3) = +9×(-3) = -27. Exponente impar → negativo.'},
+    {e:'(-2)⁴ = ?', ops:['-16','+16','-8','+8'], ok:1, sub:'Potencia, exponente par', pista:'4 es par → resultado positivo.', exp:'(-2)⁴ = (-2)×(-2)×(-2)×(-2) = 4×4 = +16.'},
+    {e:'-3² = ?', ops:['-9','+9','-6','+6'], ok:0, sub:'Signo y paréntesis', pista:'¡Cuidado! Sin paréntesis, -3² se lee como -(3²). El signo NO pertenece a la base.', exp:'-3² = -(3²) = -(9) = -9. Sin paréntesis el signo queda afuera.'},
+    {e:'(-5)⁰ = ?', ops:['-1','+1','0','Depende del signo'], ok:1, sub:'Exponente cero', pista:'Cualquier número (menos el 0) elevado a la 0 es siempre 1.', exp:'Cualquier número ≠ 0 elevado a 0 = 1. (-5)⁰ = 1.'},
+    {e:'(-1)¹⁰⁰ = ?', ops:['-1','+1','100','-100'], ok:1, sub:'Potencia de -1', pista:'100 es par → resultado positivo.', exp:'Exponente 100 es par → (-1)¹⁰⁰ = +1.'},
+  ],
+  radicacion: [
+    {e:'√144 = ?', ops:['11','12','13','14'], ok:1, sub:'Raíz cuadrada', pista:'¿Qué número multiplicado por sí mismo da 144? Probá: 12 × 12 = ?', exp:'12 × 12 = 144, entonces √144 = 12.'},
+    {e:'³√-27 = ?', ops:['+3','-3','No existe','±3'], ok:1, sub:'Raíz cúbica de negativo', pista:'Índice 3 es impar → puede existir. ¿Qué número al cubo da -27?', exp:'(-3)³ = -27, entonces ³√-27 = -3. Índice impar → puede existir con negativo.'},
+    {e:'√-9 = ?', ops:['+3','-3','No existe en Z','±3'], ok:2, sub:'Raíz de índice par con negativo', pista:'Índice 2 es par + radicando negativo → ¡no existe en los enteros!', exp:'Índice par (2) + radicando negativo (-9) → NO existe en Z. Ningún entero elevado al cuadrado da negativo.'},
+    {e:'⁴√16 = ?', ops:['2','4','-2','No existe'], ok:0, sub:'Raíz cuarta', pista:'¿Qué número elevado a la 4 da 16? 2⁴ = ?', exp:'2⁴ = 16, entonces ⁴√16 = 2.'},
+    {e:'√25 + √9 = ?', ops:['√34','8','34','No se puede'], ok:1, sub:'Suma de raíces', pista:'Resolvé cada raíz por separado: √25 = ? y √9 = ? Luego sumalas.', exp:'√25 = 5 y √9 = 3. Entonces 5 + 3 = 8.'},
+  ],
+  combinadas: [
+    {e:'(−23) : 23 + 4 · (−20 + 17) = ?', ops:['-1','-13','+1','+11'], ok:1, sub:'Operación combinada', pista:'Orden: paréntesis primero, luego mult/div, luego suma/resta.', exp:'Primero (-20+17)=-3. Luego (-23):23=-1 y 4×(-3)=-12. Finalmente -1+(-12)=-13.'},
+    {e:'(-12 + 26) · (-3 + 17) = ?', ops:['+196','-196','+14','-14'], ok:0, sub:'Operación combinada', pista:'Resolvé cada paréntesis primero. Luego multiplicá los resultados.', exp:'(-12+26)=14 y (-3+17)=14. Entonces 14×14=196. Ambos positivos → +196.'},
+    {e:'3 · (-12 + 2) − 4 · (-10 + 12) = ?', ops:['-38','+38','-22','+22'], ok:0, sub:'Operación combinada', pista:'Paréntesis: (-12+2)=-10 y (-10+12)=+2. Luego: 3×(-10) y 4×(+2).', exp:'3×(-10)=-30 y 4×(+2)=8. Finalmente -30-8=-38.'},
+    {e:'2 − 26 · 2 + 31 · (45 − 25) = ?', ops:['572','568','-568','-50'], ok:0, sub:'Operación combinada', pista:'Multiplicaciones primero: 26×2 y 31×(45-25). Luego las sumas.', exp:'31×(20)=620 y 26×2=52. Entonces 2-52+620=570. Espera: 2-52=-50, -50+620=570. Revisando: 2-26·2+31·20=2-52+620=570.'},
+    {e:'(-3) · (-3) · (-6 + 6) = ?', ops:['+54','-54','0','18'], ok:2, sub:'Propiedad del cero', pista:'Resolvé el paréntesis primero. (-6+6) = ?', exp:'(-6+6) = 0. Cualquier número multiplicado por 0 es 0. Sin importar lo demás, el resultado es 0.'},
+  ],
+  fracciones: [
+    {e:'¿Cuál es equivalente a 1/2?', ops:['3/8','4/8','5/10','Ambas b y c'], ok:3, sub:'Fracciones equivalentes', pista:'Para verificar equivalencia simplificá cada fracción. 4/8 = ? y 5/10 = ?', exp:'4/8 = 1/2 (÷4) y 5/10 = 1/2 (÷5). ¡Ambas son equivalentes a 1/2!'},
+    {e:'Simplificar: 64/52', ops:['32/26','16/13','8/6.5','64/52'], ok:1, sub:'Simplificación de fracciones', pista:'¿Por qué número podés dividir ambos? Probá con 4: 64÷4=? y 52÷4=?', exp:'64÷4=16 y 52÷4=13. Resultado: 16/13. Ya no se puede simplificar más.'},
+    {e:'Simplificar: 84/98', ops:['42/49','6/7','12/14','21/24.5'], ok:1, sub:'Simplificación de fracciones', pista:'¿Qué tienen en común 84 y 98? Probá con 14.', exp:'84÷14=6 y 98÷14=7. Resultado: 6/7. ¡Simplificado al máximo!'},
+    {e:'Amplificar 3/5 por 4:', ops:['3/20','12/5','12/20','7/9'], ok:2, sub:'Amplificación de fracciones', pista:'Amplificar por 4 = multiplicar numerador Y denominador por 4.', exp:'3×4=12 y 5×4=20. Resultado: 12/20. Es equivalente a 3/5.'},
+    {e:'¿Cuál NO es equivalente a 4/9?', ops:['8/18','12/27','16/36','4/12'], ok:3, sub:'Fracciones equivalentes', pista:'Simplificá cada opción para ver cuál no da 4/9.', exp:'8/18=4/9 ✓, 12/27=4/9 ✓, 16/36=4/9 ✓, pero 4/12=1/3 ≠ 4/9 ✗.'},
+    {e:'¿Cuál es la fracción en mínima expresión de 36/48?', ops:['18/24','9/12','3/4','6/8'], ok:2, sub:'Simplificación máxima', pista:'Seguí simplificando hasta que no puedas más. ¿Cuánto es el MCD de 36 y 48?', exp:'MCD(36,48)=12. 36÷12=3 y 48÷12=4. La mínima expresión es 3/4.'},
+  ],
+  divisibilidad: [
+    {e:'¿348 es divisible por 2?', ops:['Sí, termina en 8','No, es impar','Solo si también divide por 3','No se puede saber'], ok:0, sub:'Criterio del 2', pista:'Para divisible por 2: ¿en qué cifra termina el número?', exp:'348 termina en 8, que es par. Por lo tanto sí es divisible por 2.'},
+    {e:'¿126 es divisible por 3?', ops:['No','Sí, porque 1+2+6=9 y 9÷3=3','Solo si termina en 3','No se puede saber sin dividir'], ok:1, sub:'Criterio del 3', pista:'Para divisible por 3: sumá todas las cifras y fijate si esa suma es divisible por 3.', exp:'1+2+6=9. Y 9÷3=3, exacto. Por lo tanto 126 sí es divisible por 3.'},
+    {e:'¿270 es divisible por 5?', ops:['No','Sí, termina en 0','Solo los que terminan en 5','Sí, pero solo por coincidencia'], ok:1, sub:'Criterio del 5', pista:'Para divisible por 5: ¿termina en 0 o en 5?', exp:'270 termina en 0. Entonces sí es divisible por 5 (270÷5=54).'},
+    {e:'¿Cuál de estos es NÚMERO PRIMO?', ops:['9','15','17','21'], ok:2, sub:'Números primos', pista:'Un primo solo es divisible por 1 y por sí mismo. Revisá cuáles tienen otros divisores.', exp:'9=3×3, 15=3×5, 21=3×7 → no son primos. 17 no tiene divisores: es primo.'},
+    {e:'¿2187 es divisible por 9?', ops:['Sí, porque 2+1+8+7=18 y 18÷9=2','No','Solo si también divide por 3','No se puede saber'], ok:0, sub:'Criterio del 9', pista:'Para divisible por 9: sumá todas las cifras. ¿El resultado es divisible por 9?', exp:'2+1+8+7=18. Y 18÷9=2. Por lo tanto 2187 sí es divisible por 9.'},
+    {e:'¿Cuál de estos números es divisible por 6?', ops:['14','18','22','25'], ok:1, sub:'Criterio del 6', pista:'Divisible por 6 = divisible por 2 Y por 3 al mismo tiempo.', exp:'18: termina en 8 (par, ÷2 ✓) y 1+8=9 (÷3 ✓). ¡18 es divisible por 6!'},
+  ],
+};
+
+// También definimos alias para todo mezclado
+EJERCICIOS.todo = Object.values(EJERCICIOS).flat();
+
+// ══════════════════════════════════════════════════
+//  PRÁCTICA
+// ══════════════════════════════════════════════════
+let usadosPractica = {};
+
+function nuevoEjercicio(){
+  const tema = document.getElementById('practica-select').value;
+  document.getElementById('practica-area').style.display='block';
+  document.getElementById('pista-card').style.display='none';
+  document.getElementById('p-feedback').className='feedback-box';
+  document.getElementById('btn-sig').disabled=true;
+  pistaUsada=false;
+
+  const pool = EJERCICIOS[tema] || EJERCICIOS.todo;
+  if(!usadosPractica[tema]) usadosPractica[tema]=[];
+
+  // Si ya usamos todos, reiniciar
+  if(usadosPractica[tema].length >= pool.length) usadosPractica[tema]=[];
+
+  // Elegir uno no usado
+  let idx;
+  do { idx = Math.floor(Math.random()*pool.length); } while(usadosPractica[tema].includes(idx));
+  usadosPractica[tema].push(idx);
+
+  ejActual = {...pool[idx]};
+  document.getElementById('p-enunciado').textContent = ejActual.e;
+  document.getElementById('p-subtitulo').textContent = ejActual.sub;
+
+  const cont = document.getElementById('p-opciones');
+  cont.innerHTML='';
+
+  // Mezclar opciones (guardamos cuál era la correcta)
+  const indices = [0,1,2,3];
+  const correctaTexto = ejActual.ops[ejActual.ok];
+  // mantener orden original del cuadernillo
+  ejActual.ops.forEach((op,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opcion-btn';
+    btn.textContent=op;
+    btn.onclick=()=>verificar(i===ejActual.ok, btn, i);
+    cont.appendChild(btn);
+  });
+
+  stats.ej++; guardar();
+  actualizarBarraSesion();
+}
+
+function verificar(esOk, btn, idx){
+  document.querySelectorAll('#p-opciones .opcion-btn').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('p-feedback');
+
+  // Marcar correcta
+  const btns=document.querySelectorAll('#p-opciones .opcion-btn');
+  btns[ejActual.ok].classList.add('correcto');
+  if(!esOk) btn.classList.add('incorrecto');
+
+  sesion.total++;
+  if(esOk){
+    stats.ok++; stats.racha++;
+    ganarXP(pistaUsada?5:10);
+    sesion.ok++;
+    const mensajes=[
+      '¡CORRECTO! 🎉 Sos mas inteligente que mi calculadora... y ella tiene pilas nuevas.',
+      '¡EXACTO! 🏆 Los numeros te tienen respeto ahora.',
+      '¡BIEN! ✅ ' + ejActual.exp,
+      '¡CORRECTO! ⚔️ Como en Minecraft: minaste el bloque de una.',
+    ];
+    fb.textContent=mensajes[Math.floor(Math.random()*mensajes.length)];
+    fb.className='feedback-box correcto';
+  } else {
+    stats.racha=0;
+    fb.innerHTML=`❌ CASI... pero no. La correcta era: "${ejActual.ops[ejActual.ok]}"<br><br>💡 ${ejActual.exp}`;
+    fb.className='feedback-box incorrecto';
+  }
+  actualizarBarraSesion(); guardar();
+  document.getElementById('btn-sig').disabled=false;
+}
+
+function actualizarBarraSesion(){
+  const pct=sesion.total>0?Math.round((sesion.ok/sesion.total)*100):0;
+  document.getElementById('barra-p').style.width=pct+'%';
+  document.getElementById('info-p').textContent=`${sesion.ok} correctos de ${sesion.total} en esta sesion (${pct}%)`;
+}
+
+function mostrarPista(){
+  if(!ejActual)return;
+  pistaUsada=true;
+  document.getElementById('pista-card').style.display='block';
+  document.getElementById('pista-texto').textContent=ejActual.pista;
+}
+
+// ══════════════════════════════════════════════════
+//  EXAMEN
+// ══════════════════════════════════════════════════
+function iniciarExamen(){
+  const cant=parseInt(document.getElementById('ex-cant').value);
+  const tema=document.getElementById('ex-temas').value;
+  document.getElementById('ex-config').style.display='none';
+  document.getElementById('ex-activo').style.display='block';
+  document.getElementById('ex-resultado').style.display='none';
+  exPregs=[]; exIdx=0; exResps=[];
+
+  const pool = EJERCICIOS[tema] || EJERCICIOS.todo;
+  const shuffled=[...pool].sort(()=>Math.random()-.5);
+  exPregs=shuffled.slice(0,Math.min(cant,shuffled.length));
+  document.getElementById('ex-tot').textContent=exPregs.length;
+  mostrarPregExamen();
+}
+
+function mostrarPregExamen(){
+  const p=exPregs[exIdx], tot=exPregs.length;
+  document.getElementById('ex-num').textContent=exIdx+1;
+  document.getElementById('ex-progreso').style.width=((exIdx/tot)*100)+'%';
+  document.getElementById('ex-sub').textContent=p.sub;
+  document.getElementById('ex-enunciado').textContent=p.e;
+  const el=document.getElementById('ex-opciones'); el.innerHTML='';
+  p.ops.forEach((op,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opcion-btn'; btn.textContent=op;
+    btn.onclick=()=>{
+      exResps.push(i); exIdx++;
+      if(exIdx>=exPregs.length) mostrarResultadoEx();
+      else mostrarPregExamen();
+    };
+    el.appendChild(btn);
+  });
+}
+
+function mostrarResultadoEx(){
+  document.getElementById('ex-activo').style.display='none';
+  document.getElementById('ex-resultado').style.display='block';
+  let ok=0;
+  exResps.forEach((r,i)=>{ if(r===exPregs[i].ok) ok++; });
+  const tot=exPregs.length, pct=Math.round((ok/tot)*100);
+  const nota=Math.round((ok/tot)*100)/10;
+  ganarXP(ok*15); stats.ej+=tot; stats.ok+=ok; guardar();
+
+  let emoji,frase,color;
+  if(pct>=90){emoji='🏆';frase='¡LISTO PARA DAR CLASES! (bueno, casi...)';color='var(--gold)';}
+  else if(pct>=70){emoji='😎';frase='¡MUY BIEN! LOS NUMEROS TE TIENEN RESPETO.';color='var(--grass)';}
+  else if(pct>=50){emoji='💪';frase='APROBADO. SEGUI PRACTICANDO, VAS A BRILLAR.';color='var(--diamond)';}
+  else{emoji='🔄';frase='MOMENTO DE REPASAR LA TEORIA. ¡A LOS BLOQUES!';color='var(--red)';}
+
+  const estrellas=pct>=90?'⭐⭐⭐':pct>=70?'⭐⭐':pct>=50?'⭐':'🔄';
+  document.getElementById('ex-resultado-cont').innerHTML=`
+    <div style="font-size:4rem;margin-bottom:12px;">${emoji}</div>
+    <div class="nota-grande" style="color:${color}">${nota}</div>
+    <div style="font-size:.42rem;color:var(--muted);margin-bottom:8px;">SOBRE 10</div>
+    <div class="estrellitas">${estrellas}</div>
+    <div style="font-size:.6rem;font-family:'Press Start 2P';text-shadow:1px 1px 0 #000;margin-bottom:6px;">${ok} DE ${tot} CORRECTAS</div>
+    <div style="font-size:.42rem;color:var(--muted);margin-bottom:20px;line-height:2;">${frase}</div>
+    <div style="background:var(--coal);border:3px solid var(--gold);padding:12px;font-size:.42rem;line-height:2;">🪙 <strong style="color:var(--gold)">+${ok*15} XP</strong> GANADOS</div>`;
+
+  // Revisión
+  const rev=document.getElementById('ex-revision');
+  const rc=document.getElementById('ex-rev-cont');
+  rev.style.display='block'; rc.innerHTML='';
+  exPregs.forEach((p,i)=>{
+    const esOk=exResps[i]===p.ok;
+    const d=document.createElement('div');
+    d.style.cssText='border-bottom:3px solid #333;padding:12px 0;font-size:.42rem;line-height:2;';
+    d.innerHTML=`<div style="font-size:.5rem;margin-bottom:4px;color:${esOk?'var(--grass)':'var(--red)'};">${esOk?'✅':'❌'} ${p.sub}</div>
+    <div style="margin-bottom:4px;color:var(--texto);">${p.e}</div>
+    <div style="color:var(--muted);">TU RESPUESTA: <span style="color:${esOk?'var(--grass)':'var(--red)'}">${p.ops[exResps[i]]}</span>${!esOk?` · CORRECTA: <span style="color:var(--grass)">${p.ops[p.ok]}</span>`:''}</div>
+    ${!esOk?`<div style="color:var(--sand);margin-top:4px;">💡 ${p.exp}</div>`:''}`;
+    rc.appendChild(d);
+  });
+}
+
+function reiniciarExamen(){
+  document.getElementById('ex-config').style.display='block';
+  document.getElementById('ex-activo').style.display='none';
+  document.getElementById('ex-resultado').style.display='none';
+}
+</script>
+</body>
+</html>
